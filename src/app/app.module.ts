@@ -6,6 +6,7 @@ import {MatPaginatorModule} from '@angular/material/paginator';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { InventualModule } from './inventual/inventual.module';
 import { MatIconModule } from '@angular/material/icon';
+import { ActivosProyectModule } from './ActivosComponent/activosProyect.module';
 
 @NgModule({
   imports: [
@@ -14,6 +15,7 @@ import { MatIconModule } from '@angular/material/icon';
     MatPaginatorModule,
     BrowserAnimationsModule,
     InventualModule,
+    ActivosProyectModule,
     MatIconModule
   ],
   declarations: [

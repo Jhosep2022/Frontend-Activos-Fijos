@@ -61,9 +61,22 @@ import { CustomerreportComponent } from './inventual/report/customerreport/custo
 import { WarehousereportComponent } from './inventual/report/warehousereport/warehousereport.component';
 import { ElementsComponent } from './inventual/elements/elements.component';
 import { NotFoundComponent } from './inventual/not-found/not-found.component';
+import { ActivosLoginComponent } from './ActivosComponent/activos-login/activos-login.component';
+import { RecuperarPasswordComponent } from './ActivosComponent/recuperar-password/recuperar-password.component';
 
 
 const routes: Routes = [ 
+  //Rutas ActivosFijos
+  {
+    path: 'loginActivos',
+    component: ActivosLoginComponent
+  },
+  {
+    path: 'recuperarpassword',
+    component: RecuperarPasswordComponent
+  },
+
+  //Rutas Inventual
   { path: '', component: LoginComponent, pathMatch: 'full' },
   {
     path: 'dashboard',
