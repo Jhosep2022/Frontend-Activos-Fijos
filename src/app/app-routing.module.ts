@@ -63,10 +63,17 @@ import { ElementsComponent } from './inventual/elements/elements.component';
 import { NotFoundComponent } from './inventual/not-found/not-found.component';
 import { ActivosLoginComponent } from './ActivosComponent/activos-login/activos-login.component';
 import { RecuperarPasswordComponent } from './ActivosComponent/recuperar-password/recuperar-password.component';
+import { GestionUsuariosComponent } from './ActivosComponent/gestion-usuarios/gestion-usuarios.component';
+import { ListaActivosComponent } from './ActivosComponent/lista-activos/lista-activos.component';
+import { RegistroUsuariosComponent } from './ActivosComponent/registro-usuarios/registro-usuarios.component';
+import { GestionActividadesComponent } from './ActivosComponent/gestion-actividades/gestion-actividades.component';
+import { ResgistroMonedasComponent } from './ActivosComponent/resgistro-monedas/resgistro-monedas.component';
+import { GestionMonedasComponent } from './ActivosComponent/gestion-monedas/gestion-monedas.component';
 
 
 const routes: Routes = [ 
   //Rutas ActivosFijos
+  //Rutas comunes
   {
     path: 'loginActivos',
     component: ActivosLoginComponent
@@ -74,6 +81,33 @@ const routes: Routes = [
   {
     path: 'recuperarpassword',
     component: RecuperarPasswordComponent
+  },
+  //Rutas de gestion de usuarios
+  {
+    path: 'usuarios/lista',
+    component: GestionUsuariosComponent
+  },
+  {
+    path: 'usuarios/registro',
+    component: RegistroUsuariosComponent
+  },
+  {
+    path: 'usuarios/actividades',
+    component: GestionActividadesComponent
+  },
+  //Rutas de activos fijos
+  {
+    path: 'activos/lista',
+    component: ListaActivosComponent
+  },
+  //Rutas de monedas
+  {
+    path: 'divisas/lista',
+    component: GestionMonedasComponent
+  },
+  {
+    path: 'divisas/registro',
+    component: ResgistroMonedasComponent
   },
 
   //Rutas Inventual

@@ -30,6 +30,22 @@ import { RouterModule } from "@angular/router";
 import { NgApexchartsModule } from "ng-apexcharts";
 import { ActivosLoginComponent } from "./activos-login/activos-login.component";
 import { RecuperarPasswordComponent } from './recuperar-password/recuperar-password.component';
+import { GestionActividadesComponent } from './gestion-actividades/gestion-actividades.component';
+import { GestionUsuariosComponent } from './gestion-usuarios/gestion-usuarios.component';
+import { SideMenuComponent } from './comunes/side-menu/side-menu.component';
+import { CabeceraComponent } from './comunes/cabecera/cabecera.component';
+import { SublevelMenuComponent } from "./comunes/side-menu/sublevel-menu.component";
+import { FilterIconComponent } from "./comunes/icons/filter-icon/filter-icon.component";
+import { PdfIconComponent } from "./comunes/icons/pdf-icon/pdf-icon.component";
+import { CsvIconComponent } from "./comunes/icons/csv-icon/csv-icon.component";
+import { PrinterIconComponent } from "./comunes/icons/printer-icon/printer-icon.component";
+import { BellIconComponent } from "./comunes/icons/bell-icon/bell-icon.component";
+import { EmailIconComponent } from "./comunes/icons/email-icon/email-icon.component";
+import { GlobeIconComponent } from "./comunes/icons/globe-icon/globe-icon.component";
+import { ListaActivosComponent } from './lista-activos/lista-activos.component';
+import { RegistroUsuariosComponent } from './registro-usuarios/registro-usuarios.component';
+import { GestionMonedasComponent } from './gestion-monedas/gestion-monedas.component';
+import { ResgistroMonedasComponent } from './resgistro-monedas/resgistro-monedas.component';
 
 @NgModule({
   imports: [
@@ -67,7 +83,23 @@ import { RecuperarPasswordComponent } from './recuperar-password/recuperar-passw
   ],
   declarations: [
     ActivosLoginComponent,
-    RecuperarPasswordComponent
+    RecuperarPasswordComponent,
+    GestionActividadesComponent,
+    GestionUsuariosComponent,
+    SideMenuComponent,
+    CabeceraComponent,
+    SublevelMenuComponent,
+    FilterIconComponent,
+    PdfIconComponent,
+    CsvIconComponent,
+    PrinterIconComponent,
+    BellIconComponent,
+    EmailIconComponent,
+    GlobeIconComponent,
+    ListaActivosComponent,
+    RegistroUsuariosComponent,
+    GestionMonedasComponent,
+    ResgistroMonedasComponent,
   ],
 })
 export class ActivosProyectModule {}
