@@ -18,15 +18,14 @@ import { StockReportInterfaceData, stockReportData } from 'src/app/inventual/dat
 })
 export class ListaActivosComponent implements AfterViewInit {
   displayedColumns: string[] = [
-    'date',
-    'name',
-    'warehouse',
-    'unit',
-    'openingStock',
-    'received',
-    'totalStock',
-    'sales',
-    'closingStock',
+    'nombre',
+    'proyecto',
+    'valor',
+    'estado',
+    'categoria',
+    'uso',
+    'custodio',
+    'ubicacion',
   ];
   dataSource: MatTableDataSource<StockReportInterfaceData>;
 

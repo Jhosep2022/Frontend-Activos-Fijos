@@ -20,11 +20,11 @@
       </div>
         <div class="inventual-breadcrumb-area px-7 py-9 bg-white mb-5">
             <div class="inventual-breadcrumb-area-inner px-0.5">
-                <h5 class="text-[20px] text-heading font-bold mb-3">Stock Report</h5>
+                <h5 class="text-[20px] text-heading font-bold mb-3">Lista Activos</h5>
                 <div class="inventual-breadcrumb-area-inner-wrap">
-                    <span class="text-[14px] text-body font-normal inline-block me-2">Report</span>
+                    <span class="text-[14px] text-body font-normal inline-block me-2">Activos</span>
                     <span class="text-[14px] text-body font-normal inline-block me-2">></span>
-                    <span class="text-[14px] text-body font-normal inline-block me-2">Stock Report</span>
+                    <span class="text-[14px] text-body font-normal inline-block me-2">Lista Activos</span>
                 </div>
             </div>
         </div>
@@ -34,7 +34,7 @@
                     <div class="grid grid-cols-12 gap-x-7 sm:gap-x-0 items-end">
                         <div class="col-span-3 md:col-span-6 sm:col-span-12">
                             <div class="inventual-calender-field mb-5">
-                                <h5 class="text-[15px] text-heading font-semibold mb-3">Start Date</h5>
+                                <h5 class="text-[15px] text-heading font-semibold mb-3">Fecha Inicial</h5>
                                 <div class="inventual-calender-field-style">
                                     <mat-form-field appearance="fill" floatLabel="always">
                                         <mat-label class="hidden">Choose a date</mat-label>
@@ -47,7 +47,7 @@
                         </div>
                         <div class="col-span-3 md:col-span-6 sm:col-span-12">
                             <div class="inventual-calender-field mb-5">
-                                <h5 class="text-[15px] text-heading font-semibold mb-3">End Date</h5>
+                                <h5 class="text-[15px] text-heading font-semibold mb-3">Fecha Final</h5>
                                 <div class="inventual-calender-field-style">
                                     <mat-form-field appearance="fill" floatLabel="always">
                                         <mat-label class="hidden">Choose a date</mat-label>
@@ -60,15 +60,15 @@
                         </div>
                         <div class="col-span-3 md:col-span-6 sm:col-span-12">
                             <div class="inventual-select-field mb-5">
-                                <h5 class="text-[15px] text-heading font-semibold mb-3">Warehouse</h5>
+                                <h5 class="text-[15px] text-heading font-semibold mb-3">Moneda</h5>
                                 <div class="inventual-select-field-style">
                                     <mat-form-field>
                                         <mat-select class="block" [placeholder]="'All Warehouse'">
-                                            <mat-option value="language-1">Warehouse 1</mat-option>
-                                            <mat-option value="language-2">Warehouse 2</mat-option>
-                                            <mat-option value="language-3">Warehouse 3</mat-option>
-                                            <mat-option value="language-4">Warehouse 4</mat-option>
-                                            <mat-option value="language-5">Warehouse 5</mat-option>
+                                            <mat-option value="language-1">Dolar</mat-option>
+                                            <mat-option value="language-2">Euro</mat-option>
+                                            <mat-option value="language-3">Boliviano</mat-option>
+                                            <mat-option value="language-4">Moneda1</mat-option>
+                                            <mat-option value="language-5">Moneda2</mat-option>
                                         </mat-select>
                                     </mat-form-field>
                                 </div>
@@ -76,7 +76,7 @@
                         </div>
                         <div class="col-span-3 md:col-span-6 sm:col-span-12">
                             <div class="inventual-material-btn mb-5">
-                                <button mat-raised-button color="primary">Generate Report</button>
+                                <button mat-raised-button color="primary">Registrar Activo</button>
                             </div>
                         </div>
                     </div>
@@ -125,58 +125,53 @@
 
                 <div class="inventual-common-table">
                     <table mat-table [dataSource]="dataSource" matSort>
-                        <ng-container matColumnDef="date">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Date </th>
-                            <td mat-cell *matCellDef="let row"> {{row.date}} </td>
-                            <td mat-footer-cell *matFooterCellDef> Total </td>
-                        </ng-container>
 
-                        <ng-container matColumnDef="name">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+                        <ng-container matColumnDef="nombre">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre Activo </th>
                             <td mat-cell *matCellDef="let row"> {{row.name }} </td>
                             <td mat-footer-cell *matFooterCellDef></td>
                         </ng-container>
 
-                        <ng-container matColumnDef="warehouse">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Warehouse </th>
+                        <ng-container matColumnDef="proyecto">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Proyecto </th>
                             <td mat-cell *matCellDef="let row"> {{row.warehouse }} </td>
                             <td mat-footer-cell *matFooterCellDef></td>
                         </ng-container>
 
-                        <ng-container matColumnDef="unit">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Unit </th>
-                            <td mat-cell *matCellDef="let row"> {{row.unit }} </td>
+                        <ng-container matColumnDef="valor">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Valor Actual </th>
+                            <td mat-cell *matCellDef="let row"> {{row.openingStock }} Bs </td>
+                            <td mat-footer-cell *matFooterCellDef>{{getOpeningStock() }} Bs</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="estado">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Estado </th>
+                            <td mat-cell *matCellDef="let row"> {{row.state }} </td>
                             <td mat-footer-cell *matFooterCellDef></td>
                         </ng-container>
 
-                        <ng-container matColumnDef="openingStock">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Opening Stock </th>
-                            <td mat-cell *matCellDef="let row"> {{row.openingStock }} </td>
-                            <td mat-footer-cell *matFooterCellDef>{{getOpeningStock() }}</td>
+                        <ng-container matColumnDef="categoria">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Categoria </th>
+                            <td mat-cell *matCellDef="let row"> {{row.category }} </td>
+                            <td mat-footer-cell *matFooterCellDef></td>
                         </ng-container>
 
-                        <ng-container matColumnDef="received">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Received </th>
-                            <td mat-cell *matCellDef="let row"> {{row.received }} </td>
-                            <td mat-footer-cell *matFooterCellDef>{{getReceived() }}</td>
+                        <ng-container matColumnDef="uso">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Estado de Uso </th>
+                            <td mat-cell *matCellDef="let row"> {{row.use }} </td>
+                            <td mat-footer-cell *matFooterCellDef></td>
                         </ng-container>
 
-                        <ng-container matColumnDef="totalStock">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Total Stock </th>
-                            <td mat-cell *matCellDef="let row"> {{row.totalStock }} </td>
-                            <td mat-footer-cell *matFooterCellDef>{{getTotalStock() }}</td>
+                        <ng-container matColumnDef="custodio">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Custodio </th>
+                            <td mat-cell *matCellDef="let row"> {{row.custody }} </td>
+                            <td mat-footer-cell *matFooterCellDef></td>
                         </ng-container>
 
-                        <ng-container matColumnDef="sales">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Sales </th>
-                            <td mat-cell *matCellDef="let row"> {{row.sales }} </td>
-                            <td mat-footer-cell *matFooterCellDef>{{getSales() }}</td>
-                        </ng-container>
-
-                        <ng-container matColumnDef="closingStock">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Closing Stock </th>
-                            <td mat-cell *matCellDef="let row"> {{row.closingStock }} </td>
-                            <td mat-footer-cell *matFooterCellDef> {{getClosingStock() }} </td>
+                        <ng-container matColumnDef="ubicacion">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Ubicacion </th>
+                            <td mat-cell *matCellDef="let row"> {{row.address }} </td>
+                            <td mat-footer-cell *matFooterCellDef></td>
                         </ng-container>
 
                         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
@@ -187,7 +182,7 @@
                         <tr class="mat-row" *matNoDataRow>
                             <td class="mat-cell" colspan="8">
                                 <div class="table-data-not-found">
-                                    <p>No data matching the filter "{{input.value}}"</p>
+                                    <p>No se encuentran activos "{{input.value}}"</p>
                                 </div>
                             </td>
                         </tr>

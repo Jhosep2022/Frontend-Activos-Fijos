@@ -22,8 +22,6 @@ export class GestionActividadesComponent implements AfterViewInit {
     'phone',
     'email',
     'role',
-    'status',
-    'address',
   ];
   dataSource: MatTableDataSource<UserInterfaceData>;
 

@@ -21,12 +21,9 @@ export class GestionMonedasComponent implements AfterViewInit {
     'select',
     'id',
     'name',
-    'phone',
-    'email',
-    'role',
-    'status',
-    'address',
-    'action',
+    'abreviacion',
+    'valor',
+    'fecha',
   ];
   dataSource: MatTableDataSource<UserInterfaceData>;
   selection = new SelectionModel<UserInterfaceData>(true, []);

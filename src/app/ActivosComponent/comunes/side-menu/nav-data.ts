@@ -2,13 +2,8 @@ import { INavbarData } from './helper';
 
 export const navbarData: INavbarData[] = [
   {
-    routeLink: '/dashboard',
-    icon: 'fal fa-home',
-    label: 'Dashboard',
-  },
-  {
     routeLink: 'usuarios',
-    icon: 'fal fa-box-open',
+    icon: 'fal fa-users',
     label: 'Usuarios',
     items: [
       {
@@ -27,22 +22,18 @@ export const navbarData: INavbarData[] = [
   },
   {
     routeLink: 'activos',
-    icon: 'fal fa-sack-dollar',
+    icon: 'fal fa-ballot',
     label: 'Activos',
     items: [
       {
         routeLink: '/activos/lista',
         label: 'Lista de activos',
       },
-      {
-        routeLink: '/activos/registro',
-        label: 'Registrar activo',
-      },
     ],
   },
   {
     routeLink: 'divisas',
-    icon: 'fal fa-ballot',
+    icon: 'fal fa-coins',
     label: 'Divisas',
     items: [
       {

@@ -21,11 +21,11 @@
       </div>
       <div class="inventual-breadcrumb-area px-7 py-9 bg-white mb-5">
         <div class="inventual-breadcrumb-area-inner px-0.5">
-          <h5 class="text-[20px] text-heading font-bold mb-3">Add User</h5>
+          <h5 class="text-[20px] text-heading font-bold mb-3">Agregar Usuario</h5>
           <div class="inventual-breadcrumb-area-inner-wrap">
-            <span class="text-[14px] text-body font-normal inline-block me-2">User Management</span>
+            <span class="text-[14px] text-body font-normal inline-block me-2">Gestion de Usuarios</span>
             <span class="text-[14px] text-body font-normal inline-block me-2">></span>
-            <span class="text-[14px] text-body font-normal inline-block me-2">Add User</span>
+            <span class="text-[14px] text-body font-normal inline-block me-2">Agregar Usuario</span>
           </div>
         </div>
       </div>
@@ -34,22 +34,22 @@
           <div class="grid grid-cols-12 gap-x-7 sm:gap-x-0">
             <div class="col-span-4 md:col-span-6 sm:col-span-12">
               <div class="inventual-select-field mb-5">
-                <h5 class="text-[15px] text-heading font-semibold mb-3">Supplier Name</h5>
+                <h5 class="text-[15px] text-heading font-semibold mb-3">Nombre</h5>
                 <div class="inventual-input-field-style">
                   <mat-form-field class="w-full" [floatLabel]="'always'">
                     <mat-label class="hidden">Joseph Tylor</mat-label>
-                    <input matInput [placeholder]="'Joseph Tylor'">
+                    <input matInput [placeholder]="'Juan Perez'">
                   </mat-form-field>
                 </div>
               </div>
             </div>
             <div class="col-span-4 md:col-span-6 sm:col-span-12">
               <div class="inventual-select-field mb-5">
-                <h5 class="text-[15px] text-heading font-semibold mb-3">Phone</h5>
+                <h5 class="text-[15px] text-heading font-semibold mb-3">Telefono</h5>
                 <div class="inventual-input-field-style">
                   <mat-form-field class="w-full" [floatLabel]="'always'">
                     <mat-label class="hidden">00 000 000 000</mat-label>
-                    <input matInput [placeholder]="'00 000 000 000'">
+                    <input matInput [placeholder]="'00 000 000'">
                   </mat-form-field>
                 </div>
               </div>
@@ -60,38 +60,25 @@
                 <div class="inventual-input-field-style">
                   <mat-form-field class="w-full" [floatLabel]="'always'">
                     <mat-label class="hidden">joseph@example.com</mat-label>
-                    <input type="email" matInput [placeholder]="'joseph@example.com'">
+                    <input type="email" matInput [placeholder]="'juanh@ejemplo.com'">
                   </mat-form-field>
                 </div>
               </div>
             </div>
             <div class="col-span-4 md:col-span-6 sm:col-span-12">
               <div class="inventual-select-field mb-5">
-                <h5 class="text-[15px] text-heading font-semibold mb-3">Gender</h5>
-                <div class="inventual-select-field-style">
-                  <mat-form-field>
-                    <mat-select class="block" [placeholder]="'Select Gender'">
-                      <mat-option value="language-1">Male</mat-option>
-                      <mat-option value="language-2">Female</mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                </div>
-              </div>
-            </div>
-            <div class="col-span-4 md:col-span-6 sm:col-span-12">
-              <div class="inventual-select-field mb-5">
-                <h5 class="text-[15px] text-heading font-semibold mb-3">Username</h5>
+                <h5 class="text-[15px] text-heading font-semibold mb-3">Nombre de Usuario</h5>
                 <div class="inventual-input-field-style">
                   <mat-form-field class="w-full" [floatLabel]="'always'">
                     <mat-label class="hidden">Joseph Tylor</mat-label>
-                    <input matInput [placeholder]="'tylor biller'">
+                    <input matInput [placeholder]="'Juan_Paredes'">
                   </mat-form-field>
                 </div>
               </div>
             </div>
             <div class="col-span-4 md:col-span-6 sm:col-span-12">
               <div class="inventual-select-field mb-5">
-                <h5 class="text-[15px] text-heading font-semibold mb-3">Password</h5>
+                <h5 class="text-[15px] text-heading font-semibold mb-3">Contraseña</h5>
                 <div class="inventual-input-field-style inventual-input-field-style-eye">
                   <mat-form-field appearance="fill">
                     <mat-label class="hidden">Enter your password</mat-label>
@@ -109,10 +96,10 @@
                 <h5 class="text-[15px] text-heading font-semibold mb-3">Role</h5>
                 <div class="inventual-select-field-style">
                   <mat-form-field>
-                    <mat-select class="block" [placeholder]="'Select Role'">
-                      <mat-option value="language-1">Supervisor</mat-option>
-                      <mat-option value="language-2">Officer</mat-option>
-                      <mat-option value="language-2">Manager</mat-option>
+                    <mat-select class="block" [placeholder]="'Selecionar Rol'">
+                      <mat-option value="language-1">Administrador</mat-option>
+                      <mat-option value="language-2">Editor</mat-option>
+                      <mat-option value="language-2">Lector</mat-option>
                     </mat-select>
                   </mat-form-field>
                 </div>
@@ -120,18 +107,21 @@
             </div>
             <div class="col-span-4 md:col-span-6 sm:col-span-12">
               <div class="inventual-select-field mb-5">
-                <h5 class="text-[15px] text-heading font-semibold mb-3">Profile Image</h5>
-                <div class="inventual-input-field-style relative">
-                  <div class="inventual-input-field-file-choose">
-                    <label for="fileUploadN">Choose File</label>
-                    <input type="file" id="fileUploadN">
-                  </div>
+                <h5 class="text-[15px] text-heading font-semibold mb-3">Area</h5>
+                <div class="inventual-select-field-style">
+                  <mat-form-field>
+                    <mat-select class="block" [placeholder]="'Selecionar Area'">
+                      <mat-option value="language-1">Contabilidad</mat-option>
+                      <mat-option value="language-2">Tesoreria</mat-option>
+                      <mat-option value="language-2">Academico</mat-option>
+                    </mat-select>
+                  </mat-form-field>
                 </div>
               </div>
             </div>
             <div class="col-span-12">
               <div class="inventual-material-btn pt-2.5 justify-end">
-                <button mat-raised-button color="primary">Create User</button>
+                <button mat-raised-button color="primary">Crear Usuario</button>
               </div>
             </div>
           </div>

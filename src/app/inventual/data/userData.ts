@@ -8,6 +8,10 @@ export interface UserInterfaceData {
   address: string;
   action: any;
   price: number;
+  abreviacion: string;
+  valor: number;
+  fecha: string;
+  divisa: string;
 }
 export const userData: UserInterfaceData[] = [
   {
@@ -20,6 +24,11 @@ export const userData: UserInterfaceData[] = [
     address: '2851 Green Avenue, Oakland, CA 94612',
     action: 'action',
     price: 5000,
+    abreviacion: "$",
+    valor: 6.95,
+    fecha: "2020/02/02",
+    divisa: 'Dolar',
+
   },
   {
     id: 2,
@@ -31,6 +40,10 @@ export const userData: UserInterfaceData[] = [
     address: '123 Main Street, Anytown, NY 12345',
     action: 'action',
     price: 8000,
+    abreviacion: "Eur",
+    valor: 10,
+    fecha: "2020/02/02",
+    divisa: 'Euro',
   },
   {
     id: 3,
@@ -42,6 +55,10 @@ export const userData: UserInterfaceData[] = [
     address: '456 Elm Street, Springfield, IL 67890',
     action: 'action',
     price: 8000,
+    abreviacion: "$",
+    valor: 10,
+    fecha: "2020/02/02",
+    divisa: 'Yuan',
   },
   {
     id: 4,
@@ -53,6 +70,10 @@ export const userData: UserInterfaceData[] = [
     address: '789 Oak Street, Pleasantville, TX 54321',
     action: 'action',
     price: 8000,
+    abreviacion: "$",
+    valor: 10,
+    fecha: "2020/02/02",
+    divisa: 'Moneda',
   },
   {
     id: 5,
@@ -64,6 +85,10 @@ export const userData: UserInterfaceData[] = [
     address: '987 Pine Street, Lakeside, FL 98765',
     action: 'action',
     price: 8000,
+    abreviacion: "$",
+    valor: 10,
+    fecha: "2020/02/02",
+    divisa: 'Moneda2',
   },
   {
     id: 6,
@@ -75,6 +100,10 @@ export const userData: UserInterfaceData[] = [
     address: '654 Maple Street, Riverside, WA 23456',
     action: 'action',
     price: 8000,
+    abreviacion: "$",
+    valor: 10,
+    fecha: "2020/02/02",
+    divisa: 'Moneda3',
   },
   {
     id: 7,
@@ -86,6 +115,10 @@ export const userData: UserInterfaceData[] = [
     address: '321 Cedar Street, Mountainview, CA 65432',
     action: 'action',
     price: 8000,
+    abreviacion: "$",
+    valor: 10,
+    fecha: "2020/02/02",
+    divisa: 'Moneda4',
   },
   {
     id: 8,
@@ -97,6 +130,10 @@ export const userData: UserInterfaceData[] = [
     address: '741 Birch Street, Oceanview, OR 87654',
     action: 'action',
     price: 8000,
+    abreviacion: "$",
+    valor: 10,
+    fecha: "2020/02/02",
+    divisa: 'Moneda5',
   },
   {
     id: 9,
@@ -108,6 +145,10 @@ export const userData: UserInterfaceData[] = [
     address: '852 Walnut Street, Hillside, NV 34567',
     action: 'action',
     price: 8000,
+    abreviacion: "$",
+    valor: 10,
+    fecha: "2020/02/02",
+    divisa: 'Moneda6',
   },
   {
     id: 10,
@@ -119,6 +160,10 @@ export const userData: UserInterfaceData[] = [
     address: '369 Cherry Street, Sunnyside, AZ 01234',
     action: 'action',
     price: 8000,
+    abreviacion: "$",
+    valor: 10,
+    fecha: "2020/02/02",
+    divisa: 'Moneda7',
   },
   {
     id: 11,
@@ -130,5 +175,9 @@ export const userData: UserInterfaceData[] = [
     address: '987 Pine Street, Lakeside, FL 98765',
     action: 'action',
     price: 8000,
+    abreviacion: "$",
+    valor: 10,
+    fecha: "2020/02/02",
+    divisa: 'Moneda8',
   },
 ];
