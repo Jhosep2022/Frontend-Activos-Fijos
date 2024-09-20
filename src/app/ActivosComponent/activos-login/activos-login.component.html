@@ -29,7 +29,17 @@
         </div>
         <div class="inventual-login-btn mb-7">
             <div class="inventual-material-btn">
-                <button [routerLink]="['/usuarios/lista']" type="submit" mat-raised-button color="primary">Iniciar sesión</button>
+                <button [routerLink]="['/usuarios/lista']" type="submit" mat-raised-button color="primary" (click)="iniciarsesion()">Iniciar sesión (Admin)</button>
+            </div>
+        </div>
+        <div class="inventual-login-btn mb-7">
+            <div class="inventual-material-btn">
+                <button [routerLink]="['/usuarios/lista']" type="submit" mat-raised-button color="primary" (click)="iniciarsesionEditor()">Iniciar sesión (Editor)</button>
+            </div>
+        </div>
+        <div class="inventual-login-btn mb-7">
+            <div class="inventual-material-btn">
+                <button [routerLink]="['/usuarios/lista']" type="submit" mat-raised-button color="primary" (click)="iniciarsesionLector()">Iniciar sesión (Lector)</button>
             </div>
         </div>
         <!--

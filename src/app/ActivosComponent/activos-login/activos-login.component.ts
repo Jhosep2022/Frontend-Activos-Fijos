@@ -12,4 +12,26 @@ export class ActivosLoginComponent implements OnInit  {
 
   ngOnInit(): void {
   }
+
+  iniciarsesion(){
+    localStorage.setItem('sesion', 'true');
+    localStorage.setItem('usuario', 'admin');
+    localStorage.setItem('nombre', 'Administrador');
+    localStorage.setItem('rol', 'Administrador');
+  }
+
+  //Login para editor reemplazable
+  iniciarsesionEditor(){
+    localStorage.setItem('sesion', 'true');
+    localStorage.setItem('usuario', 'admin');
+    localStorage.setItem('nombre', 'Administrador');
+    localStorage.setItem('rol', 'Editor');
+  }
+  //Login para lector reemplazable
+  iniciarsesionLector(){
+    localStorage.setItem('sesion', 'true');
+    localStorage.setItem('usuario', 'admin');
+    localStorage.setItem('nombre', 'Administrador');
+    localStorage.setItem('rol', 'Lector');
+  }
 }

@@ -46,6 +46,12 @@ import { ListaActivosComponent } from './lista-activos/lista-activos.component';
 import { RegistroUsuariosComponent } from './registro-usuarios/registro-usuarios.component';
 import { GestionMonedasComponent } from './gestion-monedas/gestion-monedas.component';
 import { ResgistroMonedasComponent } from './resgistro-monedas/resgistro-monedas.component';
+import { RegistroActivosComponent } from './registro-activos/registro-activos.component';
+import { ActivoIndividualComponent } from './activo-individual/activo-individual.component';
+import { ActivoProyectoComponent } from './activo-proyecto/activo-proyecto.component';
+import { GestionProyectosComponent } from './gestion-proyectos/gestion-proyectos.component';
+import { GestionCustodiosComponent } from './gestion-custodios/gestion-custodios.component';
+import { GestionUbicacionesComponent } from './gestion-ubicaciones/gestion-ubicaciones.component';
 
 @NgModule({
   imports: [
@@ -100,6 +106,12 @@ import { ResgistroMonedasComponent } from './resgistro-monedas/resgistro-monedas
     RegistroUsuariosComponent,
     GestionMonedasComponent,
     ResgistroMonedasComponent,
+    RegistroActivosComponent,
+    ActivoIndividualComponent,
+    ActivoProyectoComponent,
+    GestionProyectosComponent,
+    GestionCustodiosComponent,
+    GestionUbicacionesComponent,
   ],
 })
 export class ActivosProyectModule {}
