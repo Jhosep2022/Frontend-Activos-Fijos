@@ -69,6 +69,11 @@ import { RegistroUsuariosComponent } from './ActivosComponent/registro-usuarios/
 import { GestionActividadesComponent } from './ActivosComponent/gestion-actividades/gestion-actividades.component';
 import { ResgistroMonedasComponent } from './ActivosComponent/resgistro-monedas/resgistro-monedas.component';
 import { GestionMonedasComponent } from './ActivosComponent/gestion-monedas/gestion-monedas.component';
+import { RegistroActivosComponent } from './ActivosComponent/registro-activos/registro-activos.component';
+import { GestionCustodiosComponent } from './ActivosComponent/gestion-custodios/gestion-custodios.component';
+import { GestionProyectosComponent } from './ActivosComponent/gestion-proyectos/gestion-proyectos.component';
+import { GestionUbicacionesComponent } from './ActivosComponent/gestion-ubicaciones/gestion-ubicaciones.component';
+import { ActivoIndividualComponent } from './ActivosComponent/activo-individual/activo-individual.component';
 
 
 const routes: Routes = [ 
@@ -99,6 +104,26 @@ const routes: Routes = [
   {
     path: 'activos/lista',
     component: ListaActivosComponent
+  },
+  {
+    path: 'activos/registro',
+    component: RegistroActivosComponent
+  },
+  {
+    path: 'custodios',
+    component: GestionCustodiosComponent
+  },
+  {
+    path: 'proyectos',
+    component: GestionProyectosComponent
+  },
+  {
+    path: 'ubicaciones',
+    component: GestionUbicacionesComponent
+  },
+  {
+    path: 'editar/activo',
+    component: ActivoIndividualComponent
   },
   //Rutas de monedas
   {
