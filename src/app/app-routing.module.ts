@@ -74,6 +74,7 @@ import { GestionCustodiosComponent } from './ActivosComponent/gestion-custodios/
 import { GestionProyectosComponent } from './ActivosComponent/gestion-proyectos/gestion-proyectos.component';
 import { GestionUbicacionesComponent } from './ActivosComponent/gestion-ubicaciones/gestion-ubicaciones.component';
 import { ActivoIndividualComponent } from './ActivosComponent/activo-individual/activo-individual.component';
+import { GestionRolesComponent } from './ActivosComponent/gestion-roles/gestion-roles.component';
 
 
 const routes: Routes = [ 
@@ -99,6 +100,10 @@ const routes: Routes = [
   {
     path: 'usuarios/actividades',
     component: GestionActividadesComponent
+  },
+  {
+    path: 'usuarios/roles',
+    component: GestionRolesComponent
   },
   //Rutas de activos fijos
   {

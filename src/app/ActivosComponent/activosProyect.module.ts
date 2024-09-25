@@ -52,6 +52,12 @@ import { ActivoProyectoComponent } from './activo-proyecto/activo-proyecto.compo
 import { GestionProyectosComponent } from './gestion-proyectos/gestion-proyectos.component';
 import { GestionCustodiosComponent } from './gestion-custodios/gestion-custodios.component';
 import { GestionUbicacionesComponent } from './gestion-ubicaciones/gestion-ubicaciones.component';
+import { NgxsModule } from "@ngxs/store";
+import { NgxsLoggerPluginModule } from "@ngxs/logger-plugin";
+import { NgxsReduxDevtoolsPluginModule } from "@ngxs/devtools-plugin";
+import { UserState } from "./state-management/user/user.state";
+import { GestionRolesComponent } from './gestion-roles/gestion-roles.component';
+import { RolState } from "./state-management/rol/rol.state";
 
 @NgModule({
   imports: [
@@ -86,6 +92,9 @@ import { GestionUbicacionesComponent } from './gestion-ubicaciones/gestion-ubica
     HttpClientModule,
     MatTableModule,
     DragDropModule,
+    NgxsModule.forRoot([RolState, UserState]),  // Registra tu estado de usuarios
+    NgxsLoggerPluginModule.forRoot(),
+    NgxsReduxDevtoolsPluginModule.forRoot() 
   ],
   declarations: [
     ActivosLoginComponent,
@@ -112,6 +121,7 @@ import { GestionUbicacionesComponent } from './gestion-ubicaciones/gestion-ubica
     GestionProyectosComponent,
     GestionCustodiosComponent,
     GestionUbicacionesComponent,
+    GestionRolesComponent,
   ],
 })
 export class ActivosProyectModule {}

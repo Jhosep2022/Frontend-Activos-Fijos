@@ -8,32 +8,46 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
-import { Store } from '@ngxs/store';
-import { GetUsers } from '../state-management/user/user.actions';
 import { Observable } from 'rxjs';
-import { UserState } from '../state-management/user/user.state';
+import { RolModel } from '../models/rol.model';
+import { RolState } from '../state-management/rol/rol.state';
+import { AddRol, GetRols } from '../state-management/rol/rol.actions';
+import { Store } from '@ngxs/store';
 import { UserModel } from '../models/user.model';
 
 @Component({
-  selector: 'app-gestion-usuarios',
-  templateUrl: './gestion-usuarios.component.html',
-  styleUrls: ['./gestion-usuarios.component.scss'],
+  selector: 'app-gestion-roles',
+  templateUrl: './gestion-roles.component.html',
+  styleUrls: ['./gestion-roles.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class GestionUsuariosComponent implements AfterViewInit {
-  usuarios$: Observable<UserModel[]>;
-  displayedColumns: string[] = [
-    'select',
-    'idUsuario',
-    'nombre',
-    'correo',
-    'estado',
-    'telefono',
-    'rolId',
-    'action'
-  ];
-  dataSource: MatTableDataSource<UserModel> = new MatTableDataSource(); // Cambiado el tipo a `any`
-  selection = new SelectionModel<UserModel>(true, []);
+export class GestionRolesComponent implements AfterViewInit {
+  rol: RolModel = {
+    nombre: '',
+    idRol: 0,
+  };
+
+  agregarRol() {
+    this.store.dispatch(new AddRol(this.rol));
+    this.rol = {
+      nombre: '',
+      idRol: 0,
+    };
+  }
+  roles$: Observable<RolModel[]>;
+  //sidebar menu activation start
+  menuSidebarActive: boolean = false;
+  myfunction() {
+    if (this.menuSidebarActive == false) {
+      this.menuSidebarActive = true;
+    } else {
+      this.menuSidebarActive = false;
+    }
+  }
+  //sidebar menu activation end
+  displayedColumns: string[] = ['select', 'nombre', 'accion'];
+  dataSource: MatTableDataSource<RolModel> = new MatTableDataSource(); // Cambiado el tipo a `any`
+  selection = new SelectionModel<RolModel>(true, []);
 
   @ViewChild(MatPaginator)
   paginator!: MatPaginator;
@@ -41,21 +55,10 @@ export class GestionUsuariosComponent implements AfterViewInit {
   sort!: MatSort;
 
   constructor(private store: Store) {
-    this.usuarios$ = this.store.select(UserState.getUsers);
-  }
-
-  ngOnInit(): void {
-    // Despacha la acción para obtener los usuarios
-    this.store.dispatch(new GetUsers());
-
-    // Suscríbete al observable para actualizar el dataSource
-    this.usuarios$.subscribe((users) => {
-      this.dataSource.data = users; // Asigna los datos al dataSource
-    });
+    this.roles$ = this.store.select(RolState.getRols);
   }
 
   ngAfterViewInit() {
-    // Configurar la paginación y la ordenación
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
@@ -91,12 +94,18 @@ export class GestionUsuariosComponent implements AfterViewInit {
     if (!row) {
       return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
     }
-    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.id + 1}`;
+    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${
+      row.idRol + 1
+    }`;
   }
 
-  // Sidebar menu activation
-  menuSidebarActive: boolean = false;
-  myfunction() {
-    this.menuSidebarActive = !this.menuSidebarActive;
+  ngOnInit(): void {
+    // Despacha la acción para obtener los roles
+    this.store.dispatch(new GetRols());
+
+    // Suscríbete al observable para actualizar el dataSource
+    this.roles$.subscribe((roles) => {
+      this.dataSource.data = roles; // Asigna los datos al dataSource
+    });
   }
 }

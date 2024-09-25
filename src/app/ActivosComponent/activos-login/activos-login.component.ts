@@ -1,4 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { UserServiceService } from '../services/user-service.service';
+import { LoginModel } from '../models/user.model';
 
 @Component({
   selector: 'app-activos-login',
@@ -7,13 +9,21 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
   encapsulation: ViewEncapsulation.None
 })
 export class ActivosLoginComponent implements OnInit  {
+  loginUser: LoginModel = {
+    correo: '',
+    password: ''
+  };
   hide = true;
-  constructor() { }
+  constructor(private userService: UserServiceService) { }
 
   ngOnInit(): void {
   }
-
-  iniciarsesion(){
+  iniciarSesion(){
+    this.userService.login(this.loginUser).subscribe((response) => {
+      console.log(response);
+    });
+  }
+  guardarDatos(){
     localStorage.setItem('sesion', 'true');
     localStorage.setItem('usuario', 'admin');
     localStorage.setItem('nombre', 'Administrador');

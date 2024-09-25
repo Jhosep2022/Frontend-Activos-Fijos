@@ -1,4 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Store } from '@ngxs/store';
+import { AddUser } from '../state-management/user/user.actions';
 
 @Component({
   selector: 'app-registro-usuarios',
@@ -18,11 +20,16 @@ export class RegistroUsuariosComponent implements OnInit {
       this.menuSidebarActive=false;
     }
   }
+
+  agregarUsuario(usuario: any) {
+    this.store.dispatch(new AddUser(usuario));
+  }
+
   //sidebar menu activation end
   
   hide = true;
   
-    constructor() { }
+    constructor(private store: Store) { }
   
     ngOnInit(): void {}
   
