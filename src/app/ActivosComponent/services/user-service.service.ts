@@ -13,7 +13,7 @@ export class UserServiceService {
   constructor(private http: HttpClient) {}
 
   getAllUsers(): Observable<ResponseModel<UserModel[]>> {
-    const token = 'eyJhbGciOiJIUzI1NiJ9.eyJyb2xlSWQiOjEsInVzZXJJZCI6MSwic3ViIjoiYW5kcmVhQGdtYWlsLmNvbSIsImlhdCI6MTcyNzE5NjgyOSwiZXhwIjoxNzI3MjMyODI5fQ.W2y40T-GSkLG5EB11fApQURp4W0tc10XvYceStR3oAE';
+    const token = localStorage.getItem('token');
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });

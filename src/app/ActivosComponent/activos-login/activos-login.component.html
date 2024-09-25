@@ -7,7 +7,7 @@
             <div class="inventual-input-field-style">
               <mat-form-field class="w-full" [floatLabel]="'always'">
                 <mat-label class="hidden">Joseph Tylor</mat-label>
-                <input matInput [placeholder]="'Username'" value="Admin">
+                <input matInput [placeholder]="'Correo'" type="text" class="form-control" id="correo" [(ngModel)]="loginUser.correo" name="correo">
               </mat-form-field>
               <caption><mat-icon>person_outline</mat-icon></caption>
             </div>
@@ -16,7 +16,7 @@
             <div class="inventual-input-field-style inventual-input-field-style-eye">
                 <mat-form-field appearance="fill">
                     <mat-label class="hidden">Ingresa tu contraseña</mat-label>
-                    <input matInput [placeholder]="'Password'" [type]="hide ? 'password' : 'text'" value="123456">
+                    <input matInput [placeholder]="'Password'" [type]="hide ? 'password' : 'text'" value="123456" class="form-control" id="password" [(ngModel)]="loginUser.password" name="password">
                     <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
                         [attr.aria-pressed]="hide">
                         <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
@@ -34,12 +34,12 @@
         </div>
         <div class="inventual-login-btn mb-7">
             <div class="inventual-material-btn">
-                <button [routerLink]="['/usuarios/lista']" type="submit" mat-raised-button color="primary" (click)="iniciarsesionEditor()">Iniciar sesión (Editor)</button>
+                <button [routerLink]="['/usuarios/lista']" type="submit" mat-raised-button color="primary" (click)="iniciarSesion()">Iniciar sesión (Editor)</button>
             </div>
         </div>
         <div class="inventual-login-btn mb-7">
             <div class="inventual-material-btn">
-                <button [routerLink]="['/usuarios/lista']" type="submit" mat-raised-button color="primary" (click)="iniciarsesionLector()">Iniciar sesión (Lector)</button>
+                <button [routerLink]="['/usuarios/lista']" type="submit" mat-raised-button color="primary" (click)="iniciarSesion()">Iniciar sesión (Lector)</button>
             </div>
         </div>
         <!--
