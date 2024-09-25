@@ -22,7 +22,27 @@ export class RolService {
     return this.http.get<ResponseModel<RolModel[]>>(`${this.baseUrl}`, { headers });
   }
 
-  addRol(user: any): Observable<ResponseModel<RolModel>> {
-    return this.http.post<ResponseModel<RolModel>>(`${this.baseUrl}/crear`, user);
+  addRol(rol: any): Observable<ResponseModel<RolModel>> {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    return this.http.post<ResponseModel<RolModel>>(`${this.baseUrl}/crear`, rol, { headers });
+  }
+
+  updateRol(rol: any): Observable<ResponseModel<RolModel>> {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    return this.http.put<ResponseModel<RolModel>>(`${this.baseUrl}/actualizar/${rol.id}`, rol, { headers });
+  }
+
+  deleteRol(rolId: number): Observable<ResponseModel<RolModel>> {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    return this.http.delete<ResponseModel<RolModel>>(`${this.baseUrl}/eliminar/${rolId}`, { headers });
   }
 }

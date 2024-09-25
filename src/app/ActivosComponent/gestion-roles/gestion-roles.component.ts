@@ -11,7 +11,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { Observable } from 'rxjs';
 import { RolModel } from '../models/rol.model';
 import { RolState } from '../state-management/rol/rol.state';
-import { AddRol, GetRols } from '../state-management/rol/rol.actions';
+import { AddRol, DeleteRol, GetRols, UpdateRol } from '../state-management/rol/rol.actions';
 import { Store } from '@ngxs/store';
 import { UserModel } from '../models/user.model';
 
@@ -34,6 +34,15 @@ export class GestionRolesComponent implements AfterViewInit {
       idRol: 0,
     };
   }
+
+  eliminarRol(id: number) {
+    this.store.dispatch(new DeleteRol(id));
+  }
+
+  actualizarRol(rol: RolModel) {    
+    this.store.dispatch(new UpdateRol(this.rol));
+  }
+
   roles$: Observable<RolModel[]>;
   //sidebar menu activation start
   menuSidebarActive: boolean = false;
