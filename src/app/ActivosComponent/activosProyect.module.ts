@@ -59,6 +59,8 @@ import { UserState } from "./state-management/user/user.state";
 import { GestionRolesComponent } from './gestion-roles/gestion-roles.component';
 import { RolState } from "./state-management/rol/rol.state";
 import { DivisaState } from "./state-management/divisa/divisa.state";
+import { ActivoState } from "./state-management/activos/activos.state";
+import { CustodiosState } from "./state-management/custodios/custodios.state";
 
 @NgModule({
   imports: [
@@ -93,7 +95,7 @@ import { DivisaState } from "./state-management/divisa/divisa.state";
     HttpClientModule,
     MatTableModule,
     DragDropModule,
-    NgxsModule.forRoot([RolState, UserState, DivisaState]),  // Registra tu estado de usuarios
+    NgxsModule.forRoot([RolState, UserState, DivisaState, ActivoState, CustodiosState]),  // Registra tu estado de usuarios
     NgxsLoggerPluginModule.forRoot(),
     NgxsReduxDevtoolsPluginModule.forRoot() 
   ],

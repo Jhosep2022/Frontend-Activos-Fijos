@@ -9,6 +9,11 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { RoleInterfaceData, roleData } from 'src/app/inventual/data/roleData';
+import { CustodiosModel } from '../models/custodios.model';
+import { AddCustodio, DeleteCustodio, GetCustodio, UpdateCustodio } from '../state-management/custodios/custodios.action';
+import { Observable } from 'rxjs';
+import { Store } from '@ngxs/store';
+import { CustodiosState } from '../state-management/custodios/custodios.state';
 
 @Component({
   selector: 'app-gestion-custodios',
@@ -17,6 +22,36 @@ import { RoleInterfaceData, roleData } from 'src/app/inventual/data/roleData';
   encapsulation: ViewEncapsulation.None,
 })
 export class GestionCustodiosComponent implements AfterViewInit {
+  custodio: CustodiosModel = {
+    idCustodio: 0,
+    nombre: '',
+    apellidoPaterno: '',
+    apellidoMaterno: '',
+    correo: '',
+    telefono: ''
+  };
+
+  agregarCustodio() {
+    this.store.dispatch(new AddCustodio(this.custodio));
+    this.custodio = {
+      idCustodio: 0,
+      nombre: '',
+      apellidoPaterno: '',
+      apellidoMaterno: '',
+      correo: '',
+      telefono: ''
+    };
+  }
+
+  eliminarCustodio(id: number) {
+    this.store.dispatch(new DeleteCustodio(id));
+  }
+
+  actualizarCustodio(rol: CustodiosModel) {    
+    this.store.dispatch(new UpdateCustodio(this.custodio));
+  }
+
+  roles$: Observable<CustodiosModel[]>;
   //sidebar menu activation start
   menuSidebarActive: boolean = false;
   myfunction() {
@@ -28,17 +63,16 @@ export class GestionCustodiosComponent implements AfterViewInit {
   }
   //sidebar menu activation end
   displayedColumns: string[] = ['select', 'nombrecompleto', 'telefono', 'correo', 'accion'];
-  dataSource: MatTableDataSource<RoleInterfaceData>;
-  selection = new SelectionModel<RoleInterfaceData>(true, []);
+  dataSource: MatTableDataSource<CustodiosModel> = new MatTableDataSource(); // Cambiado el tipo a `any`
+  selection = new SelectionModel<CustodiosModel>(true, []);
 
   @ViewChild(MatPaginator)
   paginator!: MatPaginator;
   @ViewChild(MatSort)
   sort!: MatSort;
 
-  constructor() {
-    // Assign your data array to the data source
-    this.dataSource = new MatTableDataSource(roleData);
+  constructor(private store: Store) {
+    this.roles$ = this.store.select(CustodiosState.getCustodios);
   }
 
   ngAfterViewInit() {
@@ -73,14 +107,22 @@ export class GestionCustodiosComponent implements AfterViewInit {
   }
 
   /** The label for the checkbox on the passed row */
-  checkboxLabel(row?: RoleInterfaceData): string {
+  checkboxLabel(row?: any): string {
     if (!row) {
       return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
     }
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${
-      row.id + 1
+      row.idRol + 1
     }`;
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    // Despacha la acción para obtener los roles
+    this.store.dispatch(new GetCustodio());
+
+    // Suscríbete al observable para actualizar el dataSource
+    this.roles$.subscribe((roles) => {
+      this.dataSource.data = roles; // Asigna los datos al dataSource
+    });
+  }
 }
