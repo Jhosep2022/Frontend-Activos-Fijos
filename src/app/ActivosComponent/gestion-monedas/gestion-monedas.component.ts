@@ -9,6 +9,11 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { UserInterfaceData, userData } from 'src/app/inventual/data/userData';
+import { Store } from '@ngxs/store';
+import { DeleteCurrency, GetCurrency } from '../state-management/divisa/divisa.action';
+import { DivisaModel } from '../models/divisa.model';
+import { Observable } from 'rxjs';
+import { DivisaState } from '../state-management/divisa/divisa.state';
 
 @Component({
   selector: 'app-gestion-monedas',
@@ -17,30 +22,34 @@ import { UserInterfaceData, userData } from 'src/app/inventual/data/userData';
   encapsulation: ViewEncapsulation.None,
 })
 export class GestionMonedasComponent implements AfterViewInit {
+  divisas$: Observable<DivisaModel[]>;
   displayedColumns: string[] = [
     'select',
     'id',
     'name',
     'abreviacion',
     'valor',
-    'fecha',
+    'action',
   ];
-  dataSource: MatTableDataSource<UserInterfaceData>;
-  selection = new SelectionModel<UserInterfaceData>(true, []);
+  dataSource: MatTableDataSource<DivisaModel> = new MatTableDataSource(); // Cambiado el tipo a `any`
+  selection = new SelectionModel<DivisaModel>(true, []);
 
   @ViewChild(MatPaginator)
   paginator!: MatPaginator;
   @ViewChild(MatSort)
   sort!: MatSort;
 
-  constructor() {
-    // Assign your data array to the data source
-    this.dataSource = new MatTableDataSource(userData);
+  constructor(private store: Store) {
+    this.divisas$ = this.store.select(DivisaState.getDivisa);
   }
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+  }
+
+  eliminarDivisa(id: number) {    
+    this.store.dispatch(new DeleteCurrency(id));
   }
 
   applyFilter(event: Event) {
@@ -70,7 +79,7 @@ export class GestionMonedasComponent implements AfterViewInit {
   }
 
   /** The label for the checkbox on the passed row */
-  checkboxLabel(row?: UserInterfaceData): string {
+  checkboxLabel(row?: any): string {
     if (!row) {
       return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
     }
@@ -90,5 +99,13 @@ export class GestionMonedasComponent implements AfterViewInit {
   }
   //sidebar menu activation end
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    // Despacha la acción para obtener los usuarios
+    this.store.dispatch(new GetCurrency());
+
+    // Suscríbete al observable para actualizar el dataSource
+    this.divisas$.subscribe((divisas) => {
+      this.dataSource.data = divisas; // Asigna los datos al dataSource
+    });
+  }
 }

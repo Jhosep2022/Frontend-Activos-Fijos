@@ -58,6 +58,7 @@ import { NgxsReduxDevtoolsPluginModule } from "@ngxs/devtools-plugin";
 import { UserState } from "./state-management/user/user.state";
 import { GestionRolesComponent } from './gestion-roles/gestion-roles.component';
 import { RolState } from "./state-management/rol/rol.state";
+import { DivisaState } from "./state-management/divisa/divisa.state";
 
 @NgModule({
   imports: [
@@ -92,7 +93,7 @@ import { RolState } from "./state-management/rol/rol.state";
     HttpClientModule,
     MatTableModule,
     DragDropModule,
-    NgxsModule.forRoot([RolState, UserState]),  // Registra tu estado de usuarios
+    NgxsModule.forRoot([RolState, UserState, DivisaState]),  // Registra tu estado de usuarios
     NgxsLoggerPluginModule.forRoot(),
     NgxsReduxDevtoolsPluginModule.forRoot() 
   ],

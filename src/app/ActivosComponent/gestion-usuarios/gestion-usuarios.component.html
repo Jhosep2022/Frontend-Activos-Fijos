@@ -146,7 +146,7 @@
                                             <img src="../../../../../assets/img/icon/action-2.png" alt="icon not found">
                                             <span>Editar usuario</span>
                                         </button>
-                                        <button mat-menu-item>
+                                        <button mat-menu-item (click)="this.eliminarUser(row.idUsuario)">
                                             <img src="../../../../../assets/img/icon/action-6.png" alt="icon not found">
                                             <span>Eliminar usuario</span>
                                         </button>

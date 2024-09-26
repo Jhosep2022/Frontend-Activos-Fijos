@@ -23,11 +23,31 @@ export class UserServiceService {
   }
 
   addUser(user: any): Observable<UserModel> {
-    return this.http.post<UserModel>(`${this.baseUrl}/crear`, user);
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    return this.http.post<UserModel>(`${this.baseUrl}/crear`, user, { headers });
   }
 
   login(user: any): Observable<any> {
     return this.http.post<ResponseModel<any>>(`${this.baseUrl}/login`, user);
+  }
+
+  updateUser(user: any): Observable<ResponseModel<UserModel>> {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    return this.http.put<ResponseModel<UserModel>>(`${this.baseUrl}/actualizar/${user.id}`, user, { headers });
+  }
+
+  deleteUser(userId: number): Observable<any> {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    return this.http.delete(`${this.baseUrl}/eliminar/${userId}`, { headers });
   }
   
 }

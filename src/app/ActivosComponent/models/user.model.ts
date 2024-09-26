@@ -5,7 +5,6 @@ export interface UserModel {
     correo: string;
     estado: boolean;
     telefono: string;
-    historialActivos: number;
     rolId: number;
 }
 

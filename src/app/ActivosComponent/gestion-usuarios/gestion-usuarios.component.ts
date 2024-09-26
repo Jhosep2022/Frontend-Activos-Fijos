@@ -9,7 +9,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Store } from '@ngxs/store';
-import { GetUsers } from '../state-management/user/user.actions';
+import { DeleteUser, GetUsers } from '../state-management/user/user.actions';
 import { Observable } from 'rxjs';
 import { UserState } from '../state-management/user/user.state';
 import { UserModel } from '../models/user.model';
@@ -58,6 +58,10 @@ export class GestionUsuariosComponent implements AfterViewInit {
     // Configurar la paginación y la ordenación
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+  }
+
+  eliminarUser(id: number) {
+    this.store.dispatch(new DeleteUser(id));
   }
 
   applyFilter(event: Event) {

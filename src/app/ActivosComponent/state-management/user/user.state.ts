@@ -1,7 +1,7 @@
 import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { Injectable } from '@angular/core';
 import { tap } from 'rxjs/operators';
-import { AddUser, GetUsers } from './user.actions';
+import { AddUser, DeleteUser, GetUsers, UpdateUser } from './user.actions';
 import { UserServiceService } from '../../services/user-service.service';
 import { UserModel } from '../../models/user.model';
 
@@ -43,6 +43,38 @@ export class UserState {
         const state = getState();
         patchState({
           users: [...state.users, user],
+        });
+      })
+    );
+  }
+
+  // Acción para actualizar usuario
+  @Action(UpdateUser)
+  updateUser({ getState, setState }: StateContext<UserStateModel>, { payload }: UpdateUser) {
+    return this.userService.updateUser(payload).pipe(
+      tap((updatedUser) => {
+        const state = getState();
+        const users = [...state.users];
+        const index = users.findIndex((user) => user.idUsuario === payload.idUsuario);
+        users[index] = updatedUser.data;
+        setState({
+          ...state,
+          users,
+        });
+      })
+    );
+  }
+
+  // Acción para eliminar usuario
+  @Action(DeleteUser)
+  deleteUser({ getState, setState }: StateContext<UserStateModel>, { id }: DeleteUser) {
+    return this.userService.deleteUser(id).pipe(
+      tap(() => {
+        const state = getState();
+        const filteredArray = state.users.filter((user) => user.idUsuario !== id);
+        setState({
+          ...state,
+          users: filteredArray,
         });
       })
     );
