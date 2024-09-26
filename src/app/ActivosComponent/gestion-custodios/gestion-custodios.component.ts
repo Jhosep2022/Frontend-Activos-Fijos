@@ -14,6 +14,8 @@ import { AddCustodio, DeleteCustodio, GetCustodio, UpdateCustodio } from '../sta
 import { Observable } from 'rxjs';
 import { Store } from '@ngxs/store';
 import { CustodiosState } from '../state-management/custodios/custodios.state';
+import { ProyectoModel } from '../models/proyecto.model';
+import { ProyectoState } from '../state-management/proyecto/proyecto.state';
 
 @Component({
   selector: 'app-gestion-custodios',
@@ -22,6 +24,7 @@ import { CustodiosState } from '../state-management/custodios/custodios.state';
   encapsulation: ViewEncapsulation.None,
 })
 export class GestionCustodiosComponent implements AfterViewInit {
+  proyectos$: Observable<ProyectoModel[]>; // Observable que contiene las empresas
   custodio: CustodiosModel = {
     idCustodio: 0,
     nombre: '',
@@ -51,7 +54,7 @@ export class GestionCustodiosComponent implements AfterViewInit {
     this.store.dispatch(new UpdateCustodio(this.custodio));
   }
 
-  roles$: Observable<CustodiosModel[]>;
+  custodios$: Observable<CustodiosModel[]>;
   //sidebar menu activation start
   menuSidebarActive: boolean = false;
   myfunction() {
@@ -72,7 +75,8 @@ export class GestionCustodiosComponent implements AfterViewInit {
   sort!: MatSort;
 
   constructor(private store: Store) {
-    this.roles$ = this.store.select(CustodiosState.getCustodios);
+    this.custodios$ = this.store.select(CustodiosState.getCustodios);
+    this.proyectos$ = this.store.select(ProyectoState.getProyectos);
   }
 
   ngAfterViewInit() {
@@ -121,8 +125,8 @@ export class GestionCustodiosComponent implements AfterViewInit {
     this.store.dispatch(new GetCustodio());
 
     // Suscríbete al observable para actualizar el dataSource
-    this.roles$.subscribe((roles) => {
-      this.dataSource.data = roles; // Asigna los datos al dataSource
+    this.custodios$.subscribe((custodios) => {
+      this.dataSource.data = custodios; // Asigna los datos al dataSource
     });
   }
 }

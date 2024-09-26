@@ -27,6 +27,16 @@ export const navbarDataEditor: INavbarData[] = [
     ],
   },
   {
+    routeLink: '/empresas',
+    icon: 'fal fa-ballot',
+    label: 'Empresas',
+  },
+  {
+    routeLink: '/areas',
+    icon: 'fal fa-ballot',
+    label: 'Areas',
+  },
+  {
     routeLink: '/proyectos',
     icon: 'fal fa-ballot',
     label: 'Proyectos',

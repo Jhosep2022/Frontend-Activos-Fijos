@@ -61,6 +61,11 @@ import { RolState } from "./state-management/rol/rol.state";
 import { DivisaState } from "./state-management/divisa/divisa.state";
 import { ActivoState } from "./state-management/activos/activos.state";
 import { CustodiosState } from "./state-management/custodios/custodios.state";
+import { GestionAreasComponent } from './gestion-areas/gestion-areas.component';
+import { GestionEmpresasComponent } from './gestion-empresas/gestion-empresas.component';
+import { EmpresasState } from "./state-management/empresa/empresa.state";
+import { AreasState } from "./state-management/area/area.state";
+import { ProyectoState } from "./state-management/proyecto/proyecto.state";
 
 @NgModule({
   imports: [
@@ -95,7 +100,7 @@ import { CustodiosState } from "./state-management/custodios/custodios.state";
     HttpClientModule,
     MatTableModule,
     DragDropModule,
-    NgxsModule.forRoot([RolState, UserState, DivisaState, ActivoState, CustodiosState]),  // Registra tu estado de usuarios
+    NgxsModule.forRoot([RolState, UserState, DivisaState, ActivoState, CustodiosState, EmpresasState, AreasState, ProyectoState]),  // Registra tu estado de usuarios
     NgxsLoggerPluginModule.forRoot(),
     NgxsReduxDevtoolsPluginModule.forRoot() 
   ],
@@ -125,6 +130,8 @@ import { CustodiosState } from "./state-management/custodios/custodios.state";
     GestionCustodiosComponent,
     GestionUbicacionesComponent,
     GestionRolesComponent,
+    GestionAreasComponent,
+    GestionEmpresasComponent,
   ],
 })
 export class ActivosProyectModule {}

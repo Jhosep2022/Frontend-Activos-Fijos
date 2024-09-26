@@ -75,6 +75,8 @@ import { GestionProyectosComponent } from './ActivosComponent/gestion-proyectos/
 import { GestionUbicacionesComponent } from './ActivosComponent/gestion-ubicaciones/gestion-ubicaciones.component';
 import { ActivoIndividualComponent } from './ActivosComponent/activo-individual/activo-individual.component';
 import { GestionRolesComponent } from './ActivosComponent/gestion-roles/gestion-roles.component';
+import { GestionAreasComponent } from './ActivosComponent/gestion-areas/gestion-areas.component';
+import { GestionEmpresasComponent } from './ActivosComponent/gestion-empresas/gestion-empresas.component';
 
 
 const routes: Routes = [ 
@@ -113,6 +115,14 @@ const routes: Routes = [
   {
     path: 'activos/registro',
     component: RegistroActivosComponent
+  },
+  {
+    path: 'empresas',
+    component: GestionEmpresasComponent
+  },
+  {
+    path: 'areas',
+    component: GestionAreasComponent
   },
   {
     path: 'custodios',
