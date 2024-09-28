@@ -1,4 +1,14 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { AulaModel, BloqueModel, DepartamentoModel, DireccionModel, MunicipioModel, PaisModel, ProvinciaModel, SucursalModel } from '../models/ubicacion.model';
+import { AddPais, DeletePais } from '../state-management/ubicacion/pais/pais.actions';
+import { AddDepartamento, DeleteDepartamento } from '../state-management/ubicacion/departamento/departamento.actions';
+import { AddProvincia, DeleteProvincia } from '../state-management/ubicacion/provincia/provincia.actions';
+import { AddMunicipio, DeleteMunicipio } from '../state-management/ubicacion/municipio/municipio.actions';
+import { AddSucursal, DeleteSucursal } from '../state-management/ubicacion/sucursal/sucursal.actions';
+import { AddBloque, DeleteBloque } from '../state-management/ubicacion/bloque/bloque.actions';
+import { AddAula, DeleteAula } from '../state-management/ubicacion/aula/aula.actions';
+import { AddDireccion, DeleteDireccion } from '../state-management/ubicacion/direccion/direccion.actions';
+import { Store } from '@ngxs/store';
 
 @Component({
   selector: 'app-gestion-ubicaciones',
@@ -7,6 +17,166 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
   encapsulation: ViewEncapsulation.None
 })
 export class GestionUbicacionesComponent implements OnInit {
+  pais: PaisModel = {
+    idPais: 0,
+    nombre: ''
+  };
+
+  departamento: DepartamentoModel = {
+    idDepartamento: 0,
+    nombre: '',
+    idPais: 0
+  };
+
+  provincia: ProvinciaModel = {
+    idProvincia: 0,
+    nombre: '',
+    idDepartamento: 0
+  };
+
+  municipio: MunicipioModel = {
+    idMunicipio: 0,
+    nombre: '',
+    idProvincia: 0
+  };
+
+  sucursal: SucursalModel = {
+    idSucursal: 0,
+    nombre: '',
+    idMunicipio: 0
+  };
+
+  bloque: BloqueModel = {
+    idBloque: 0,
+    nombre: '',
+    idSucursal: 0,
+    idDireccion: 0
+  };
+
+  aula: AulaModel = {
+    idAula: 0,
+    nombre: '',
+    idBloque: 0
+  };
+
+  direccion: DireccionModel = {
+    idDireccion: 0,
+    calle: '',
+    detalle: '',
+    zona: ''
+  };
+
+  agregarPais() {
+    this.store.dispatch(new AddPais(this.pais));
+    this.pais = {
+      idPais: 0,
+      nombre: ''
+    };
+  }
+
+  eliminarPais(id: number) {
+    this.store.dispatch(new DeletePais(id));
+  }
+
+  agregarDepartamento() {
+    this.store.dispatch(new AddDepartamento(this.departamento));
+    this.departamento = {
+      idDepartamento: 0,
+      nombre: '',
+      idPais: 0
+    };
+  }
+
+  eliminarDepartamento(id: number) {
+    this.store.dispatch(new DeleteDepartamento(id));
+  }
+
+
+  agregarProvincia() {
+    this.store.dispatch(new AddProvincia(this.provincia));
+    this.provincia = {
+      idProvincia: 0,
+      nombre: '',
+      idDepartamento: 0
+    };
+  }
+
+  eliminarProvincia(id: number) {
+    this.store.dispatch(new DeleteProvincia(id));
+  }
+
+
+  agregarMunicipio() {
+    this.store.dispatch(new AddMunicipio(this.municipio));
+    this.municipio = {
+      idMunicipio: 0,
+      nombre: '',
+      idProvincia: 0
+    };
+  }
+
+  eliminarMunicipio(id: number) {
+    this.store.dispatch(new DeleteMunicipio(id));
+  }
+
+
+  agregarSucursal() {
+    this.store.dispatch(new AddSucursal(this.sucursal));
+    this.sucursal = {
+      idSucursal: 0,
+      nombre: '',
+      idMunicipio: 0
+    };
+  }
+
+  eliminarSucursal(id: number) {
+    this.store.dispatch(new DeleteSucursal(id));
+  }
+
+
+  agregarBloque() {
+    this.store.dispatch(new AddBloque(this.bloque));
+    this.bloque = {
+      idBloque: 0,
+      nombre: '',
+      idSucursal: 0,
+      idDireccion: 0
+    };
+  }
+
+  eliminarBloque(id: number) {
+    this.store.dispatch(new DeleteBloque(id));
+  }
+
+
+  agregarAula() {
+    this.store.dispatch(new AddAula(this.aula));
+    this.aula = {
+      idAula: 0,
+      nombre: '',
+      idBloque: 0
+    };
+  }
+
+  eliminarAula(id: number) {
+    this.store.dispatch(new DeleteAula(id));
+  }
+
+
+  agregarDireccion() {
+    this.store.dispatch(new AddDireccion(this.direccion));
+    this.direccion = {
+      idDireccion: 0,
+      calle: '',
+      detalle: '',
+      zona: ''
+    };
+  }
+
+  eliminarDireccion(id: number) {
+    this.store.dispatch(new DeleteDireccion(id));
+  }
+
 
   //sidebar menu activation start
   menuSidebarActive:boolean=false;
@@ -22,7 +192,7 @@ export class GestionUbicacionesComponent implements OnInit {
   
   hide = true;
   
-    constructor() { }
+    constructor(private store: Store) { }
   
     ngOnInit(): void {}
   
