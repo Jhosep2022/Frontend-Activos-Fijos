@@ -8,7 +8,7 @@ import { ResponseModel } from '../../models/response.model';
   providedIn: 'root'
 })
 export class DepartamentoService {
-  private baseUrlDepartamento = 'http://localhost:8080/api/v1/departamento';
+  private baseUrlDepartamento = 'http://localhost:8080/api/v1/departamentos';
 
   constructor(private http: HttpClient) {}
   

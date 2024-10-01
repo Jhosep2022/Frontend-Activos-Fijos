@@ -8,7 +8,7 @@ import { MunicipioModel } from '../../models/ubicacion.model';
   providedIn: 'root'
 })
 export class MunicipioService {
-  private baseUrlMunicipio = 'http://localhost:8080/api/v1/municipio';
+  private baseUrlMunicipio = 'http://localhost:8080/api/v1/municipios';
 
   constructor(private http: HttpClient) {}
   

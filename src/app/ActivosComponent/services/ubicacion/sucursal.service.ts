@@ -8,7 +8,7 @@ import { SucursalModel } from '../../models/ubicacion.model';
   providedIn: 'root'
 })
 export class SucursalService {
-  private baseUrlSucursal = 'http://localhost:8080/api/v1/sucursal';
+  private baseUrlSucursal = 'http://localhost:8080/api/v1/sucursales';
 
   constructor(private http: HttpClient) {}
   

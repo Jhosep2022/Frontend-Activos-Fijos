@@ -8,7 +8,7 @@ import { ProvinciaModel } from '../../models/ubicacion.model';
   providedIn: 'root'
 })
 export class ProvinciaService {
-  private baseUrlProvincia = 'http://localhost:8080/api/v1/provincia';
+  private baseUrlProvincia = 'http://localhost:8080/api/v1/provincias';
 
   constructor(private http: HttpClient) {}
   

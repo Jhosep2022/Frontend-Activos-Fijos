@@ -66,6 +66,14 @@ import { GestionEmpresasComponent } from './gestion-empresas/gestion-empresas.co
 import { EmpresasState } from "./state-management/empresa/empresa.state";
 import { AreasState } from "./state-management/area/area.state";
 import { ProyectoState } from "./state-management/proyecto/proyecto.state";
+import { PaisState } from "./state-management/ubicacion/pais/pais.state";
+import { DepartamentoState } from "./state-management/ubicacion/departamento/departamento.state";
+import { ProvinciaState } from "./state-management/ubicacion/provincia/provincia.state";
+import { MunicipioState } from "./state-management/ubicacion/municipio/municipio.state";
+import { SucursalState } from "./state-management/ubicacion/sucursal/sucursal.state";
+import { BloqueState } from "./state-management/ubicacion/bloque/bloque.state";
+import { AulaState } from "./state-management/ubicacion/aula/aula.state";
+import { DireccionState } from "./state-management/ubicacion/direccion/direccion.state";
 
 @NgModule({
   imports: [
@@ -100,7 +108,7 @@ import { ProyectoState } from "./state-management/proyecto/proyecto.state";
     HttpClientModule,
     MatTableModule,
     DragDropModule,
-    NgxsModule.forRoot([RolState, UserState, DivisaState, ActivoState, CustodiosState, EmpresasState, AreasState, ProyectoState]),  // Registra tu estado de usuarios
+    NgxsModule.forRoot([RolState, UserState, DivisaState, ActivoState, CustodiosState, EmpresasState, AreasState, ProyectoState, PaisState, DepartamentoState, ProvinciaState, MunicipioState, SucursalState, BloqueState, AulaState, DireccionState]),  // Registra tu estado de usuarios
     NgxsLoggerPluginModule.forRoot(),
     NgxsReduxDevtoolsPluginModule.forRoot() 
   ],

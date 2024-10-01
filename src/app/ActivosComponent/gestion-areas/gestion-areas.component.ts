@@ -10,6 +10,7 @@ import { AddArea, DeleteArea, GetArea, UpdateArea } from '../state-management/ar
 import { AreasState } from '../state-management/area/area.state';
 import { EmpresasState } from '../state-management/empresa/empresa.state';
 import { EmpresaModel } from '../models/empresa.model';
+import { GetEmpresa } from '../state-management/empresa/empresa-action';
 
 @Component({
   selector: 'app-gestion-areas',
@@ -106,7 +107,7 @@ export class GestionAreasComponent implements AfterViewInit  {
   
   ngOnInit(): void {
     // Despacha la acción para obtener las áreas
-    this.store.dispatch(new GetArea());
+    this.store.dispatch([new GetArea(), new GetEmpresa()]);
   
     // Suscríbete al observable para actualizar el dataSource
     this.areas$.subscribe((areas) => {
