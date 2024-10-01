@@ -74,6 +74,14 @@ import { SucursalState } from "./state-management/ubicacion/sucursal/sucursal.st
 import { BloqueState } from "./state-management/ubicacion/bloque/bloque.state";
 import { AulaState } from "./state-management/ubicacion/aula/aula.state";
 import { DireccionState } from "./state-management/ubicacion/direccion/direccion.state";
+import { PaisDialogComponent } from './comunes/direccionDialogs/pais-dialog/pais-dialog.component';
+import { DepartamentoDialogComponent } from './comunes/direccionDialogs/departamento-dialog/departamento-dialog.component';
+import { ProvinciaDialogComponent } from './comunes/direccionDialogs/provincia-dialog/provincia-dialog.component';
+import { MunicipioDialogComponent } from './comunes/direccionDialogs/municipio-dialog/municipio-dialog.component';
+import { SucursalDialogComponent } from './comunes/direccionDialogs/sucursal-dialog/sucursal-dialog.component';
+import { BloqueDialogComponent } from './comunes/direccionDialogs/bloque-dialog/bloque-dialog.component';
+import { AulaDialogComponent } from './comunes/direccionDialogs/aula-dialog/aula-dialog.component';
+import { DireccionDialogComponent } from './comunes/direccionDialogs/direccion-dialog/direccion-dialog.component';
 
 @NgModule({
   imports: [
@@ -140,6 +148,14 @@ import { DireccionState } from "./state-management/ubicacion/direccion/direccion
     GestionRolesComponent,
     GestionAreasComponent,
     GestionEmpresasComponent,
+    PaisDialogComponent,
+    DepartamentoDialogComponent,
+    ProvinciaDialogComponent,
+    MunicipioDialogComponent,
+    SucursalDialogComponent,
+    BloqueDialogComponent,
+    AulaDialogComponent,
+    DireccionDialogComponent,
   ],
 })
 export class ActivosProyectModule {}
