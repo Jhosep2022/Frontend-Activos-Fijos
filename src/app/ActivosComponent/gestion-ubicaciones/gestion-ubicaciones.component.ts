@@ -18,6 +18,7 @@ import { SucursalState } from '../state-management/ubicacion/sucursal/sucursal.s
 import { BloqueState } from '../state-management/ubicacion/bloque/bloque.state';
 import { AulaState } from '../state-management/ubicacion/aula/aula.state';
 import { DireccionState } from '../state-management/ubicacion/direccion/direccion.state';
+import { DialogsAccessService } from '../services/dialogs/dialogs-access.service';
 
 @Component({
   selector: 'app-gestion-ubicaciones',
@@ -56,13 +57,13 @@ export class GestionUbicacionesComponent implements OnInit {
   municipio: MunicipioModel = {
     idMunicipio: 0,
     nombre: '',
-    idProvincia: 0
+    provinciaId: 0
   };
 
   sucursal: SucursalModel = {
     idSucursal: 0,
     nombre: '',
-    idMunicipio: 0
+    municipioId: 0
   };
 
   bloque: BloqueModel = {
@@ -85,111 +86,32 @@ export class GestionUbicacionesComponent implements OnInit {
     zona: ''
   };
 
-  agregarPais() {
-    this.store.dispatch(new AddPais(this.pais));
-    this.pais = {
-      idPais: 0,
-      nombre: ''
-    };
-  }
-
   eliminarPais(id: number) {
     this.store.dispatch(new DeletePais(id));
-  }
-
-  agregarDepartamento() {
-    this.store.dispatch(new AddDepartamento(this.departamento));
-    this.departamento = {
-      idDepartamento: 0,
-      nombre: '',
-      idPais: 0
-    };
   }
 
   eliminarDepartamento(id: number) {
     this.store.dispatch(new DeleteDepartamento(id));
   }
 
-
-  agregarProvincia() {
-    this.store.dispatch(new AddProvincia(this.provincia));
-    this.provincia = {
-      idProvincia: 0,
-      nombre: '',
-      idDepartamento: 0
-    };
-  }
-
   eliminarProvincia(id: number) {
     this.store.dispatch(new DeleteProvincia(id));
-  }
-
-
-  agregarMunicipio() {
-    this.store.dispatch(new AddMunicipio(this.municipio));
-    this.municipio = {
-      idMunicipio: 0,
-      nombre: '',
-      idProvincia: 0
-    };
   }
 
   eliminarMunicipio(id: number) {
     this.store.dispatch(new DeleteMunicipio(id));
   }
 
-
-  agregarSucursal() {
-    this.store.dispatch(new AddSucursal(this.sucursal));
-    this.sucursal = {
-      idSucursal: 0,
-      nombre: '',
-      idMunicipio: 0
-    };
-  }
-
   eliminarSucursal(id: number) {
     this.store.dispatch(new DeleteSucursal(id));
-  }
-
-
-  agregarBloque() {
-    this.store.dispatch(new AddBloque(this.bloque));
-    this.bloque = {
-      idBloque: 0,
-      nombre: '',
-      idSucursal: 0,
-      idDireccion: 0
-    };
   }
 
   eliminarBloque(id: number) {
     this.store.dispatch(new DeleteBloque(id));
   }
 
-
-  agregarAula() {
-    this.store.dispatch(new AddAula(this.aula));
-    this.aula = {
-      idAula: 0,
-      nombre: '',
-      idBloque: 0
-    };
-  }
-
   eliminarAula(id: number) {
     this.store.dispatch(new DeleteAula(id));
-  }
-
-
-  agregarDireccion() {
-    this.store.dispatch(new AddDireccion(this.direccion));
-    this.direccion = {
-      idDireccion: 0,
-      calle: '',
-      detalle: '',
-      zona: ''
-    };
   }
 
   eliminarDireccion(id: number) {
@@ -211,7 +133,7 @@ export class GestionUbicacionesComponent implements OnInit {
   
   hide = true;
   
-    constructor(private store: Store) {
+    constructor(private store: Store, public dialogsAccessService: DialogsAccessService) {
       this.paises$ = this.store.select(PaisState.getPaises);
       this.departamentos$ = this.store.select(DepartamentoState.getDepartamentos);
       this.provincias$ = this.store.select(ProvinciaState.getProvincias);

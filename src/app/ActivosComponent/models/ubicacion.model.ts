@@ -18,13 +18,13 @@ export interface ProvinciaModel {
 export interface MunicipioModel {
     idMunicipio: number;
     nombre: string;
-    idProvincia: number;
+    provinciaId: number;
 }
 
 export interface SucursalModel {
     idSucursal: number;
     nombre: string;
-    idMunicipio: number;
+    municipioId: number;
 }
 
 export interface BloqueModel {

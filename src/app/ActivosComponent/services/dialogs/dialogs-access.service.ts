@@ -8,6 +8,20 @@ import { DireccionDialogComponent } from '../../comunes/direccionDialogs/direcci
 import { MunicipioDialogComponent } from '../../comunes/direccionDialogs/municipio-dialog/municipio-dialog.component';
 import { ProvinciaDialogComponent } from '../../comunes/direccionDialogs/provincia-dialog/provincia-dialog.component';
 import { SucursalDialogComponent } from '../../comunes/direccionDialogs/sucursal-dialog/sucursal-dialog.component';
+import { AulaModel, BloqueModel, DepartamentoModel, DireccionModel, MunicipioModel, PaisModel, ProvinciaModel, SucursalModel } from '../../models/ubicacion.model';
+import {MAT_DIALOG_DATA, MatDialogRef, MatDialogModule} from '@angular/material/dialog';
+
+export interface DialogData {
+  pais: PaisModel;
+  departamento: DepartamentoModel;
+  provincia: ProvinciaModel;
+  municipio: MunicipioModel;
+  sucursal: SucursalModel;
+  bloque: BloqueModel;
+  aula: AulaModel;
+  direccion: DireccionModel;
+
+}
 
 @Injectable({
   providedIn: 'root'
@@ -16,28 +30,60 @@ export class DialogsAccessService {
 
   constructor(public dialog: MatDialog) {}
 
-  paisDialog(): void {    
-    this.dialog.open(PaisDialogComponent);
+  paisDialog(pais: PaisModel): void {
+    this.dialog.open(PaisDialogComponent, {
+      data: {
+        pais: pais
+      },
+    });
   }
-  departamentoDialog(): void {    
-    this.dialog.open(DepartamentoDialogComponent);
+  departamentoDialog(departamento: DepartamentoModel): void {
+    this.dialog.open(DepartamentoDialogComponent, {
+      data: {
+        departamento: departamento
+      },
+    });
   }
-  municipioDialog(): void {    
-    this.dialog.open(MunicipioDialogComponent);
+  municipioDialog(municipio: MunicipioModel): void {
+    this.dialog.open(MunicipioDialogComponent, {
+      data: {
+        municipio: municipio
+      },
+    });
   }
-  sucursalDialog(): void {    
-    this.dialog.open(SucursalDialogComponent);
+  sucursalDialog(sucursal: SucursalModel): void {
+    this.dialog.open(SucursalDialogComponent, {
+      data: {
+        sucursal: sucursal
+      },
+    });
   }
-  provinciaDialog(): void {    
-    this.dialog.open(ProvinciaDialogComponent);
+  provinciaDialog(provincia: ProvinciaModel): void {
+    this.dialog.open(ProvinciaDialogComponent, {
+      data: {
+        provincia: provincia
+      },
+    });
   }
-  bloqueDialog(): void {    
-    this.dialog.open(BloqueDialogComponent);
+  bloqueDialog(bloque: BloqueModel): void {
+    this.dialog.open(BloqueDialogComponent, {
+      data: {
+        bloque: bloque
+      },
+    });
   }
-  aulaDialog(): void {    
-    this.dialog.open(AulaDialogComponent);
+  aulaDialog(aula: AulaModel): void {
+    this.dialog.open(AulaDialogComponent, {
+      data: {
+        aula: aula
+      },
+    });
   }
-  direccionDialog(): void {    
-    this.dialog.open(DireccionDialogComponent);
+  direccionDialog(direccion: DireccionModel): void {
+    this.dialog.open(DireccionDialogComponent, {
+      data: {
+        direccion: direccion
+      },
+    });
   }
 }
