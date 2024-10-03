@@ -55,12 +55,18 @@
                 <div class="inventual-select-field-style">
                   <mat-form-field>
                     <mat-select class="block" [placeholder]="'Selecionar Departamento'" class="form-control" id="idDepartamento" [(ngModel)]="provincia.idDepartamento" name="idDepartamento">
-                      <mat-option *ngFor="let departamento of departamentos$ | async" [value]="departamento.idDepartamento">
-                        {{ departamento.nombre }}
-                      </mat-option>
-                      <mat-option value="otro" (click)="dialogsAccessService.departamentoDialog(departamento)">
-                        <button mat-raised-button color="primary">Nuevo Departamento</button>
-                      </mat-option>
+                      <ng-container *ngIf="departamento.idPais !== 0">
+                        <ng-container *ngFor="let departamentoS of departamentos$ | async">
+                          <ng-container *ngIf="departamentoS.idPais === departamento.idPais">
+                            <mat-option [value]="departamentoS.idDepartamento">
+                              {{ departamentoS.nombre }}
+                            </mat-option>
+                          </ng-container>
+                        </ng-container>
+                        <mat-option value="otro" (click)="dialogsAccessService.departamentoDialog(departamento)">
+                          <button mat-raised-button color="primary">Nuevo Departamento</button>
+                        </mat-option>
+                      </ng-container>
                     </mat-select>
                   </mat-form-field>
                 </div>
@@ -72,12 +78,18 @@
                 <div class="inventual-select-field-style">
                   <mat-form-field>
                     <mat-select class="block" [placeholder]="'Selecionar Provincia'" class="form-control" id="idProvincia" [(ngModel)]="municipio.provinciaId" name="idProvincia">
-                      <mat-option *ngFor="let provincia of provincias$ | async" [value]="provincia.idProvincia">
-                        {{ provincia.nombre }}
-                      </mat-option>
-                      <mat-option value="otro" (click)="dialogsAccessService.provinciaDialog(provincia)">
-                        <button mat-raised-button color="primary">Nueva Provincia</button>
-                      </mat-option>
+                      <ng-container *ngIf="provincia.idDepartamento !== 0">
+                        <ng-container *ngFor="let provinciaS of provincias$ | async">
+                          <ng-container *ngIf="provinciaS.idDepartamento === provincia.idDepartamento">
+                            <mat-option [value]="provinciaS.idProvincia">
+                              {{ provinciaS.nombre }}
+                            </mat-option>
+                          </ng-container>
+                        </ng-container>
+                        <mat-option value="otro" (click)="dialogsAccessService.provinciaDialog(provincia)">
+                          <button mat-raised-button color="primary">Nueva Provincia</button>
+                        </mat-option>
+                      </ng-container>
                     </mat-select>
                   </mat-form-field>
                 </div>
@@ -89,12 +101,18 @@
                 <div class="inventual-select-field-style">
                   <mat-form-field>
                     <mat-select class="block" [placeholder]="'Selecionar Municipio'" class="form-control" id="idMunicipio" [(ngModel)]="sucursal.municipioId" name="idMunicipio">
-                      <mat-option *ngFor="let municipio of municipios$ | async" [value]="municipio.idMunicipio">
-                        {{ municipio.nombre }}
-                      </mat-option>
-                      <mat-option value="otro" (click)="dialogsAccessService.municipioDialog(municipio)">
-                        <button mat-raised-button color="primary">Nuevo Municipio</button>
-                      </mat-option>
+                      <ng-container *ngIf="municipio.provinciaId !== 0">
+                        <ng-container *ngFor="let municipioS of municipios$ | async">
+                          <ng-container *ngIf="municipioS.provinciaId === municipio.provinciaId">
+                            <mat-option [value]="municipioS.idMunicipio">
+                              {{ municipioS.nombre }}
+                            </mat-option>
+                          </ng-container>
+                        </ng-container>
+                        <mat-option value="otro" (click)="dialogsAccessService.municipioDialog(municipio)">
+                          <button mat-raised-button color="primary">Nuevo Municipio</button>
+                        </mat-option>
+                      </ng-container>
                     </mat-select>
                   </mat-form-field>
                 </div>
@@ -106,12 +124,18 @@
                 <div class="inventual-select-field-style">
                   <mat-form-field>
                     <mat-select class="block" [placeholder]="'Selecionar Sucursal'" class="form-control" id="idSucursal" [(ngModel)]="bloque.idSucursal" name="idSucursal">
-                      <mat-option *ngFor="let sucursal of sucursales$ | async" [value]="sucursal.idSucursal">
-                        {{ sucursal.nombre }}
-                      </mat-option>
-                      <mat-option value="otro" (click)="dialogsAccessService.sucursalDialog(sucursal)">
-                        <button mat-raised-button color="primary">Nueva Sucursal</button>
-                      </mat-option>
+                      <ng-container *ngIf="sucursal.municipioId !== 0">
+                        <ng-container *ngFor="let sucursalS of sucursales$ | async">
+                          <ng-container *ngIf="sucursalS.municipioId === sucursal.municipioId">
+                            <mat-option [value]="sucursalS.idSucursal">
+                              {{ sucursalS.nombre }}
+                            </mat-option>
+                          </ng-container>
+                        </ng-container>
+                        <mat-option value="otro" (click)="dialogsAccessService.sucursalDialog(sucursal)">
+                          <button mat-raised-button color="primary">Nueva Sucursal</button>
+                        </mat-option>
+                      </ng-container>
                     </mat-select>
                   </mat-form-field>
                 </div>
@@ -123,12 +147,14 @@
                 <div class="inventual-select-field-style">
                   <mat-form-field>
                     <mat-select class="block" [placeholder]="'Selecionar Rol'" class="form-control" id="idDireccion" [(ngModel)]="bloque.idDireccion" name="idDireccion">
-                      <mat-option *ngFor="let direccion of direcciones$ | async" [value]="direccion.idDireccion">
-                        {{ direccion.zona+', '+direccion.calle+', '+direccion.detalle }}
-                      </mat-option>
-                      <mat-option value="otro" (click)="dialogsAccessService.direccionDialog(direccion)">
-                        <button mat-raised-button color="primary">Nueva Direccion</button>
-                      </mat-option>
+                      <ng-container *ngIf="bloque.idSucursal !== 0">
+                        <mat-option *ngFor="let direccion of direcciones$ | async" [value]="direccion.idDireccion">
+                          {{ direccion.zona+', '+direccion.calle+', '+direccion.detalle }}
+                        </mat-option>
+                        <mat-option value="otro" (click)="dialogsAccessService.direccionDialog(direccion)">
+                          <button mat-raised-button color="primary">Nueva Direccion</button>
+                        </mat-option>
+                      </ng-container>
                     </mat-select>
                   </mat-form-field>
                 </div>
@@ -140,12 +166,18 @@
                 <div class="inventual-select-field-style">
                   <mat-form-field>
                     <mat-select class="block" [placeholder]="'Selecionar Bloque'" class="form-control" id="idBloque" [(ngModel)]="aula.idBloque" name="idBloque">
-                      <mat-option *ngFor="let bloque of bloques$ | async" [value]="bloque.idBloque">
-                        {{ bloque.nombre }}
-                      </mat-option>
-                      <mat-option value="otro" (click)="dialogsAccessService.bloqueDialog(bloque)">
-                        <button mat-raised-button color="primary">Nuevo Bloque</button>
-                      </mat-option>
+                      <ng-container *ngIf="(bloque.idSucursal !== 0) && (bloque.idDireccion !== 0)">
+                        <ng-container *ngFor="let bloqueS of bloques$ | async">
+                          <ng-container *ngIf="bloqueS.idSucursal === bloque.idSucursal">
+                            <mat-option [value]="bloqueS.idBloque">
+                              {{ bloqueS.nombre }}
+                            </mat-option>
+                          </ng-container>
+                        </ng-container>
+                        <mat-option value="otro" (click)="dialogsAccessService.bloqueDialog(bloque)">
+                          <button mat-raised-button color="primary">Nuevo Bloque</button>
+                        </mat-option>
+                      </ng-container>
                     </mat-select>
                   </mat-form-field>
                 </div>
@@ -157,12 +189,18 @@
                 <div class="inventual-select-field-style">
                   <mat-form-field>
                     <mat-select class="block" [placeholder]="'Selecionar Aula'" class="form-control" id="idAula" name="idAula">
-                      <mat-option *ngFor="let aula of aulas$ | async" [value]="aula.idAula">
-                        {{ aula.nombre }}
-                      </mat-option>
-                      <mat-option value="otro" (click)="dialogsAccessService.aulaDialog(aula)">
-                        <button mat-raised-button color="primary">Nueva Aula</button>
-                      </mat-option>
+                      <ng-container *ngIf="(aula.idBloque !== 0)">
+                        <ng-container *ngFor="let aulaS of aulas$ | async">
+                          <ng-container *ngIf="aulaS.idBloque === aula.idBloque">
+                            <mat-option [value]="aulaS.idBloque">
+                              {{ aulaS.nombre }}
+                            </mat-option>
+                          </ng-container>
+                        </ng-container>
+                        <mat-option value="otro" (click)="dialogsAccessService.aulaDialog(aula)">
+                          <button mat-raised-button color="primary">Nueva Aula</button>
+                        </mat-option>
+                      </ng-container>
                     </mat-select>
                   </mat-form-field>
                 </div>
