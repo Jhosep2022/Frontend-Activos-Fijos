@@ -16,6 +16,7 @@ import { ProyectoState } from '../state-management/proyecto/proyecto.state';
 import { AreaModel } from '../models/area.model';
 import { AreasState } from '../state-management/area/area.state';
 import { DatePipe } from '@angular/common';
+import { GetArea } from '../state-management/area/area.action';
 
 @Component({
   selector: 'app-gestion-proyectos',
@@ -121,7 +122,7 @@ export class GestionProyectosComponent implements AfterViewInit {
 
   ngOnInit(): void {
     // Despacha la acción para obtener los roles
-    this.store.dispatch(new GetProyecto());
+    this.store.dispatch([new GetProyecto(), new GetArea()]);
 
     // Suscríbete al observable para actualizar el dataSource
     this.proyectos$.subscribe((proyectos) => {

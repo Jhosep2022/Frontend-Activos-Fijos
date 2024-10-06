@@ -5,6 +5,7 @@ import { UserModel } from '../models/user.model';
 import { Observable } from 'rxjs';
 import { RolState } from '../state-management/rol/rol.state';
 import { RolModel } from '../models/rol.model';
+import { GetRols } from '../state-management/rol/rol.actions';
 
 @Component({
   selector: 'app-registro-usuarios',
@@ -48,7 +49,9 @@ export class RegistroUsuariosComponent implements OnInit {
       this.roles$ = this.store.select(RolState.getRols);
     }
   
-    ngOnInit(): void {}
+    ngOnInit(): void {
+      this.store.dispatch(new GetRols());
+    }
   
   }
   

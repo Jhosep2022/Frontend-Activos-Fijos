@@ -38,22 +38,25 @@
                 <div class="inventual-input-field-style">
                   <mat-form-field class="w-full" [floatLabel]="'always'">
                     <mat-label class="hidden">Joseph Tylor</mat-label>
-                    <input matInput [placeholder]="'Juan Perez'">
+                    <input matInput [placeholder]="'Juan Perez'" type="text" class="form-control" id="nombre" [(ngModel)]="activo.nombre" name="nombre">
                   </mat-form-field>
                 </div>
               </div>
             </div> 
-            <div class="col-span-8 md:col-span-6 sm:col-span-12">
+            <div class="col-span-4 md:col-span-6 sm:col-span-12">
               <div class="inventual-select-field mb-5">
                 <h5 class="text-[15px] text-heading font-semibold mb-3">Proyecto</h5>
-                <div class="inventual-input-field-style">
-                  <mat-form-field class="w-full" [floatLabel]="'always'">
-                    <mat-label class="hidden">Joseph Tylor</mat-label>
-                    <input matInput [placeholder]="'Juan Perez'">
+                <div class="inventual-select-field-style">
+                  <mat-form-field>
+                    <mat-select class="block" [placeholder]="'Selecionar Proyecto'" class="form-control" id="idProyecto" [(ngModel)]="activo.idProyecto" name="idProyecto">
+                      <mat-option *ngFor="let proyecto of proyectos$ | async" [value]="proyecto.idProyecto">
+                        {{ proyecto.nombre }}
+                      </mat-option>
+                    </mat-select>
                   </mat-form-field>
                 </div>
               </div>
-            </div> 
+            </div>
             <div class="col-span-4 md:col-span-6 sm:col-span-12">
               <div class="inventual-select-field mb-5">
                 <h5 class="text-[15px] text-heading font-semibold mb-3">Fecha Adquisicion</h5>

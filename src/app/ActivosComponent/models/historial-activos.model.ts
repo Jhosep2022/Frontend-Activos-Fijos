@@ -1,4 +1,4 @@
-export interface HistorialActivos {
+export interface HistorialActivosModel {
   idHistorial: number;
   accion: string;
   valorActual: number;

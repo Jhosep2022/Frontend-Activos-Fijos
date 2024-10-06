@@ -82,6 +82,10 @@ import { SucursalDialogComponent } from './comunes/direccionDialogs/sucursal-dia
 import { BloqueDialogComponent } from './comunes/direccionDialogs/bloque-dialog/bloque-dialog.component';
 import { AulaDialogComponent } from './comunes/direccionDialogs/aula-dialog/aula-dialog.component';
 import { DireccionDialogComponent } from './comunes/direccionDialogs/direccion-dialog/direccion-dialog.component';
+import { GestionCategoriasComponent } from './gestion-categorias/gestion-categorias.component';
+import { GestionDepreciacionComponent } from './gestion-depreciacion/gestion-depreciacion.component';
+import { GestionEstadousoComponent } from './gestion-estadouso/gestion-estadouso.component';
+import { GestionIdentificadoresComponent } from './gestion-identificadores/gestion-identificadores.component';
 
 @NgModule({
   imports: [
@@ -156,6 +160,10 @@ import { DireccionDialogComponent } from './comunes/direccionDialogs/direccion-d
     BloqueDialogComponent,
     AulaDialogComponent,
     DireccionDialogComponent,
+    GestionCategoriasComponent,
+    GestionDepreciacionComponent,
+    GestionEstadousoComponent,
+    GestionIdentificadoresComponent,
   ],
 })
 export class ActivosProyectModule {}
