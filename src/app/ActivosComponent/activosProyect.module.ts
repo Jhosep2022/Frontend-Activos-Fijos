@@ -86,6 +86,10 @@ import { GestionCategoriasComponent } from './gestion-categorias/gestion-categor
 import { GestionDepreciacionComponent } from './gestion-depreciacion/gestion-depreciacion.component';
 import { GestionEstadousoComponent } from './gestion-estadouso/gestion-estadouso.component';
 import { GestionIdentificadoresComponent } from './gestion-identificadores/gestion-identificadores.component';
+import { CategoriaState } from "./state-management/categoria/categoria.state";
+import { DepreciacionState } from "./state-management/depreciaciones/depreciacion.state";
+import { IdentificadorState } from "./state-management/identificadores/identificadores.state";
+import { EstadoState } from "./state-management/estado/estado.state";
 
 @NgModule({
   imports: [
@@ -120,7 +124,7 @@ import { GestionIdentificadoresComponent } from './gestion-identificadores/gesti
     HttpClientModule,
     MatTableModule,
     DragDropModule,
-    NgxsModule.forRoot([RolState, UserState, DivisaState, ActivoState, CustodiosState, EmpresasState, AreasState, ProyectoState, PaisState, DepartamentoState, ProvinciaState, MunicipioState, SucursalState, BloqueState, AulaState, DireccionState]),  // Registra tu estado de usuarios
+    NgxsModule.forRoot([RolState, UserState, DivisaState, ActivoState, CustodiosState, EmpresasState, AreasState, ProyectoState, PaisState, DepartamentoState, ProvinciaState, MunicipioState, SucursalState, BloqueState, AulaState, DireccionState, CategoriaState, DepreciacionState, IdentificadorState, EstadoState]),  // Registra tu estado de usuarios
     NgxsLoggerPluginModule.forRoot(),
     NgxsReduxDevtoolsPluginModule.forRoot() 
   ],

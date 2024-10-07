@@ -51,4 +51,24 @@ export const navbarDataEditor: INavbarData[] = [
     icon: 'fal fa-ballot',
     label: 'Ubicaciones',
   },
+  {
+    routeLink: '/categorias',
+    icon: 'fal fa-ballot',
+    label: 'Categorias',
+  },
+  {
+    routeLink: '/depreciacion',
+    icon: 'fal fa-ballot',
+    label: 'Depreciaciones',
+  },
+  {
+    routeLink: '/estadouso',
+    icon: 'fal fa-ballot',
+    label: 'Estado de Uso',
+  },
+  {
+    routeLink: '/identificadores',
+    icon: 'fal fa-ballot',
+    label: 'Identificadores',
+  },
 ];

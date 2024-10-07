@@ -77,6 +77,10 @@ import { ActivoIndividualComponent } from './ActivosComponent/activo-individual/
 import { GestionRolesComponent } from './ActivosComponent/gestion-roles/gestion-roles.component';
 import { GestionAreasComponent } from './ActivosComponent/gestion-areas/gestion-areas.component';
 import { GestionEmpresasComponent } from './ActivosComponent/gestion-empresas/gestion-empresas.component';
+import { GestionCategoriasComponent } from './ActivosComponent/gestion-categorias/gestion-categorias.component';
+import { GestionDepreciacionComponent } from './ActivosComponent/gestion-depreciacion/gestion-depreciacion.component';
+import { GestionEstadousoComponent } from './ActivosComponent/gestion-estadouso/gestion-estadouso.component';
+import { GestionIdentificadoresComponent } from './ActivosComponent/gestion-identificadores/gestion-identificadores.component';
 
 
 const routes: Routes = [ 
@@ -139,6 +143,22 @@ const routes: Routes = [
   {
     path: 'editar/activo',
     component: ActivoIndividualComponent
+  },
+  {
+    path: 'categorias',
+    component: GestionCategoriasComponent
+  },
+  {
+    path: 'depreciacion',
+    component: GestionDepreciacionComponent
+  },
+  {
+    path: 'estadouso',
+    component: GestionEstadousoComponent
+  },
+  {
+    path: 'identificadores',
+    component: GestionIdentificadoresComponent
   },
   //Rutas de monedas
   {
