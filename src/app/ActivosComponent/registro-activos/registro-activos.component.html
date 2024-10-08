@@ -38,14 +38,25 @@
                 <div class="inventual-input-field-style">
                   <mat-form-field class="w-full" [floatLabel]="'always'">
                     <mat-label class="hidden">Joseph Tylor</mat-label>
-                    <input matInput [placeholder]="'Juan Perez'" type="text" class="form-control" id="nombre" [(ngModel)]="activo.nombre" name="nombre">
+                    <input matInput [placeholder]="'Ej. Mesas madera'" type="text" class="form-control" id="nombre" [(ngModel)]="activo.nombre" name="nombre">
                   </mat-form-field>
                 </div>
               </div>
             </div> 
             <div class="col-span-4 md:col-span-6 sm:col-span-12">
               <div class="inventual-select-field mb-5">
-                <h5 class="text-[15px] text-heading font-semibold mb-3">Proyecto</h5>
+                <h5 class="text-[15px] text-heading font-semibold mb-3">Detalle Activo</h5>
+                <div class="inventual-input-field-style">
+                  <mat-form-field class="w-full" [floatLabel]="'always'">
+                    <mat-label class="hidden">Joseph Tylor</mat-label>
+                    <input matInput [placeholder]="'Ej. Estas mesas son para alumnos'" type="text" class="form-control" id="detalle" [(ngModel)]="activo.detalle" name="detalle">
+                  </mat-form-field>
+                </div>
+              </div>
+            </div> 
+            <div class="col-span-4 md:col-span-6 sm:col-span-12">
+              <div class="inventual-select-field mb-5">
+                <h5 class="text-[15px] text-heading font-semibold mb-3">Proyecto del Activo</h5>
                 <div class="inventual-select-field-style">
                   <mat-form-field>
                     <mat-select class="block" [placeholder]="'Selecionar Proyecto'" class="form-control" id="idProyecto" [(ngModel)]="activo.idProyecto" name="idProyecto">
@@ -106,16 +117,16 @@
                   </mat-form-field>
                 </div>
               </div>
-            </div>        
+            </div>   
             <div class="col-span-4 md:col-span-6 sm:col-span-12">
               <div class="inventual-select-field mb-5">
                 <h5 class="text-[15px] text-heading font-semibold mb-3">Custodio</h5>
                 <div class="inventual-select-field-style">
                   <mat-form-field>
-                    <mat-select class="block" [placeholder]="'Selecionar Rol'">
-                      <mat-option value="language-1">Administrador</mat-option>
-                      <mat-option value="language-2">Editor</mat-option>
-                      <mat-option value="language-2">Lector</mat-option>
+                    <mat-select class="block" [placeholder]="'Selecionar Proyecto'" class="form-control" id="idCustodio" [(ngModel)]="activo.idCustodio" name="idCustodio">
+                      <mat-option *ngFor="let custodio of custodios$ | async" [value]="custodio.idCustodio">
+                        {{ custodio.nombre }}
+                      </mat-option>
                     </mat-select>
                   </mat-form-field>
                 </div>
@@ -123,41 +134,27 @@
             </div>
             <div class="col-span-4 md:col-span-6 sm:col-span-12">
               <div class="inventual-select-field mb-5">
-                <h5 class="text-[15px] text-heading font-semibold mb-3">Uso</h5>
+                <h5 class="text-[15px] text-heading font-semibold mb-3">Estado Uso</h5>
                 <div class="inventual-select-field-style">
                   <mat-form-field>
-                    <mat-select class="block" [placeholder]="'Selecionar Rol'">
-                      <mat-option value="language-1">Administrador</mat-option>
-                      <mat-option value="language-2">Editor</mat-option>
-                      <mat-option value="language-2">Lector</mat-option>
+                    <mat-select class="block" [placeholder]="'Selecionar Proyecto'" class="form-control" id="idEstadoactivo" [(ngModel)]="activo.idEstadoactivo" name="idEstadoactivo">
+                      <mat-option *ngFor="let estado of estados$ | async" [value]="estado.idEstado">
+                        {{ estado.nombre + " " + estado.descripcion}}
+                      </mat-option>
                     </mat-select>
                   </mat-form-field>
                 </div>
               </div>
             </div>
-            <div class="col-span-4 md:col-span-6 sm:col-span-12">
+            <div class="col-span-12 md:col-span-6 sm:col-span-12">
               <div class="inventual-select-field mb-5">
-                <h5 class="text-[15px] text-heading font-semibold mb-3">Estado</h5>
+                <h5 class="text-[15px] text-heading font-semibold mb-3">Categoria</h5>
                 <div class="inventual-select-field-style">
                   <mat-form-field>
-                    <mat-select class="block" [placeholder]="'Selecionar Rol'">
-                      <mat-option value="language-1">Administrador</mat-option>
-                      <mat-option value="language-2">Editor</mat-option>
-                      <mat-option value="language-2">Lector</mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                </div>
-              </div>
-            </div>
-            <div class="col-span-8 md:col-span-6 sm:col-span-12">
-              <div class="inventual-select-field mb-5">
-                <h5 class="text-[15px] text-heading font-semibold mb-3">Categoría (Legal)</h5>
-                <div class="inventual-select-field-style">
-                  <mat-form-field>
-                    <mat-select class="block" [placeholder]="'Selecionar Rol'">
-                      <mat-option value="language-1">Administrador</mat-option>
-                      <mat-option value="language-2">Editor</mat-option>
-                      <mat-option value="language-2">Lector</mat-option>
+                    <mat-select class="block" [placeholder]="'Selecionar Proyecto'" class="form-control" id="idCategoria" [(ngModel)]="activo.idCategoria" name="idCategoria">
+                      <mat-option *ngFor="let categoria of categorias$ | async" [value]="categoria.idCategoria">
+                        {{ categoria.nombre}}
+                      </mat-option>
                     </mat-select>
                   </mat-form-field>
                 </div>
@@ -168,10 +165,30 @@
                 <h5 class="text-[15px] text-heading font-semibold mb-3">Pais</h5>
                 <div class="inventual-select-field-style">
                   <mat-form-field>
-                    <mat-select class="block" [placeholder]="'Selecionar Rol'">
-                      <mat-option value="language-1">Administrador</mat-option>
-                      <mat-option value="language-2">Editor</mat-option>
-                      <mat-option value="language-2">Lector</mat-option>
+                    <mat-select class="block" [placeholder]="'Selecionar Pais'" class="form-control" id="idPais" [(ngModel)]="departamento.idPais" name="idPais">
+                      <mat-option *ngFor="let pais of paises$ | async" [value]="pais.idPais">
+                        {{ pais.nombre }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>              
+            </div>
+            <div class="col-span-4 md:col-span-6 sm:col-span-12">
+              <div class="inventual-select-field mb-5">
+                <h5 class="text-[15px] text-heading font-semibold mb-3">Departamento</h5>
+                <div class="inventual-select-field-style">
+                  <mat-form-field>
+                    <mat-select class="block" [placeholder]="'Selecionar Departamento'" class="form-control" id="idDepartamento" [(ngModel)]="provincia.idDepartamento" name="idDepartamento">
+                      <ng-container *ngIf="departamento.idPais !== 0">
+                        <ng-container *ngFor="let departamentoS of departamentos$ | async">
+                          <ng-container *ngIf="departamentoS.idPais === departamento.idPais">
+                            <mat-option [value]="departamentoS.idDepartamento">
+                              {{ departamentoS.nombre }}
+                            </mat-option>
+                          </ng-container>
+                        </ng-container>
+                      </ng-container>
                     </mat-select>
                   </mat-form-field>
                 </div>
@@ -179,13 +196,19 @@
             </div>
             <div class="col-span-4 md:col-span-6 sm:col-span-12">
               <div class="inventual-select-field mb-5">
-                <h5 class="text-[15px] text-heading font-semibold mb-3">Departamento/Estado</h5>
+                <h5 class="text-[15px] text-heading font-semibold mb-3">Provincia</h5>
                 <div class="inventual-select-field-style">
                   <mat-form-field>
-                    <mat-select class="block" [placeholder]="'Selecionar Rol'">
-                      <mat-option value="language-1">Administrador</mat-option>
-                      <mat-option value="language-2">Editor</mat-option>
-                      <mat-option value="language-2">Lector</mat-option>
+                    <mat-select class="block" [placeholder]="'Selecionar Provincia'" class="form-control" id="idProvincia" [(ngModel)]="municipio.provinciaId" name="idProvincia">
+                      <ng-container *ngIf="provincia.idDepartamento !== 0">
+                        <ng-container *ngFor="let provinciaS of provincias$ | async">
+                          <ng-container *ngIf="provinciaS.idDepartamento === provincia.idDepartamento">
+                            <mat-option [value]="provinciaS.idProvincia">
+                              {{ provinciaS.nombre }}
+                            </mat-option>
+                          </ng-container>
+                        </ng-container>
+                      </ng-container>
                     </mat-select>
                   </mat-form-field>
                 </div>
@@ -193,13 +216,19 @@
             </div>
             <div class="col-span-4 md:col-span-6 sm:col-span-12">
               <div class="inventual-select-field mb-5">
-                <h5 class="text-[15px] text-heading font-semibold mb-3">Municipio/Ciudad</h5>
+                <h5 class="text-[15px] text-heading font-semibold mb-3">Municipio</h5>
                 <div class="inventual-select-field-style">
                   <mat-form-field>
-                    <mat-select class="block" [placeholder]="'Selecionar Rol'">
-                      <mat-option value="language-1">Administrador</mat-option>
-                      <mat-option value="language-2">Editor</mat-option>
-                      <mat-option value="language-2">Lector</mat-option>
+                    <mat-select class="block" [placeholder]="'Selecionar Municipio'" class="form-control" id="idMunicipio" [(ngModel)]="sucursal.municipioId" name="idMunicipio">
+                      <ng-container *ngIf="municipio.provinciaId !== 0">
+                        <ng-container *ngFor="let municipioS of municipios$ | async">
+                          <ng-container *ngIf="municipioS.provinciaId === municipio.provinciaId">
+                            <mat-option [value]="municipioS.idMunicipio">
+                              {{ municipioS.nombre }}
+                            </mat-option>
+                          </ng-container>
+                        </ng-container>
+                      </ng-container>
                     </mat-select>
                   </mat-form-field>
                 </div>
@@ -210,49 +239,72 @@
                 <h5 class="text-[15px] text-heading font-semibold mb-3">Sucursal</h5>
                 <div class="inventual-select-field-style">
                   <mat-form-field>
-                    <mat-select class="block" [placeholder]="'Selecionar Rol'">
-                      <mat-option value="language-1">Administrador</mat-option>
-                      <mat-option value="language-2">Editor</mat-option>
-                      <mat-option value="language-2">Lector</mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                </div>
-              </div>
-            </div>
-            <div class="col-span-4 md:col-span-6 sm:col-span-12">
-              <div class="inventual-select-field mb-5">
-                <h5 class="text-[15px] text-heading font-semibold mb-3">Bloque/Edificio</h5>
-                <div class="inventual-select-field-style">
-                  <mat-form-field>
-                    <mat-select class="block" [placeholder]="'Selecionar Rol'">
-                      <mat-option value="language-1">Administrador</mat-option>
-                      <mat-option value="language-2">Editor</mat-option>
-                      <mat-option value="language-2">Lector</mat-option>
+                    <mat-select class="block" [placeholder]="'Selecionar Sucursal'" class="form-control" id="idSucursal" [(ngModel)]="bloque.idSucursal" name="idSucursal">
+                      <ng-container *ngIf="sucursal.municipioId !== 0">
+                        <ng-container *ngFor="let sucursalS of sucursales$ | async">
+                          <ng-container *ngIf="sucursalS.municipioId === sucursal.municipioId">
+                            <mat-option [value]="sucursalS.idSucursal">
+                              {{ sucursalS.nombre }}
+                            </mat-option>
+                          </ng-container>
+                        </ng-container>
+                      </ng-container>
                     </mat-select>
                   </mat-form-field>
                 </div>
               </div>
             </div> 
             <div class="col-span-4 md:col-span-6 sm:col-span-12">
-                <div class="inventual-select-field mb-5">
-                  <h5 class="text-[15px] text-heading font-semibold mb-3">Ubicacion Descripción</h5>
-                  <div class="inventual-input-field-style">
-                    <mat-form-field class="w-full" [floatLabel]="'always'">
-                      <mat-label class="hidden">Joseph Tylor</mat-label>
-                      <input matInput [placeholder]="'Juan Perez'">
-                    </mat-form-field>
-                  </div>
+              <div class="inventual-select-field mb-5">
+                <h5 class="text-[15px] text-heading font-semibold mb-3">Direccion</h5>
+                <div class="inventual-select-field-style">
+                  <mat-form-field>
+                    <mat-select class="block" [placeholder]="'Selecionar Rol'" class="form-control" id="idDireccion" [(ngModel)]="bloque.idDireccion" name="idDireccion">
+                      <ng-container *ngIf="bloque.idSucursal !== 0">
+                        <mat-option *ngFor="let direccion of direcciones$ | async" [value]="direccion.idDireccion">
+                          {{ direccion.zona+', '+direccion.calle+', '+direccion.detalle }}
+                        </mat-option>
+                      </ng-container>
+                    </mat-select>
+                  </mat-form-field>
                 </div>
+              </div>
             </div>
             <div class="col-span-4 md:col-span-6 sm:col-span-12">
               <div class="inventual-select-field mb-5">
-                <h5 class="text-[15px] text-heading font-semibold mb-3">Aula/Oficina</h5>
+                <h5 class="text-[15px] text-heading font-semibold mb-3">Bloque</h5>
                 <div class="inventual-select-field-style">
                   <mat-form-field>
-                    <mat-select class="block" [placeholder]="'Selecionar Rol'">
-                      <mat-option value="language-1">Administrador</mat-option>
-                      <mat-option value="language-2">Editor</mat-option>
-                      <mat-option value="language-2">Lector</mat-option>
+                    <mat-select class="block" [placeholder]="'Selecionar Bloque'" class="form-control" id="idBloque" [(ngModel)]="aula.idBloque" [(ngModel)]="activo.idBloque" name="idBloque">
+                      <ng-container *ngIf="(bloque.idSucursal !== 0) && (bloque.idDireccion !== 0)">
+                        <ng-container *ngFor="let bloqueS of bloques$ | async">
+                          <ng-container *ngIf="bloqueS.idSucursal === bloque.idSucursal">
+                            <mat-option [value]="bloqueS.idBloque">
+                              {{ bloqueS.nombre }}
+                            </mat-option>
+                          </ng-container>
+                        </ng-container>
+                      </ng-container>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+            <div class="col-span-4 md:col-span-6 sm:col-span-12">
+              <div class="inventual-select-field mb-5">
+                <h5 class="text-[15px] text-heading font-semibold mb-3">Aula</h5>
+                <div class="inventual-select-field-style">
+                  <mat-form-field>
+                    <mat-select class="block" [placeholder]="'Selecionar Aula'" class="form-control" [(ngModel)]="activo.idAula" id="idAula" name="idAula">
+                      <ng-container *ngIf="(aula.idBloque !== 0)">
+                        <ng-container *ngFor="let aulaS of aulas$ | async">
+                          <ng-container *ngIf="aulaS.idBloque === aula.idBloque">
+                            <mat-option [value]="aulaS.idAula">
+                              {{ aulaS.nombre }}
+                            </mat-option>
+                          </ng-container>
+                        </ng-container>
+                      </ng-container>
                     </mat-select>
                   </mat-form-field>
                 </div>
@@ -260,7 +312,7 @@
             </div>
             <div class="col-span-12">
               <div class="inventual-material-btn pt-2.5 justify-end">
-                <button mat-raised-button color="primary">Registrar Activo</button>
+                <button mat-raised-button color="primary" (click)="agregarActivo()">Registrar Activo</button>
               </div>
             </div>
           </div>
