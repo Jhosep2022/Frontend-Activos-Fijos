@@ -3,12 +3,13 @@ import { EstadosModel } from '../models/estadosUso.model';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ResponseModel } from '../models/response.model';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EstadoUsoService {
-  private baseUrlEstado = 'http://localhost:8080/api/v1/estadoActivo';
+  private baseUrlEstado = environment.apiUrl+'api/v1/estadoActivo';
 
   constructor(private http: HttpClient) {}
   

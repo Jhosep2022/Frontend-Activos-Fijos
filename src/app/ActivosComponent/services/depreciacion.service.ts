@@ -3,12 +3,13 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ResponseModel } from '../models/response.model';
 import { DepreciacionesModel } from '../models/depreciaciones.model';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DepreciacionService {
-  private baseUrlDepreciacion = 'http://localhost:8080/api/v1/depreciacion';
+  private baseUrlDepreciacion = environment.apiUrl+'api/v1/depreciacion';
 
   constructor(private http: HttpClient) {}
   

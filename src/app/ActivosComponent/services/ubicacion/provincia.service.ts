@@ -3,12 +3,13 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ResponseModel } from '../../models/response.model';
 import { ProvinciaModel } from '../../models/ubicacion.model';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProvinciaService {
-  private baseUrlProvincia = 'http://localhost:8080/api/v1/provincias';
+  private baseUrlProvincia = environment.apiUrl+'api/v1/provincias';
 
   constructor(private http: HttpClient) {}
   

@@ -3,12 +3,13 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ResponseModel } from '../models/response.model';
 import { DivisaModel } from '../models/divisa.model';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DivisaService {
-  private baseUrl = 'http://localhost:8080/api/v1/monedas';
+  private baseUrl = environment.apiUrl+'api/v1/monedas';
 
   constructor(private http: HttpClient) {}
 

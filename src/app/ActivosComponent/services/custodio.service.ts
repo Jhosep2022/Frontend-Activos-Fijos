@@ -3,12 +3,13 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ResponseModel } from '../models/response.model';
 import { CustodiosModel } from '../models/custodios.model';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CustodioService {
-  private baseUrl = 'http://localhost:8080/api/v1/custodio';
+  private baseUrl = environment.apiUrl+'api/v1/custodio';
 
   constructor(private http: HttpClient) {}
   

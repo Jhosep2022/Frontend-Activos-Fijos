@@ -3,12 +3,13 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ResponseModel } from '../../models/response.model';
 import { SucursalModel } from '../../models/ubicacion.model';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SucursalService {
-  private baseUrlSucursal = 'http://localhost:8080/api/v1/sucursales';
+  private baseUrlSucursal = environment.apiUrl+'api/v1/sucursales';
 
   constructor(private http: HttpClient) {}
   

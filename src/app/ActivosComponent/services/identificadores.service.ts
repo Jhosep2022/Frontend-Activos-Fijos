@@ -3,12 +3,13 @@ import { IdentificadoresModel } from '../models/identificadores.model';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ResponseModel } from '../models/response.model';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class IdentificadoresService {
-  private baseUrlIdentificadores = 'http://localhost:8080/api/v1/identificador';
+  private baseUrlIdentificadores = environment.apiUrl+'api/v1/identificador';
 
   constructor(private http: HttpClient) {}
   

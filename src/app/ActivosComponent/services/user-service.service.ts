@@ -3,12 +3,13 @@ import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { UserModel } from '../models/user.model';
 import { ResponseModel } from '../models/response.model';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserServiceService {
-  private baseUrl = 'http://localhost:8080/api/v1/usuario';
+  private baseUrl = environment.apiUrl+'api/v1/usuario';
 
   constructor(private http: HttpClient) {}
 

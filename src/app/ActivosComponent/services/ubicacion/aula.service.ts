@@ -3,12 +3,13 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ResponseModel } from '../../models/response.model';
 import { AulaModel } from '../../models/ubicacion.model';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AulaService {
-  private baseUrl = 'http://localhost:8080/api/v1/aula';
+  private baseUrl = environment.apiUrl+'api/v1/aula';
 
   constructor(private http: HttpClient) {}
   

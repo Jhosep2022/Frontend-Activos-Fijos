@@ -3,12 +3,13 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ResponseModel } from '../../models/response.model';
 import { BloqueModel, DepartamentoModel } from '../../models/ubicacion.model';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BloqueService {
-  private baseUrl = 'http://localhost:8080/api/v1/bloque';
+  private baseUrl = environment.apiUrl+'api/v1/bloque';
 
   constructor(private http: HttpClient) {}
   

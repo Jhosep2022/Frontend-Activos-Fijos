@@ -3,12 +3,13 @@ import { ActivosModel } from '../models/activos.model';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ResponseModel } from '../models/response.model';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ActivoService {
-  private baseUrl = 'http://localhost:8080/api/v1/activo';
+  private baseUrl = environment.apiUrl+'api/v1/activo';
 
   constructor(private http: HttpClient) {}
   

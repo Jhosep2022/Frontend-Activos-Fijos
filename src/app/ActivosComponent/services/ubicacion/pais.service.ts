@@ -3,12 +3,13 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ResponseModel } from '../../models/response.model';
 import { PaisModel } from '../../models/ubicacion.model';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PaisService {
-  private baseUrlPais = 'http://localhost:8080/api/v1/pais';
+  private baseUrlPais = environment.apiUrl+'api/v1/pais';
 
   constructor(private http: HttpClient) {}
   

@@ -3,11 +3,13 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ResponseModel } from '../models/response.model';
 import { AreaModel } from '../models/area.model';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AreaService {private baseUrl = 'http://localhost:8080/api/v1/area';
+export class AreaService {
+  private baseUrl = environment.apiUrl+'api/v1/area';
 
   constructor(private http: HttpClient) {}
   

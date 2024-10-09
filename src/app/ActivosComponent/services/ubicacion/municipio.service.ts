@@ -3,12 +3,13 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ResponseModel } from '../../models/response.model';
 import { MunicipioModel } from '../../models/ubicacion.model';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MunicipioService {
-  private baseUrlMunicipio = 'http://localhost:8080/api/v1/municipios';
+  private baseUrlMunicipio = environment.apiUrl+'api/v1/municipios';
 
   constructor(private http: HttpClient) {}
   

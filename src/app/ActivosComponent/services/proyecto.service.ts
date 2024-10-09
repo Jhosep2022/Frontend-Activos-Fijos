@@ -3,12 +3,13 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ResponseModel } from '../models/response.model';
 import { ProyectoModel } from '../models/proyecto.model';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProyectoService {
-  private baseUrl = 'http://localhost:8080/api/v1/proyecto';
+  private baseUrl = environment.apiUrl+'api/v1/proyecto';
 
 constructor(private http: HttpClient) {}
 

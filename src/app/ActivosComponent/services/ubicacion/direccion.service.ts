@@ -3,12 +3,13 @@ import { Injectable } from '@angular/core';
 import { ResponseModel } from '../../models/response.model';
 import { DireccionModel } from '../../models/ubicacion.model';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DireccionService {
-  private baseUrl = 'http://localhost:8080/api/v1/direccion';
+  private baseUrl = environment.apiUrl+'api/v1/direccion';
 
   constructor(private http: HttpClient) {}
   
