@@ -14,6 +14,7 @@ import { DeleteCurrency, GetCurrency } from '../state-management/divisa/divisa.a
 import { DivisaModel } from '../models/divisa.model';
 import { Observable } from 'rxjs';
 import { DivisaState } from '../state-management/divisa/divisa.state';
+import { PdfreportService } from '../services/reportes/pdfreport.service';
 
 @Component({
   selector: 'app-gestion-monedas',
@@ -25,7 +26,7 @@ export class GestionMonedasComponent implements AfterViewInit {
   divisas$: Observable<DivisaModel[]>;
   displayedColumns: string[] = [
     'select',
-    'id',
+    //'id',
     'name',
     'abreviacion',
     'valor',
@@ -39,13 +40,18 @@ export class GestionMonedasComponent implements AfterViewInit {
   @ViewChild(MatSort)
   sort!: MatSort;
 
-  constructor(private store: Store) {
+  constructor(private store: Store, public pdfreportService: PdfreportService) {
     this.divisas$ = this.store.select(DivisaState.getDivisa);
   }
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+  }
+
+  generarPDF() {
+    const monedasSeleccionados = this.selection.selected;
+    this.pdfreportService.divisapdf(monedasSeleccionados);
   }
 
   eliminarDivisa(id: number) {    

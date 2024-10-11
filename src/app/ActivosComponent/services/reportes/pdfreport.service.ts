@@ -43,7 +43,7 @@ export class PdfreportService {
     var fecha = new Date().toLocaleString();
     //doc.text('/n Fecha de generacion: '+fecha, 10, 10);
 
-    const columns = ['ID', 'Nombre','Valor','Abreviacion'];
+    const columns = ['ID', 'Nombre','Valor (Bs.)','Abreviacion'];
     const data = divisalist.map((divisa, index) => [
       divisa.idDivisa,
       divisa.nombre,

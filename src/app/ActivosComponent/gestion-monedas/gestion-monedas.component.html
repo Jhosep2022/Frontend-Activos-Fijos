@@ -49,28 +49,11 @@
                         </div>
                         <div class="col-span-7 md:col-span-6 sm:col-span-12">
                             <div class="inventual-table-header-search-action-btn text-end sm:text-start">
-                                <button type="button" class="filter" [matMenuTriggerFor]="beforeMenuA">
-                                    <app-filter-icon></app-filter-icon> Filtrar
-                                </button>
-                                <mat-menu #beforeMenuA="matMenu" xPosition="before">
-                                    <button mat-menu-item>
-                                        <span>Nombre</span>
-                                    </button>
-                                    <button mat-menu-item>
-                                        <span>Rol</span>
-                                    </button>
-                                    <button mat-menu-item>
-                                        <span>Estado</span>
-                                    </button>
-                                </mat-menu>
-                                <button type="button" class="pdf">
+                                <button matTooltip="Reporte PDF" type="button" class="pdf" (click)="generarPDF()">
                                     <app-pdf-icon></app-pdf-icon>
                                 </button>
-                                <button type="button" class="csv">
+                                <button matTooltip="Reporte Csv" type="button" class="csv">
                                     <app-csv-icon></app-csv-icon>
-                                </button>
-                                <button type="button" class="printer">
-                                    <app-printer-icon></app-printer-icon>
                                 </button>
                             </div>
                         </div>
