@@ -13,6 +13,10 @@ import { DeleteUser, GetUsers } from '../state-management/user/user.actions';
 import { Observable } from 'rxjs';
 import { UserState } from '../state-management/user/user.state';
 import { UserModel } from '../models/user.model';
+import { PdfreportService } from '../services/reportes/pdfreport.service';
+import { GetRols } from '../state-management/rol/rol.actions';
+import { RolState } from '../state-management/rol/rol.state';
+import { RolModel } from '../models/rol.model';
 
 @Component({
   selector: 'app-gestion-usuarios',
@@ -22,9 +26,11 @@ import { UserModel } from '../models/user.model';
 })
 export class GestionUsuariosComponent implements AfterViewInit {
   usuarios$: Observable<UserModel[]>;
+  roles$: Observable<RolModel[]>;
+  roles: RolModel[] = [];
   displayedColumns: string[] = [
     'select',
-    'idUsuario',
+    //'idUsuario',
     'nombre',
     'correo',
     'estado',
@@ -40,17 +46,42 @@ export class GestionUsuariosComponent implements AfterViewInit {
   @ViewChild(MatSort)
   sort!: MatSort;
 
-  constructor(private store: Store) {
+  constructor(private store: Store, public pdfreportService: PdfreportService) {
     this.usuarios$ = this.store.select(UserState.getUsers);
+    this.roles$ = this.store.select(RolState.getRols);
   }
+
+  generarPDF() {
+    const usuariosSeleccionados = this.selection.selected;
+    const roles = this.roles$; // Aquí debes asegurarte de que tienes los roles correctamente cargados
+  
+    // Suscribirse a los roles para obtener la lista y generar el PDF
+    roles.subscribe((rollist: RolModel[]) => {
+      this.pdfreportService.userpdf(usuariosSeleccionados, rollist);
+    });
+  }
+
+  // Función para obtener el nombre del rol por ID
+  getRolName(rolId: number): string {
+    if (!this.roles.length) {
+      return 'Cargando...'; // Si los roles aún no se han cargado
+    }
+    const rol = this.roles.find((r) => r.idRol === rolId);
+    return rol ? rol.nombre : 'Sin Rol';  // Devuelve el nombre del rol o "Sin Rol" si no se encuentra
+  }
+  
 
   ngOnInit(): void {
     // Despacha la acción para obtener los usuarios
-    this.store.dispatch(new GetUsers());
+    this.store.dispatch([new GetUsers(), new GetRols()]);
 
     // Suscríbete al observable para actualizar el dataSource
     this.usuarios$.subscribe((users) => {
       this.dataSource.data = users; // Asigna los datos al dataSource
+    });
+
+    this.roles$.subscribe((roles) => {
+      this.roles = roles;
     });
   }
 
@@ -95,7 +126,7 @@ export class GestionUsuariosComponent implements AfterViewInit {
     if (!row) {
       return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
     }
-    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.id + 1}`;
+    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.idUsuario + 1}`;
   }
 
   // Sidebar menu activation

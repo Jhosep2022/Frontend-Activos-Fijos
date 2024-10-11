@@ -38,7 +38,29 @@
                 <div class="inventual-input-field-style">
                   <mat-form-field class="w-full" [floatLabel]="'always'">
                     <mat-label class="hidden">Joseph Tylor</mat-label>
-                    <input matInput [placeholder]="'Juan Perez'" type="text" class="form-control" id="nombre" [(ngModel)]="user.nombre" name="name">
+                    <input matInput [placeholder]="'Ej. Juan'" type="text" class="form-control" id="nombre" [(ngModel)]="user.nombre" name="name">
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+            <div class="col-span-4 md:col-span-6 sm:col-span-12">
+              <div class="inventual-select-field mb-5">
+                <h5 class="text-[15px] text-heading font-semibold mb-3">Apellido Paterno</h5>
+                <div class="inventual-input-field-style">
+                  <mat-form-field class="w-full" [floatLabel]="'always'">
+                    <mat-label class="hidden">Joseph Tylor</mat-label>
+                    <input matInput [placeholder]="'Ej. Perez'" type="text" class="form-control" id="apellidoPaterno" [(ngModel)]="user.apellidoPaterno" name="apellidoPaterno">
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+            <div class="col-span-4 md:col-span-6 sm:col-span-12">
+              <div class="inventual-select-field mb-5">
+                <h5 class="text-[15px] text-heading font-semibold mb-3">Apellido Materno</h5>
+                <div class="inventual-input-field-style">
+                  <mat-form-field class="w-full" [floatLabel]="'always'">
+                    <mat-label class="hidden">Joseph Tylor</mat-label>
+                    <input matInput [placeholder]="'Ej. Paredes'" type="text" class="form-control" id="apellidoMaterno" [(ngModel)]="user.apellidoMaterno" name="apellidoMaterno">
                   </mat-form-field>
                 </div>
               </div>
@@ -82,27 +104,13 @@
             </div>
             <div class="col-span-4 md:col-span-6 sm:col-span-12">
               <div class="inventual-select-field mb-5">
-                <h5 class="text-[15px] text-heading font-semibold mb-3">Role</h5>
+                <h5 class="text-[15px] text-heading font-semibold mb-3">Rol</h5>
                 <div class="inventual-select-field-style">
                   <mat-form-field>
                     <mat-select class="block" [placeholder]="'Selecionar Rol'" class="form-control" id="rolId" [(ngModel)]="user.rolId" name="rolId">
                       <mat-option *ngFor="let rol of roles$ | async" [value]="rol.idRol">
                         {{ rol.nombre }}
                       </mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                </div>
-              </div>
-            </div>
-            <div class="col-span-4 md:col-span-6 sm:col-span-12">
-              <div class="inventual-select-field mb-5">
-                <h5 class="text-[15px] text-heading font-semibold mb-3">Area</h5>
-                <div class="inventual-select-field-style">
-                  <mat-form-field>
-                    <mat-select class="block" [placeholder]="'Selecionar Area'">
-                      <mat-option value="language-1">Contabilidad</mat-option>
-                      <mat-option value="language-2">Tesoreria</mat-option>
-                      <mat-option value="language-2">Academico</mat-option>
                     </mat-select>
                   </mat-form-field>
                 </div>

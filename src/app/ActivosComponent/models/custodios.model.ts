@@ -5,4 +5,5 @@ export interface CustodiosModel {
     apellidoMaterno: string;
     correo: string;
     telefono: string;
+    ci: string;
   }

@@ -22,7 +22,9 @@ export class RegistroUsuariosComponent implements OnInit {
     correo: '',
     estado: true,
     telefono: '',
-    rolId: 0
+    rolId: 0,
+    apellidoPaterno: '',
+    apellidoMaterno: ''
   };
 
   //sidebar menu activation start
@@ -39,6 +41,17 @@ export class RegistroUsuariosComponent implements OnInit {
   agregarUsuario() {
     console.log(this.user);
     this.store.dispatch(new AddUser(this.user));
+    this.user = {
+      idUsuario: 0,
+      nombre: '',
+      password: '',
+      correo: '',
+      estado: true,
+      telefono: '',
+      rolId: 0,
+      apellidoPaterno: '',
+      apellidoMaterno: ''
+    };
   }
 
   //sidebar menu activation end

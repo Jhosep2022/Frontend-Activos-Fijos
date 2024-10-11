@@ -6,7 +6,7 @@
         <div class="inventual-select-field mb-5">
             <div class="inventual-input-field-style">
               <mat-form-field class="w-full" [floatLabel]="'always'">
-                <mat-label class="hidden">Joseph Tylor</mat-label>
+                <mat-label class="hidden">Correo</mat-label>
                 <input matInput [placeholder]="'Correo'" type="text" class="form-control" id="correo" [(ngModel)]="loginUser.correo" name="correo">
               </mat-form-field>
               <caption><mat-icon>person_outline</mat-icon></caption>
@@ -29,17 +29,7 @@
         </div>
         <div class="inventual-login-btn mb-7">
             <div class="inventual-material-btn">
-                <button [routerLink]="['/usuarios/lista']" type="submit" mat-raised-button color="primary" (click)="iniciarSesion()">Iniciar sesión (Admin)</button>
-            </div>
-        </div>
-        <div class="inventual-login-btn mb-7">
-            <div class="inventual-material-btn">
-                <button [routerLink]="['/usuarios/lista']" type="submit" mat-raised-button color="primary" (click)="iniciarSesion()">Iniciar sesión (Editor)</button>
-            </div>
-        </div>
-        <div class="inventual-login-btn mb-7">
-            <div class="inventual-material-btn">
-                <button [routerLink]="['/usuarios/lista']" type="submit" mat-raised-button color="primary" (click)="iniciarSesion()">Iniciar sesión (Lector)</button>
+                <button type="submit" mat-raised-button color="primary" (click)="iniciarSesion()">Iniciar sesión</button>
             </div>
         </div>
         <!--

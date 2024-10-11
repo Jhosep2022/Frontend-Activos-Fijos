@@ -1,6 +1,8 @@
 export interface UserModel {
     idUsuario: number;
     nombre: string;
+    apellidoPaterno: string;
+    apellidoMaterno: string;
     password: string;
     correo: string;
     estado: boolean;

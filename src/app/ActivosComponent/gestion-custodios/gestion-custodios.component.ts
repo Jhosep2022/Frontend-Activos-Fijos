@@ -8,7 +8,6 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
-import { RoleInterfaceData, roleData } from 'src/app/inventual/data/roleData';
 import { CustodiosModel } from '../models/custodios.model';
 import { AddCustodio, DeleteCustodio, GetCustodio, UpdateCustodio } from '../state-management/custodios/custodios.action';
 import { Observable } from 'rxjs';
@@ -31,7 +30,8 @@ export class GestionCustodiosComponent implements AfterViewInit {
     apellidoPaterno: '',
     apellidoMaterno: '',
     correo: '',
-    telefono: ''
+    telefono: '',
+    ci: ''
   };
 
   agregarCustodio() {
@@ -42,7 +42,8 @@ export class GestionCustodiosComponent implements AfterViewInit {
       apellidoPaterno: '',
       apellidoMaterno: '',
       correo: '',
-      telefono: ''
+      telefono: '',
+      ci: ''
     };
   }
 
@@ -65,7 +66,7 @@ export class GestionCustodiosComponent implements AfterViewInit {
     }
   }
   //sidebar menu activation end
-  displayedColumns: string[] = ['select', 'nombrecompleto', 'telefono', 'correo', 'accion'];
+  displayedColumns: string[] = ['select', 'nombrecompleto', 'ci', 'telefono', 'correo', 'accion'];
   dataSource: MatTableDataSource<CustodiosModel> = new MatTableDataSource(); // Cambiado el tipo a `any`
   selection = new SelectionModel<CustodiosModel>(true, []);
 

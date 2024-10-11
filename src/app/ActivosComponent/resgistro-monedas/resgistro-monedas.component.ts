@@ -13,7 +13,8 @@ export class ResgistroMonedasComponent implements OnInit {
   divisa: DivisaModel = {
     idDivisa: 0,
     valor: 0,
-    nombre: ''
+    nombre: '',
+    abreviacion: ''
   };
 
   agregarMoneda() {
@@ -21,7 +22,8 @@ export class ResgistroMonedasComponent implements OnInit {
     this.divisa = {
       idDivisa: 0,
       valor: 0,
-      nombre: ''
+      nombre: '',
+      abreviacion: ''
     };
   }
 

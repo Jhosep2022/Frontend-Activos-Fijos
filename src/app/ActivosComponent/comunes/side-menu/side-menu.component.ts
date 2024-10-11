@@ -70,10 +70,10 @@ export class SideMenuComponent implements OnInit {
     if(localStorage.getItem('roleId') == '1'){
       this.navData = navbarData;
     }  
-    if(localStorage.getItem('roleId') == '3'){
+    if(localStorage.getItem('roleId') == '2'){
       this.navData = navbarDataEditor;
     }  
-    if(localStorage.getItem('roleId') == '21'){
+    if(localStorage.getItem('roleId') == '3'){
       this.navData = navbarDataLector;
     }
   }
