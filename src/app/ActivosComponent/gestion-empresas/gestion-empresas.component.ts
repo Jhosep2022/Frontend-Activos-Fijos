@@ -8,6 +8,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { Store } from '@ngxs/store';
 import { EmpresasState } from '../state-management/empresa/empresa.state';
+import { PdfreportService } from '../services/reportes/pdfreport.service';
 
 @Component({
   selector: 'app-gestion-empresas',
@@ -59,13 +60,18 @@ export class GestionEmpresasComponent {
   @ViewChild(MatSort)
   sort!: MatSort;
   
-  constructor(private store: Store) {
+  constructor(private store: Store, public pdfreportService: PdfreportService) {
     this.empresas$ = this.store.select(EmpresasState.getEmpresas);
   }
   
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+  }
+
+  generarPDF() {
+    const empresasSeleccionados = this.selection.selected;
+    this.pdfreportService.empresapdf(empresasSeleccionados);
   }
   
   applyFilter(event: Event) {

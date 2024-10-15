@@ -15,6 +15,7 @@ import { Store } from '@ngxs/store';
 import { CustodiosState } from '../state-management/custodios/custodios.state';
 import { ProyectoModel } from '../models/proyecto.model';
 import { ProyectoState } from '../state-management/proyecto/proyecto.state';
+import { PdfreportService } from '../services/reportes/pdfreport.service';
 
 @Component({
   selector: 'app-gestion-custodios',
@@ -75,7 +76,7 @@ export class GestionCustodiosComponent implements AfterViewInit {
   @ViewChild(MatSort)
   sort!: MatSort;
 
-  constructor(private store: Store) {
+  constructor(private store: Store, public pdfreportService: PdfreportService) {
     this.custodios$ = this.store.select(CustodiosState.getCustodios);
     this.proyectos$ = this.store.select(ProyectoState.getProyectos);
   }
@@ -129,5 +130,10 @@ export class GestionCustodiosComponent implements AfterViewInit {
     this.custodios$.subscribe((custodios) => {
       this.dataSource.data = custodios; // Asigna los datos al dataSource
     });
+  }
+
+  generarPDF() {
+    const custodiosSeleccionados = this.selection.selected;
+    this.pdfreportService.custodiospdf(custodiosSeleccionados);
   }
 }

@@ -19,6 +19,7 @@ import { BloqueState } from '../state-management/ubicacion/bloque/bloque.state';
 import { AulaState } from '../state-management/ubicacion/aula/aula.state';
 import { DireccionState } from '../state-management/ubicacion/direccion/direccion.state';
 import { DialogsAccessService } from '../services/dialogs/dialogs-access.service';
+import { PdfreportService } from '../services/reportes/pdfreport.service';
 
 @Component({
   selector: 'app-gestion-ubicaciones',
@@ -36,6 +37,15 @@ export class GestionUbicacionesComponent implements OnInit {
   bloques$: Observable<BloqueModel[]>;
   aulas$: Observable<AulaModel[]>;
   direcciones$: Observable<DireccionModel[]>;
+
+  paiseslist: PaisModel[] = [];
+  departamentoslist: DepartamentoModel[] = [];
+  provinciaslist: ProvinciaModel[] = [];
+  municipioslist: MunicipioModel[] = [];
+  sucursaleslist: SucursalModel[] = [];
+  bloqueslist: BloqueModel[] = [];
+  aulaslist: AulaModel[] = [];
+  direccioneslist: DireccionModel[] = [];
 
   pais: PaisModel = {
     idPais: 0,
@@ -133,7 +143,7 @@ export class GestionUbicacionesComponent implements OnInit {
   
   hide = true;
   
-    constructor(private store: Store, public dialogsAccessService: DialogsAccessService) {
+    constructor(private store: Store, public dialogsAccessService: DialogsAccessService, public pdfreportService: PdfreportService) {
       this.paises$ = this.store.select(PaisState.getPaises);
       this.departamentos$ = this.store.select(DepartamentoState.getDepartamentos);
       this.provincias$ = this.store.select(ProvinciaState.getProvincias);
@@ -147,6 +157,35 @@ export class GestionUbicacionesComponent implements OnInit {
     ngOnInit(): void {
       // Despacha la acción para obtener los roles
       this.store.dispatch([new GetPais(), new GetDepartamento(), new GetProvincia(), new GetMunicipio(), new GetSucursal(), new GetBloque(), new GetAula(), new GetDireccion()]);
+    }
+
+    generarPDF() {
+      this.paises$.subscribe((paises: PaisModel[]) => {
+        this.paiseslist = paises;
+      });
+      this.departamentos$.subscribe((departamentos: DepartamentoModel[]) => {
+        this.departamentoslist = departamentos;
+      });
+      this.provincias$.subscribe((provincias: ProvinciaModel[]) => {
+        this.provinciaslist = provincias;
+      });
+      this.municipios$.subscribe((municipios: MunicipioModel[]) => {
+        this.municipioslist = municipios;
+      });
+      this.sucursales$.subscribe((sucursales: SucursalModel[]) => {
+        this.sucursaleslist = sucursales;
+      });
+      this.bloques$.subscribe((bloques: BloqueModel[]) => {
+        this.bloqueslist = bloques;
+      });
+      this.aulas$.subscribe((aulas: AulaModel[]) => {
+        this.aulaslist = aulas;
+      });
+      this.direcciones$.subscribe((direcciones: DireccionModel[]) => {
+        this.direccioneslist = direcciones;
+      });
+
+      this.pdfreportService.ubicacionespdf(this.paiseslist, this.departamentoslist, this.provinciaslist, this.municipioslist, this.sucursaleslist, this.bloqueslist, this.aulaslist, this.direccioneslist);
     }
   
   }

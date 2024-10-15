@@ -8,6 +8,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Store } from '@ngxs/store';
+import { PdfreportService } from '../services/reportes/pdfreport.service';
 
 @Component({
   selector: 'app-gestion-categorias',
@@ -56,13 +57,18 @@ export class GestionCategoriasComponent implements AfterViewInit {
   @ViewChild(MatSort)
   sort!: MatSort;
 
-  constructor(private store: Store) {
+  constructor(private store: Store, public pdfreportService: PdfreportService) {
     this.categorias$ = this.store.select(CategoriaState.getCategorias);
   }
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+  }
+
+  generarPDF() {
+    const categoriasSeleccionados = this.selection.selected;
+    this.pdfreportService.categoriaspdf(categoriasSeleccionados);
   }
 
   applyFilter(event: Event) {

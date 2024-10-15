@@ -17,6 +17,7 @@ import { AreaModel } from '../models/area.model';
 import { AreasState } from '../state-management/area/area.state';
 import { DatePipe } from '@angular/common';
 import { GetArea } from '../state-management/area/area.action';
+import { PdfreportService } from '../services/reportes/pdfreport.service';
 
 @Component({
   selector: 'app-gestion-proyectos',
@@ -74,7 +75,7 @@ export class GestionProyectosComponent implements AfterViewInit {
   @ViewChild(MatSort)
   sort!: MatSort;
 
-  constructor(private store: Store, private datePipe: DatePipe) {
+  constructor(private store: Store, private datePipe: DatePipe, public pdfreportService: PdfreportService) {
     this.proyectos$ = this.store.select(ProyectoState.getProyectos);
     this.areas$ = this.store.select(AreasState.getAreas);
   }
@@ -128,4 +129,16 @@ export class GestionProyectosComponent implements AfterViewInit {
     this.proyectos$.subscribe((proyectos) => {
       this.dataSource.data = proyectos; // Asigna los datos al dataSource
     });
-  }}
+  }
+
+  generarPDF() {
+    const proyectosSeleccionados = this.selection.selected;
+    const areas = this.areas$; // Aquí debes asegurarte de que tienes los roles correctamente cargados
+  
+    // Suscribirse a los roles para obtener la lista y generar el PDF
+    areas.subscribe((arealist: AreaModel[]) => {
+      this.pdfreportService.proyectopdf(proyectosSeleccionados, arealist);
+    });
+  }
+
+}

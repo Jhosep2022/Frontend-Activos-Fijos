@@ -128,7 +128,6 @@ export class RegistroActivosComponent implements OnInit {
     idCustodio: 0,
     idDepreciacion: 2,
     idEstadoactivo: 0,
-    idIdentificador: 2,
     idProyecto: 0
   };
 
@@ -158,7 +157,6 @@ export class RegistroActivosComponent implements OnInit {
       idCustodio: 0,
       idDepreciacion: 2,
       idEstadoactivo: 0,
-      idIdentificador: 2,
       idProyecto: 0
     };
   }

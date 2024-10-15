@@ -8,6 +8,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
+import { PdfreportService } from '../services/reportes/pdfreport.service';
 
 @Component({
   selector: 'app-gestion-estadouso',
@@ -58,7 +59,7 @@ export class GestionEstadousoComponent implements AfterViewInit {
   @ViewChild(MatSort)
   sort!: MatSort;
 
-  constructor(private store: Store) {
+  constructor(private store: Store, public pdfreportService: PdfreportService) {
     this.estados$ = this.store.select(EstadoState.getEstados);
   }
 
@@ -111,5 +112,10 @@ export class GestionEstadousoComponent implements AfterViewInit {
     this.estados$.subscribe((estados) => {
       this.dataSource.data = estados; // Asigna los datos al dataSource
     });
+  }
+
+  generarPDF() {
+    const estadosSeleccionados = this.selection.selected;
+    this.pdfreportService.estadospdf(estadosSeleccionados);
   }
 }

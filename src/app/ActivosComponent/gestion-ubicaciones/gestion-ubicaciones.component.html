@@ -32,6 +32,15 @@
       <div class="inventual-content-area px-7">
         <div class="inventual-addsupplier-area bg-white p-7 custom-shadow rounded-8 mb-5">
           <div class="grid grid-cols-12 gap-x-7 sm:gap-x-0">
+            <div class="col-span-12 md:col-span-6 sm:col-span-12">
+              <div class="inventual-select-field mb-5">
+                <h5 class="text-[15px] text-heading font-semibold mb-3">Reportes</h5>
+                <div class="inventual-select-field-style">
+                  <button mat-raised-button color="primary" style="margin-right: 10px;" (click)="generarPDF()"><app-pdf-icon></app-pdf-icon> Reporte PDF</button>
+                  <button mat-raised-button color="primary"><app-csv-icon></app-csv-icon> Reporte CSV</button>
+                </div>
+              </div>              
+            </div>
             <div class="col-span-4 md:col-span-6 sm:col-span-12">
               <div class="inventual-select-field mb-5">
                 <h5 class="text-[15px] text-heading font-semibold mb-3">Pais</h5>

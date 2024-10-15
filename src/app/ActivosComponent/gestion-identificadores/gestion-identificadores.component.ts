@@ -18,7 +18,8 @@ export class GestionIdentificadoresComponent implements AfterViewInit {
   identificador: IdentificadoresModel = {
     idIdentificador: 0,
     codigoQr: '',
-    codigoBarra: ''
+    codigoBarra: '',
+    idActivo: 0
   };
 
   agregarIdentificador() {
@@ -26,7 +27,8 @@ export class GestionIdentificadoresComponent implements AfterViewInit {
     this.identificador = {
       idIdentificador: 0,
       codigoQr: '',
-      codigoBarra: ''
+      codigoBarra: '',
+      idActivo: 0
     };
   }
 

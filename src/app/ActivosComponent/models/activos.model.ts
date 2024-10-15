@@ -14,6 +14,6 @@ export interface ActivosModel {
     idCustodio: number;
     idDepreciacion: number;
     idEstadoactivo: number;
-    idIdentificador: number;
+    //idIdentificador: number;
     idProyecto: number;
 }
