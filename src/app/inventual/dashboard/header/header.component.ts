@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { UserModel } from 'src/app/ActivosComponent/models/user.model';
+import { UserServiceService } from 'src/app/ActivosComponent/services/user-service.service';
 
 @Component({
   selector: 'app-header',
@@ -6,91 +8,70 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
-//short menu activation start
-menuShortcutActive:boolean=false;
-shortmenu(){
-  if(this.menuShortcutActive==false){
-    this.menuShortcutActive=true;
-    this.emailShortcutActive=false;
-    this.notifyShortcutActive=false;
-    this.langShortcutActive=false;
-    this.proShortcutActive=false;
-  }
-  else {
-    this.menuShortcutActive=false;
-  }
-}
-//short menu activation end
+  menuShortcutActive: boolean = false;
+  notifyShortcutActive: boolean = false;
+  emailShortcutActive: boolean = false;
+  langShortcutActive: boolean = false;
+  proShortcutActive: boolean = false;
 
-//short menu activation start
-notifyShortcutActive:boolean=false;
-notifydropdown(){
-  if(this.notifyShortcutActive==false){
-    this.menuShortcutActive=false;
-    this.emailShortcutActive=false;
-    this.notifyShortcutActive=true;
-    this.langShortcutActive=false;
-    this.proShortcutActive=false;
-  }
-  else {
-    this.notifyShortcutActive=false;
-  }
-}
-//short menu activation end
+  user: UserModel | null = null;
 
-//short menu activation start
-emailShortcutActive:boolean=false;
-emaildropdown(){
-  if(this.emailShortcutActive==false){
-    this.menuShortcutActive=false;
-    this.emailShortcutActive=true;
-    this.notifyShortcutActive=false;
-    this.langShortcutActive=false;
-    this.proShortcutActive=false;
-  }
-  else {
-    this.emailShortcutActive=false;
-
-  }
-}
-//short menu activation end
-
-//short menu activation start
-langShortcutActive:boolean=false;
-langdropdown(){
-  if(this.langShortcutActive==false){
-    this.menuShortcutActive=false;
-    this.emailShortcutActive=false;
-    this.notifyShortcutActive=false;
-    this.langShortcutActive=true;
-    this.proShortcutActive=false;
-  }
-  else {
-    this.langShortcutActive=false;
-
-  }
-}
-//short menu activation end
-
-//short menu activation start
-proShortcutActive:boolean=false;
-prodropdown(){
-  if(this.proShortcutActive==false){
-    this.menuShortcutActive=false;
-    this.emailShortcutActive=false;
-    this.notifyShortcutActive=false;
-    this.langShortcutActive=false;
-    this.proShortcutActive=true;
-  }
-  else {
-    this.proShortcutActive=false;
-
-  }
-}
-//short menu activation end
-
-  constructor() { }
+  constructor(
+    private userService: UserServiceService
+  ) { }
 
   ngOnInit(): void {
+    this.loadUserDetails();
+  }
+
+  loadUserDetails(): void {
+    this.userService.getUserProfile().subscribe({
+      next: (response) => {
+        this.user = response.data;
+      },
+      error: (err) => {
+        console.error('Error al obtener los datos del usuario', err);
+      }
+    });
+  }
+
+  shortmenu() {
+    this.menuShortcutActive = !this.menuShortcutActive;
+    this.emailShortcutActive = false;
+    this.notifyShortcutActive = false;
+    this.langShortcutActive = false;
+    this.proShortcutActive = false;
+  }
+
+  notifydropdown() {
+    this.menuShortcutActive = false;
+    this.emailShortcutActive = false;
+    this.notifyShortcutActive = !this.notifyShortcutActive;
+    this.langShortcutActive = false;
+    this.proShortcutActive = false;
+  }
+
+  emaildropdown() {
+    this.menuShortcutActive = false;
+    this.emailShortcutActive = !this.emailShortcutActive;
+    this.notifyShortcutActive = false;
+    this.langShortcutActive = false;
+    this.proShortcutActive = false;
+  }
+
+  langdropdown() {
+    this.menuShortcutActive = false;
+    this.emailShortcutActive = false;
+    this.notifyShortcutActive = false;
+    this.langShortcutActive = !this.langShortcutActive;
+    this.proShortcutActive = false;
+  }
+
+  prodropdown() {
+    this.menuShortcutActive = false;
+    this.emailShortcutActive = false;
+    this.notifyShortcutActive = false;
+    this.langShortcutActive = false;
+    this.proShortcutActive = !this.proShortcutActive;
   }
 }
