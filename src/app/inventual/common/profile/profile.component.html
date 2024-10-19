@@ -3,8 +3,7 @@
     <div class="inventual-header-bar-responsive" (click)="myfunction()">
       <mat-icon>reorder</mat-icon>
     </div>
-    <div
-      class="inventual-menu-wrapper bg-white border-e border-b border-solid border-border py-10 px-7 lg:px-5 lg:py-8">
+    <div class="inventual-menu-wrapper bg-white border-e border-b border-solid border-border py-10 px-7 lg:px-5 lg:py-8">
       <app-menu></app-menu>
     </div>
     <div class="inventual-menu-overlay" (click)="myfunction()" [class.sidebar-enable]="menuSidebarActive"></div>
@@ -38,134 +37,89 @@
                 <img src="../../../../assets/img/user/user-profile.png" alt="img not found">
               </div>
               <div class="inventual-profile-info-text">
-                <h4 class="text-heading font-bold text-[24px] mb-1">Shane Watson</h4>
-                <span class="text-[16px] text-body">Admin User</span>
+                <!-- Mostrar dinámicamente el nombre completo del usuario -->
+                <h4 class="text-heading font-bold text-[24px] mb-1">{{ user?.nombre }} {{ user?.apellidoPaterno }} {{ user?.apellidoMaterno }}</h4>
+                <!-- Mostrar el rol del usuario -->
+                <span class="text-[16px] text-body">Rol: {{ user?.rolId }}</span>
               </div>
             </div>
             <div class="inventual-profile-info-btn">
-              <button type="button" (click)="editProfileEnable()">Edit Profile </button>
+              <button type="button" (click)="editProfileEnable()">Edit Profile</button>
             </div>
           </div>
           <div class="grid grid-cols-12 gap-x-7 sm:gap-x-0">
             <div class="col-span-4 md:col-span-6 sm:col-span-12">
               <div class="inventual-select-field mb-5">
-                <h5 class="text-[15px] text-heading font-semibold mb-3">Supplier Name</h5>
+                <h5 class="text-[15px] text-heading font-semibold mb-3">Nombre</h5>
                 <div class="inventual-input-field-style">
                   <mat-form-field class="w-full" [floatLabel]="'always'">
-                    <mat-label class="hidden">Joseph Tylor</mat-label>
-                    <input matInput [placeholder]="'Shane Watson'" value="Shane Watson"
-                      [disabled]="isProfileEnabled ? false : true">
+                    <mat-label class="hidden">Nombre</mat-label>
+                    <input matInput [placeholder]="'Nombre'" [value]="user?.nombre" [disabled]="!isProfileEnabled">
                   </mat-form-field>
                 </div>
               </div>
             </div>
             <div class="col-span-4 md:col-span-6 sm:col-span-12">
               <div class="inventual-select-field mb-5">
-                <h5 class="text-[15px] text-heading font-semibold mb-3">Phone</h5>
+                <h5 class="text-[15px] text-heading font-semibold mb-3">Apellido Paterno</h5>
                 <div class="inventual-input-field-style">
                   <mat-form-field class="w-full" [floatLabel]="'always'">
-                    <mat-label class="hidden">00 000 000 000</mat-label>
-                    <input matInput [placeholder]="'+02 259 857 654'" value="+02 259 857 654"
-                      [disabled]="isProfileEnabled ? false : true">
+                    <mat-label class="hidden">Apellido Paterno</mat-label>
+                    <input matInput [placeholder]="'Apellido Paterno'" [value]="user?.apellidoPaterno" [disabled]="!isProfileEnabled">
                   </mat-form-field>
                 </div>
               </div>
             </div>
             <div class="col-span-4 md:col-span-6 sm:col-span-12">
               <div class="inventual-select-field mb-5">
-                <h5 class="text-[15px] text-heading font-semibold mb-3">Email</h5>
+                <h5 class="text-[15px] text-heading font-semibold mb-3">Apellido Materno</h5>
                 <div class="inventual-input-field-style">
                   <mat-form-field class="w-full" [floatLabel]="'always'">
-                    <mat-label class="hidden">joseph@example.com</mat-label>
-                    <input type="email" matInput [placeholder]="'nasir@example.com'" value="nasir@example.com"
-                      [disabled]="isProfileEnabled ? false : true">
+                    <mat-label class="hidden">Apellido Materno</mat-label>
+                    <input matInput [placeholder]="'Apellido Materno'" [value]="user?.apellidoMaterno" [disabled]="!isProfileEnabled">
                   </mat-form-field>
                 </div>
               </div>
             </div>
             <div class="col-span-4 md:col-span-6 sm:col-span-12">
               <div class="inventual-select-field mb-5">
-                <h5 class="text-[15px] text-heading font-semibold mb-3">Gender</h5>
+                <h5 class="text-[15px] text-heading font-semibold mb-3">Correo</h5>
+                <div class="inventual-input-field-style">
+                  <mat-form-field class="w-full" [floatLabel]="'always'">
+                    <mat-label class="hidden">Correo</mat-label>
+                    <input type="email" matInput [placeholder]="'Correo'" [value]="user?.correo" [disabled]="!isProfileEnabled">
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+            <div class="col-span-4 md:col-span-6 sm:col-span-12">
+              <div class="inventual-select-field mb-5">
+                <h5 class="text-[15px] text-heading font-semibold mb-3">Teléfono</h5>
+                <div class="inventual-input-field-style">
+                  <mat-form-field class="w-full" [floatLabel]="'always'">
+                    <mat-label class="hidden">Teléfono</mat-label>
+                    <input matInput [placeholder]="'Teléfono'" [value]="user?.telefono" [disabled]="!isProfileEnabled">
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+            <div class="col-span-4 md:col-span-6 sm:col-span-12">
+              <div class="inventual-select-field mb-5">
+                <h5 class="text-[15px] text-heading font-semibold mb-3">Rol</h5>
                 <div class="inventual-select-field-style">
                   <mat-form-field>
-                    <mat-select class="block" [placeholder]="'Male'" [disabled]="isProfileEnabled ? false : true">
-                      <mat-option value="language-1">Male</mat-option>
-                      <mat-option value="language-2">Female</mat-option>
+                    <mat-select [value]="user?.rolId" [disabled]="!isProfileEnabled">
+                      <mat-option value="1">Admin</mat-option>
+                      <mat-option value="2">Staff</mat-option>
+                      <mat-option value="3">Manager</mat-option>
                     </mat-select>
-                  </mat-form-field>
-                </div>
-              </div>
-            </div>
-            <div class="col-span-4 md:col-span-6 sm:col-span-12">
-              <div class="inventual-select-field mb-5">
-                <h5 class="text-[15px] text-heading font-semibold mb-3">Username</h5>
-                <div class="inventual-input-field-style">
-                  <mat-form-field class="w-full" [floatLabel]="'always'">
-                    <mat-label class="hidden">Joseph Tylor</mat-label>
-                    <input matInput [placeholder]="'nasir_mondal'" value="nasir_mondal"
-                      [disabled]="isProfileEnabled ? false : true">
-                  </mat-form-field>
-                </div>
-              </div>
-            </div>
-            <div class="col-span-4 md:col-span-6 sm:col-span-12">
-              <div class="inventual-select-field mb-5">
-                <h5 class="text-[15px] text-heading font-semibold mb-3">Password</h5>
-                <div class="inventual-input-field-style inventual-input-field-style-eye">
-                  <mat-form-field appearance="fill">
-                    <mat-label class="hidden">Enter your password</mat-label>
-                    <input matInput [type]="hide ? 'password' : 'text'" value="123456"
-                      [disabled]="isProfileEnabled ? false : true">
-                    <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
-                      [attr.aria-pressed]="hide">
-                      <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-                    </button>
-                  </mat-form-field>
-                </div>
-              </div>
-            </div>
-            <div class="col-span-4 md:col-span-6 sm:col-span-12">
-              <div class="inventual-select-field mb-5">
-                <h5 class="text-[15px] text-heading font-semibold mb-3">Role</h5>
-                <div class="inventual-select-field-style">
-                  <mat-form-field>
-                    <mat-select class="block" [placeholder]="'Admin'" [disabled]="isProfileEnabled ? false : true">
-                      <mat-option value="language-1">Admin</mat-option>
-                      <mat-option value="language-2">Staff</mat-option>
-                      <mat-option value="language-3">Manager</mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                </div>
-              </div>
-            </div>
-            <div class="col-span-4 md:col-span-6 sm:col-span-12">
-              <div class="inventual-select-field mb-5">
-                <h5 class="text-[15px] text-heading font-semibold mb-3">Company Name</h5>
-                <div class="inventual-input-field-style">
-                  <mat-form-field class="w-full" [floatLabel]="'always'">
-                    <mat-label class="hidden">Joseph Tylor</mat-label>
-                    <input matInput [placeholder]="'Inventual'" value="Inventual"
-                      [disabled]="isProfileEnabled ? false : true">
-                  </mat-form-field>
-                </div>
-              </div>
-            </div>
-            <div class="col-span-4 md:col-span-6 sm:col-span-12">
-              <div class="inventual-select-field mb-5">
-                <h5 class="text-[15px] text-heading font-semibold mb-3">Address</h5>
-                <div class="inventual-input-field-style">
-                  <mat-form-field class="w-full" [floatLabel]="'always'">
-                    <mat-label class="hidden">Joseph Tylor</mat-label>
-                    <input matInput [placeholder]="'5874 Street Park, New York, USA'"
-                      value="5874 Street Park, New York, USA" [disabled]="isProfileEnabled ? false : true">
                   </mat-form-field>
                 </div>
               </div>
             </div>
             <div class="col-span-12">
               <div class="inventual-material-btn pt-2.5 justify-end">
-                <button mat-raised-button color="primary" [disabled]="isProfileEnabled ? false : true">Update
-                  Profile</button>
+                <button mat-raised-button color="primary" [disabled]="!isProfileEnabled">Update Profile</button>
               </div>
             </div>
           </div>
@@ -176,3 +130,4 @@
       </div>
     </div>
   </div>
+</div>
