@@ -90,6 +90,10 @@ import { CategoriaState } from "./state-management/categoria/categoria.state";
 import { DepreciacionState } from "./state-management/depreciaciones/depreciacion.state";
 import { IdentificadorState } from "./state-management/identificadores/identificadores.state";
 import { EstadoState } from "./state-management/estado/estado.state";
+import { GestionMarcasComponent } from './gestion-marcas/gestion-marcas.component';
+import { GestionModelosComponent } from './gestion-modelos/gestion-modelos.component';
+import { MarcaState } from "./state-management/marca/marca.state";
+import { ModeloState } from "./state-management/modelo/modelo.state";
 
 @NgModule({
   imports: [
@@ -124,7 +128,7 @@ import { EstadoState } from "./state-management/estado/estado.state";
     HttpClientModule,
     MatTableModule,
     DragDropModule,
-    NgxsModule.forRoot([RolState, UserState, DivisaState, ActivoState, CustodiosState, EmpresasState, AreasState, ProyectoState, PaisState, DepartamentoState, ProvinciaState, MunicipioState, SucursalState, BloqueState, AulaState, DireccionState, CategoriaState, DepreciacionState, IdentificadorState, EstadoState]),  // Registra tu estado de usuarios
+    NgxsModule.forRoot([RolState, UserState, DivisaState, ActivoState, CustodiosState, EmpresasState, AreasState, ProyectoState, PaisState, DepartamentoState, ProvinciaState, MunicipioState, SucursalState, BloqueState, AulaState, DireccionState, CategoriaState, DepreciacionState, IdentificadorState, EstadoState, MarcaState, ModeloState]),  // Registra tu estado de usuarios
     NgxsLoggerPluginModule.forRoot(),
     NgxsReduxDevtoolsPluginModule.forRoot() 
   ],
@@ -168,6 +172,8 @@ import { EstadoState } from "./state-management/estado/estado.state";
     GestionDepreciacionComponent,
     GestionEstadousoComponent,
     GestionIdentificadoresComponent,
+    GestionMarcasComponent,
+    GestionModelosComponent,
   ],
 })
 export class ActivosProyectModule {}

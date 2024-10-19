@@ -39,9 +39,14 @@ export const navbarDataEditor: INavbarData[] = [
         label: 'Categorias',
       },
       {
-        routeLink: '/depreciacion',
+        routeLink: '/marcas',
         icon: 'fal fa-ballot',
-        label: 'Depreciaciones',
+        label: 'Marcas',
+      },
+      {
+        routeLink: '/modelos',
+        icon: 'fal fa-ballot',
+        label: 'Modelos',
       },
       {
         routeLink: '/estadouso',
@@ -52,6 +57,11 @@ export const navbarDataEditor: INavbarData[] = [
         routeLink: '/identificadores',
         icon: 'fal fa-ballot',
         label: 'Identificadores',
+      },
+      {
+        routeLink: '/depreciacion',
+        icon: 'fal fa-ballot',
+        label: 'Depreciaciones',
       },
     ],
   },

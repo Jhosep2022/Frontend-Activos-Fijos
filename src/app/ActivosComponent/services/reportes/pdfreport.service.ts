@@ -14,6 +14,8 @@ import { AulaModel, BloqueModel, DepartamentoModel, DireccionModel, MunicipioMod
 import { IdentificadoresModel } from '../../models/identificadores.model';
 import { ActivosModel } from '../../models/activos.model';
 import { EstadosModel } from '../../models/estadosUso.model';
+import { MarcaModel } from '../../models/marca.model';
+import { ModeloModel } from '../../models/modelo.model';
 
 @Injectable({
   providedIn: 'root'
@@ -382,5 +384,54 @@ export class PdfreportService {
     })
 
     doc.save('informe-estados.pdf');
+  }
+
+  modelospdf(modeloslist: ModeloModel[], marcalist: MarcaModel[]) {
+    const doc = new jsPDF('l', 'mm', [297, 210]);
+    doc.text('Informe de Modelos generado: ' + new Date().toLocaleString(), 10, 10);
+    const fecha = new Date().toLocaleString();
+    // doc.text('/n Fecha de generacion: ' + fecha, 10, 10);
+
+    const columns = ['ID', 'Nombre', 'Fecha Inicio', 'Fecha Fin', 'Area'];
+    const data = modeloslist.map((modelo) => {
+      const marcas = marcalist.find(marca => marca.idMarca === modelo.marcaId);
+      return [
+        modelo.idModelo,
+        modelo.nombre,
+        modelo.descripcion,
+        modelo.estado ? 'Activo' : 'Inactivo',
+        marcas ? marcas.nombre : 'Sin Marca',
+      ];
+    });
+
+    autoTable(doc, {
+      head: [columns],
+      body: data,
+    });
+
+    doc.save('informe-proyecto.pdf');
+  }
+
+  marcaspdf(marcalist: MarcaModel[]) {
+    const doc = new jsPDF('l', 'mm', [297, 210]);
+    doc.text('Informe de Marcas generado: '+new Date().toLocaleString(), 10, 10);
+    var fecha = new Date().toLocaleString();
+    //doc.text('/n Fecha de generacion: '+fecha, 10, 10);
+
+    const columns = ['ID', 'Nombre', 'Descripcion', 'Estado', 'Pais Origen'];
+    const data = marcalist.map((marcas, index) => [
+      marcas.idMarca,
+      marcas.nombre,
+      marcas.descripcion,
+      marcas.estado ? 'Activo' : 'Inactivo',
+      marcas.paisOrigen,
+    ]);
+
+    autoTable(doc, {
+      head: [columns],
+      body: data,
+    })
+
+    doc.save('informe-marcas.pdf');
   }
 }

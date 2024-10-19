@@ -74,7 +74,7 @@
                 <div class="inventual-input-field-style">
                   <mat-form-field class="w-full" [floatLabel]="'always'">
                     <mat-label class="hidden">Elige tu fecha</mat-label>
-                    <input matInput [matDatepicker]="picker" [placeholder]="'MM/DD/YYYY'">
+                    <input matInput [matDatepicker]="picker" [placeholder]="'MM/DD/YYYY'" class="form-control" id="fechaRegistro" [(ngModel)]="activo.fechaRegistro" name="fechaRegistro">
                     <mat-hint>MM/DD/YYYY</mat-hint>
                     <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                     <mat-datepicker #picker></mat-datepicker>
@@ -88,7 +88,7 @@
                 <div class="inventual-input-field-style">
                   <mat-form-field class="w-full" [floatLabel]="'always'">
                     <mat-label class="hidden">Joseph Tylor</mat-label>
-                    <input matInput [placeholder]="'Juan Perez'">
+                    <input matInput [placeholder]="'Ej. Cmb-213213'" class="form-control" id="comprobanteCompra" [(ngModel)]="activo.comprobanteCompra" name="comprobanteCompra">
                   </mat-form-field>
                 </div>
               </div>
@@ -99,20 +99,20 @@
                   <div class="inventual-input-field-style">
                     <mat-form-field class="w-full" [floatLabel]="'always'">
                       <mat-label class="hidden">Joseph Tylor</mat-label>
-                      <input matInput [placeholder]="'Juan Perez'">
+                      <input matInput [placeholder]="'Ej. 1000'" class="form-control" id="precio" [(ngModel)]="activo.precio" name="precio">
                     </mat-form-field>
                   </div>
                 </div>
             </div>
             <div class="col-span-4 md:col-span-6 sm:col-span-12">
               <div class="inventual-select-field mb-5">
-                <h5 class="text-[15px] text-heading font-semibold mb-3">Marca</h5>
+                <h5 class="text-[15px] text-heading font-semibold mb-3">Modelo</h5>
                 <div class="inventual-select-field-style">
                   <mat-form-field>
-                    <mat-select class="block" [placeholder]="'Selecionar Rol'">
-                      <mat-option value="language-1">Administrador</mat-option>
-                      <mat-option value="language-2">Editor</mat-option>
-                      <mat-option value="language-2">Lector</mat-option>
+                    <mat-select class="block" [placeholder]="'Selecionar Marca y Modelo'" class="form-control" id="idModelo" [(ngModel)]="activo.idModelo" name="idModelo">
+                      <mat-option *ngFor="let modelo of modelos$ | async" [value]="modelo.idModelo">
+                        {{ modelo.marcaId + " " + modelo.nombre }}
+                      </mat-option>
                     </mat-select>
                   </mat-form-field>
                 </div>
@@ -140,6 +140,20 @@
                     <mat-select class="block" [placeholder]="'Selecionar Proyecto'" class="form-control" id="idEstadoactivo" [(ngModel)]="activo.idEstadoactivo" name="idEstadoactivo">
                       <mat-option *ngFor="let estado of estados$ | async" [value]="estado.idEstado">
                         {{ estado.nombre + " " + estado.descripcion}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+            <div class="col-span-4 md:col-span-6 sm:col-span-12">
+              <div class="inventual-select-field mb-5">
+                <h5 class="text-[15px] text-heading font-semibold mb-3">Depreciacion</h5>
+                <div class="inventual-select-field-style">
+                  <mat-form-field>
+                    <mat-select class="block" [placeholder]="'Selecionar Depreciacion'" class="form-control" id="idDepreciacion" [(ngModel)]="activo.idDepreciacion" name="idDepreciacion">
+                      <mat-option *ngFor="let depreciacion of depreciaciones$ | async" [value]="depreciacion.idDepreciacion">
+                        {{ depreciacion.metodo }}
                       </mat-option>
                     </mat-select>
                   </mat-form-field>

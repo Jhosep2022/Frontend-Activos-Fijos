@@ -16,4 +16,5 @@ export interface ActivosModel {
     idEstadoactivo: number;
     //idIdentificador: number;
     idProyecto: number;
+    idModelo: number;
 }

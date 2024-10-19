@@ -38,6 +38,9 @@ import { GetMunicipio } from '../state-management/ubicacion/municipio/municipio.
 import { GetPais } from '../state-management/ubicacion/pais/pais.actions';
 import { GetProvincia } from '../state-management/ubicacion/provincia/provincia.actions';
 import { GetSucursal } from '../state-management/ubicacion/sucursal/sucursal.actions';
+import { ModeloModel } from '../models/modelo.model';
+import { ModeloState } from '../state-management/modelo/modelo.state';
+import { GetModelo } from '../state-management/modelo/modelo.action';
 
 @Component({
   selector: 'app-registro-activos',
@@ -47,6 +50,7 @@ import { GetSucursal } from '../state-management/ubicacion/sucursal/sucursal.act
 })
 export class RegistroActivosComponent implements OnInit {
   
+  modelos$: Observable<ModeloModel[]>;
   paises$: Observable<PaisModel[]>;  
   departamentos$: Observable<DepartamentoModel[]>;
   provincias$: Observable<ProvinciaModel[]>;
@@ -128,7 +132,8 @@ export class RegistroActivosComponent implements OnInit {
     idCustodio: 0,
     idDepreciacion: 2,
     idEstadoactivo: 0,
-    idProyecto: 0
+    idProyecto: 0,
+    idModelo: 0
   };
 
   agregarActivo() {
@@ -157,7 +162,8 @@ export class RegistroActivosComponent implements OnInit {
       idCustodio: 0,
       idDepreciacion: 2,
       idEstadoactivo: 0,
-      idProyecto: 0
+      idProyecto: 0,
+      idModelo: 0
     };
   }
 
@@ -184,6 +190,7 @@ export class RegistroActivosComponent implements OnInit {
       this.estados$ = this.store.select(EstadoState.getEstados);
       this.identificadores$ = this.store.select(IdentificadorState.getIdentificadores);
       this.proyectos$ = this.store.select(ProyectoState.getProyectos);
+      this.modelos$ = this.store.select(ModeloState.getModelos);
 
       
       this.paises$ = this.store.select(PaisState.getPaises);
@@ -195,7 +202,7 @@ export class RegistroActivosComponent implements OnInit {
      }
   
     ngOnInit(): void {
-      this.store.dispatch([new GetAula(), new GetBloque(), new GetCustodio(), new GetProyecto(), new GetCategoria(), new GetDepreciacion(), new GetIdentificador(), new GetEstado(),new GetPais(), new GetDepartamento(), new GetProvincia(), new GetMunicipio(), new GetSucursal(), new GetDireccion()]);
+      this.store.dispatch([new GetAula(), new GetBloque(), new GetCustodio(), new GetProyecto(), new GetCategoria(), new GetDepreciacion(), new GetIdentificador(), new GetEstado(),new GetPais(), new GetDepartamento(), new GetProvincia(), new GetMunicipio(), new GetSucursal(), new GetDireccion(), new GetDepreciacion(), new GetModelo()]);
     }
   
   }

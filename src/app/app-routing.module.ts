@@ -81,6 +81,8 @@ import { GestionCategoriasComponent } from './ActivosComponent/gestion-categoria
 import { GestionDepreciacionComponent } from './ActivosComponent/gestion-depreciacion/gestion-depreciacion.component';
 import { GestionEstadousoComponent } from './ActivosComponent/gestion-estadouso/gestion-estadouso.component';
 import { GestionIdentificadoresComponent } from './ActivosComponent/gestion-identificadores/gestion-identificadores.component';
+import { GestionMarcasComponent } from './ActivosComponent/gestion-marcas/gestion-marcas.component';
+import { GestionModelosComponent } from './ActivosComponent/gestion-modelos/gestion-modelos.component';
 
 
 const routes: Routes = [ 
@@ -159,6 +161,14 @@ const routes: Routes = [
   {
     path: 'identificadores',
     component: GestionIdentificadoresComponent
+  },
+  {
+    path: 'modelos',
+    component: GestionModelosComponent
+  },
+  {
+    path: 'marcas',
+    component: GestionMarcasComponent
   },
   //Rutas de monedas
   {

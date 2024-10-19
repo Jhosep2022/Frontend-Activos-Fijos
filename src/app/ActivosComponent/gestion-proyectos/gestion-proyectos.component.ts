@@ -133,7 +133,7 @@ export class GestionProyectosComponent implements AfterViewInit {
 
   generarPDF() {
     const proyectosSeleccionados = this.selection.selected;
-    const areas = this.areas$; // Aquí debes asegurarte de que tienes los roles correctamente cargados
+    const areas = this.areas$; // Aquí debes asegurarte de que tienes areas correctamente cargados
   
     // Suscribirse a los roles para obtener la lista y generar el PDF
     areas.subscribe((arealist: AreaModel[]) => {
