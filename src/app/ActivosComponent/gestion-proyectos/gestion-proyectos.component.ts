@@ -28,6 +28,7 @@ import { PdfreportService } from '../services/reportes/pdfreport.service';
 })
 export class GestionProyectosComponent implements AfterViewInit {
   areas$: Observable<AreaModel[]>; // Observable que contiene los roles
+  areas: AreaModel[] = [];
   proyecto: ProyectoModel = {
     idProyecto: 0,
     nombre: '',
@@ -94,6 +95,15 @@ export class GestionProyectosComponent implements AfterViewInit {
     }
   }
 
+  // Función para obtener el nombre del rol por ID
+  getProyectosName(rolId: number): string {
+    if (!this.areas.length) {
+      return 'Cargando...'; // Si los roles aún no se han cargado
+    }
+    const area = this.areas.find((r) => r.idArea === rolId);
+    return area ? area.nombre : 'Sin Areas';  // Devuelve el nombre del rol o "Sin Rol" si no se encuentra
+  }
+
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
     const numSelected = this.selection.selected.length;
@@ -128,6 +138,10 @@ export class GestionProyectosComponent implements AfterViewInit {
     // Suscríbete al observable para actualizar el dataSource
     this.proyectos$.subscribe((proyectos) => {
       this.dataSource.data = proyectos; // Asigna los datos al dataSource
+    });
+
+    this.areas$.subscribe((areas) => {
+      this.areas = areas;
     });
   }
 

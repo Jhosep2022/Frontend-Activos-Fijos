@@ -39,7 +39,7 @@
                                 <div class="inventual-input-field-style">
                                     <mat-form-field class="w-full" [floatLabel]="'always'">
                                         <mat-label class="hidden">Kilogram</mat-label>
-                                        <input matInput [placeholder]="'Admin'" type="text" class="form-control" id="nombre" [(ngModel)]="proyecto.nombre" name="name">
+                                        <input matInput [placeholder]="'Ej. Proyecto Pasantia'" type="text" class="form-control" id="nombre" [(ngModel)]="proyecto.nombre" name="name">
                                     </mat-form-field>
                                 </div>
                             </div>
@@ -71,7 +71,7 @@
                               <h5 class="text-[15px] text-heading font-semibold mb-3">Area</h5>
                               <div class="inventual-select-field-style">
                                 <mat-form-field>
-                                  <mat-select class="block" [placeholder]="'Selecionar Rol'" class="form-control" id="idArea" [(ngModel)]="proyecto.idArea" name="idArea">
+                                  <mat-select class="block" [placeholder]="'Selecionar Area'" class="form-control" id="idArea" [(ngModel)]="proyecto.idArea" name="idArea">
                                     <mat-option *ngFor="let area of areas$ | async" [value]="area.idEmpresa">
                                       {{ area.nombre }}
                                     </mat-option>
@@ -129,7 +129,7 @@
                                 <ng-container matColumnDef="idArea">
                                     <th mat-header-cell *matHeaderCellDef mat-sort-header> Area </th>
                                     <td mat-cell *matCellDef="let row">
-                                        <div class="whitespace-nowrap">{{row.idArea}}</div>
+                                        <div class="whitespace-nowrap">{{getProyectosName(row.idArea)}}</div>
                                     </td>
                                 </ng-container>
 

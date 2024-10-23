@@ -21,6 +21,7 @@ import { PdfreportService } from '../services/reportes/pdfreport.service';
 })
 export class GestionAreasComponent implements AfterViewInit  {
   empresas$: Observable<EmpresaModel[]>; // Observable que contiene las empresas
+  empresas: EmpresaModel[] = [];
   area: AreaModel = {
     idArea: 0,
     idEmpresa: 0,
@@ -124,6 +125,19 @@ export class GestionAreasComponent implements AfterViewInit  {
     this.areas$.subscribe((areas) => {
       this.dataSource.data = areas; // Asigna los datos al dataSource
     });
+
+    this.empresas$.subscribe((empresas) => {
+      this.empresas = empresas;
+    });
+  }
+
+  // Función para obtener el nombre del rol por ID
+  getEmpresaName(rolId: number): string {
+    if (!this.empresas.length) {
+      return 'Cargando...'; // Si los roles aún no se han cargado
+    }
+    const empresa = this.empresas.find((r) => r.idEmpresa === rolId);
+    return empresa ? empresa.nombre : 'Sin Empresas';  // Devuelve el nombre del rol o "Sin Rol" si no se encuentra
   }
   
 }

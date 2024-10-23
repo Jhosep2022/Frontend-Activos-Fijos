@@ -16,6 +16,7 @@ import { ActivosModel } from '../../models/activos.model';
 import { EstadosModel } from '../../models/estadosUso.model';
 import { MarcaModel } from '../../models/marca.model';
 import { ModeloModel } from '../../models/modelo.model';
+import { DepreciacionesModel } from '../../models/depreciaciones.model';
 
 @Injectable({
   providedIn: 'root'
@@ -433,5 +434,50 @@ export class PdfreportService {
     })
 
     doc.save('informe-marcas.pdf');
+  }
+  //Aqui se guarda los formatos para realizar los reportes en pdf
+  activopdf(activolist: ActivosModel[], aulaslist: AulaModel[], bloqueslist: BloqueModel[], categoriaslist: CategoriaModel[], custodioslist: CustodiosModel[], depreciacioneslist: DepreciacionesModel[], estadoslist: EstadosModel[], proyectoslist: ProyectoModel[], modeloslist: ModeloModel[]) {
+    const doc = new jsPDF('l', 'mm', [297, 210]);
+    doc.text('Informe de Activos generado: ' + new Date().toLocaleString(), 10, 10);
+    const fecha = new Date().toLocaleString();
+    // doc.text('/n Fecha de generacion: ' + fecha, 10, 10);
+
+    const columns = ['ID', 'Nombre', 'Valor Actual', 'Valor Inicial', 'Fecha Registro', 'Detalle', 'Activo/Inactivo', 'Precio', 'ComprobanteCompra','Estado de Uso', 'Custodio', 'Categoria', 'Depreciacion', 'Estado Uso', 'Proyecto', 'Modelo', 'Aula', 'Bloque'];
+    const data = activolist.map((activo) => {
+      const aulaActivo = aulaslist.find(aula => aula.idAula === activo.idAula);
+      const bloqueActivo = bloqueslist.find(bloque => bloque.idBloque === activo.idBloque);
+      const categoriaActivo = categoriaslist.find(categoria => categoria.idCategoria === activo.idCategoria);
+      const custodioActivo = custodioslist.find(custodio => custodio.idCustodio === activo.idCustodio);
+      const depreciacionActivo = depreciacioneslist.find(depreciacion => depreciacion.idDepreciacion === activo.idDepreciacion);
+      const estadoActivo = estadoslist.find(estado => estado.idEstado === activo.idEstadoactivo);
+      const proyectoActivo = proyectoslist.find(proyecto => proyecto.idProyecto === activo.idProyecto);
+      const modeloActivo = modeloslist.find(modelo => modelo.idModelo === activo.idModelo);
+      return [
+        activo.idActivo,
+        activo.nombre,
+        activo.valorActual,
+        activo.valorInicial,
+        activo.fechaRegistro.toString(),
+        activo.detalle,
+        activo.estado ? 'Activo' : 'Inactivo',
+        activo.precio,
+        activo.comprobanteCompra,
+        estadoActivo ? estadoActivo.nombre : 'Sin Estado',
+        custodioActivo ? `${custodioActivo.nombre} ${custodioActivo.apellidoPaterno} ${custodioActivo.apellidoMaterno}` : 'Sin Custodio',
+        categoriaActivo ? categoriaActivo.nombre : 'Sin Categoria',
+        depreciacionActivo ? depreciacionActivo.metodo : 'Sin Depreciacion',
+        proyectoActivo ? proyectoActivo.nombre : 'Sin Proyecto',
+        modeloActivo ? modeloActivo.nombre : 'Sin Modelo',
+        aulaActivo ? aulaActivo.nombre : 'Sin Aula',
+        bloqueActivo ? bloqueActivo.nombre : 'Sin Bloque',
+      ];
+    });
+
+    autoTable(doc, {
+      head: [columns],
+      body: data,
+    });
+
+    doc.save('informe-activos.pdf');
   }
 }

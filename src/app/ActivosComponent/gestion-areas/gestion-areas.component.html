@@ -39,7 +39,7 @@
                                 <div class="inventual-input-field-style">
                                     <mat-form-field class="w-full" [floatLabel]="'always'">
                                         <mat-label class="hidden">Kilogram</mat-label>
-                                        <input matInput [placeholder]="'Admin'" type="text" class="form-control" id="nombre" [(ngModel)]="area.nombre" name="nombre">
+                                        <input matInput [placeholder]="'Ej. Contabilidad'" type="text" class="form-control" id="nombre" [(ngModel)]="area.nombre" name="nombre">
                                     </mat-form-field>
                                 </div>
                             </div>
@@ -47,7 +47,7 @@
                               <h5 class="text-[15px] text-heading font-semibold mb-3">Empresa</h5>
                               <div class="inventual-select-field-style">
                                 <mat-form-field>
-                                  <mat-select class="block" [placeholder]="'Selecionar Rol'" class="form-control" id="rolId" [(ngModel)]="area.idEmpresa" name="rolId">
+                                  <mat-select class="block" [placeholder]="'Selecionar Empresa'" class="form-control" id="rolId" [(ngModel)]="area.idEmpresa" name="rolId">
                                     <mat-option *ngFor="let rol of empresas$ | async" [value]="rol.idEmpresa">
                                       {{ rol.nombre }}
                                     </mat-option>
@@ -58,7 +58,7 @@
                         </div>
                         <div class="inventual-material-btn mb-7">
                             <button mat-raised-button color="primary" class="mb-1" (click)="agregarArea()">
-                                Registrar Empresa
+                                Registrar Area
                             </button>
                         </div>
                     </div>
@@ -91,7 +91,7 @@
                                 <ng-container matColumnDef="empresa">
                                     <th mat-header-cell *matHeaderCellDef mat-sort-header> Empresa </th>
                                     <td mat-cell *matCellDef="let row">
-                                        <div class="whitespace-nowrap">{{row.idEmpresa}}</div>
+                                        <div class="whitespace-nowrap">{{getEmpresaName(row.idEmpresa)}}</div>
                                     </td>
                                 </ng-container>
 
@@ -115,12 +115,12 @@
                                                 <button mat-menu-item>
                                                     <img src="../../../../../assets/img/icon/action-2.png"
                                                         alt="icon not found">
-                                                    <span>Edit Role</span>
+                                                    <span>Editar Empresa</span>
                                                 </button>
                                                 <button mat-menu-item (click)="eliminarArea(row.idArea)">
                                                     <img src="../../../../../assets/img/icon/action-6.png"
                                                         alt="icon not found">
-                                                    <span>Delete Role</span>
+                                                    <span>Eliminar Empresa</span>
                                                 </button>
                                             </mat-menu>
                                         </div>

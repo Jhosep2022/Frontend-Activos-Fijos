@@ -11,6 +11,7 @@ import { Store } from '@ngxs/store';
 import { PdfreportService } from '../services/reportes/pdfreport.service';
 import { MarcaModel } from '../models/marca.model';
 import { MarcaState } from '../state-management/marca/marca.state';
+import { GetMarca } from '../state-management/marca/marca.action';
 
 @Component({
   selector: 'app-gestion-modelos',
@@ -19,6 +20,7 @@ import { MarcaState } from '../state-management/marca/marca.state';
 })
 export class GestionModelosComponent {
   marcas$: Observable<MarcaModel[]>; // Observable que contiene los roles
+  marcas: MarcaModel[] = [];
   modelo: ModeloModel = {
     idModelo: 0,
     nombre: '',
@@ -98,6 +100,15 @@ export class GestionModelosComponent {
     const numRows = this.dataSource.data.length;
     return numSelected === numRows;
   }
+
+  // Función para obtener el nombre del rol por ID
+  getMarcaName(rolId: number): string {
+    if (!this.marcas.length) {
+      return 'Cargando...'; // Si los roles aún no se han cargado
+    }
+    const marca = this.marcas.find((r) => r.idMarca === rolId);
+    return marca ? marca.nombre : 'Sin Marcas';  // Devuelve el nombre del rol o "Sin Rol" si no se encuentra
+  }
   
   /** Selects all rows if they are not all selected; otherwise clear selection. */
   toggleAllRows() {
@@ -119,11 +130,15 @@ export class GestionModelosComponent {
   
   ngOnInit(): void {
     // Despacha la acción para obtener las empresas
-    this.store.dispatch(new GetModelo());
+    this.store.dispatch([new GetModelo(), new GetMarca()]);
 
     // Suscríbete al observable para actualizar el dataSource
     this.modelos$.subscribe((modelos) => {
       this.dataSource.data = modelos; // Asigna los datos al dataSource
+    });
+
+    this.marcas$.subscribe((marcas) => {
+      this.marcas = marcas;
     });
   }
   
