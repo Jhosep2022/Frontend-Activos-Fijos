@@ -4,7 +4,10 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:8080/',
+  apiUrlLocal: 'http://localhost:8080/',
+  //railway
+  apiUrl: 'https://activosfijosbackend-production.up.railway.app/',
+  
 };
 
 /*

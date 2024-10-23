@@ -30,7 +30,7 @@ export class UserServiceService {
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
-    return this.http.post<UserModel>(`${this.baseUrl}/crear`, user, { headers });
+    return this.http.post<UserModel>(`${this.baseUrl}`, user, { headers });
   }
 
 
