@@ -41,6 +41,7 @@ import { GetSucursal } from '../state-management/ubicacion/sucursal/sucursal.act
 import { ModeloModel } from '../models/modelo.model';
 import { ModeloState } from '../state-management/modelo/modelo.state';
 import { GetModelo } from '../state-management/modelo/modelo.action';
+import { CsvActivosService } from '../services/csv-activos.service';
 
 @Component({
   selector: 'app-registro-activos',
@@ -49,6 +50,7 @@ import { GetModelo } from '../state-management/modelo/modelo.action';
   encapsulation: ViewEncapsulation.None
 })
 export class RegistroActivosComponent implements OnInit {
+  selectedFile: File | null = null;
   
   modelos$: Observable<ModeloModel[]>;
   paises$: Observable<PaisModel[]>;  
@@ -136,6 +138,29 @@ export class RegistroActivosComponent implements OnInit {
     idModelo: 0
   };
 
+  onFileSelected(event: any): void {
+    this.selectedFile = event.target.files[0];
+  }
+
+  agregarActivos(): void {
+    if (this.selectedFile) {
+      this.fileUploadService.uploadFile(this.selectedFile).subscribe(
+        response => {
+          if (response.success) {
+            console.log('Archivo cargado correctamente:', response.data);
+          } else {
+            console.error('Error al cargar el archivo:', response.message);
+          }
+        },
+        error => {
+          console.error('Error en la solicitud:', error);
+        }
+      );
+    } else {
+      console.warn('Por favor, selecciona un archivo antes de cargarlo.');
+    }
+  }
+
   agregarActivo() {
     this.store.dispatch(new AddActivo(this.activo)).subscribe({
       next: () => {
@@ -181,7 +206,7 @@ export class RegistroActivosComponent implements OnInit {
   
   hide = true;
   
-    constructor(private store: Store) {
+    constructor(private store: Store, public fileUploadService: CsvActivosService) {
       this.aulas$ = this.store.select(AulaState.getAulas);
       this.bloques$ = this.store.select(BloqueState.getBloques);
       this.categorias$ = this.store.select(CategoriaState.getCategorias);

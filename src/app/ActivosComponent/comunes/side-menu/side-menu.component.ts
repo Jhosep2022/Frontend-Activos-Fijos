@@ -71,10 +71,10 @@ export class SideMenuComponent implements OnInit {
       this.navData = navbarData;
     }  
     if(localStorage.getItem('roleId') == '2'){
-      this.navData = navbarDataEditor;
+      this.navData = navbarDataLector;
     }  
     if(localStorage.getItem('roleId') == '3'){
-      this.navData = navbarDataLector;
+      this.navData = navbarDataEditor;
     }
   }
 

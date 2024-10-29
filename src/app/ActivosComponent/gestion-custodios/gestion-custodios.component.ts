@@ -16,6 +16,7 @@ import { CustodiosState } from '../state-management/custodios/custodios.state';
 import { ProyectoModel } from '../models/proyecto.model';
 import { ProyectoState } from '../state-management/proyecto/proyecto.state';
 import { PdfreportService } from '../services/reportes/pdfreport.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-gestion-custodios',
@@ -36,7 +37,16 @@ export class GestionCustodiosComponent implements AfterViewInit {
   };
 
   agregarCustodio() {
-    this.store.dispatch(new AddCustodio(this.custodio));
+    this.store.dispatch(new AddCustodio(this.custodio)).subscribe({
+      next: () => {
+        console.log('Custodio Registrado exitosamente');
+        this.openSnackBar('Custodio Registrado correctamente', 'Cerrar');
+      },
+      error: (error) => {
+        console.error('Error al Registrar Custodio:', error);
+        this.openSnackBar('El Custodio no se pudo Registrar', 'Cerrar');
+      }
+    });
     this.custodio = {
       idCustodio: 0,
       nombre: '',
@@ -49,7 +59,16 @@ export class GestionCustodiosComponent implements AfterViewInit {
   }
 
   eliminarCustodio(id: number) {
-    this.store.dispatch(new DeleteCustodio(id));
+    this.store.dispatch(new DeleteCustodio(id)).subscribe({
+      next: () => {
+        console.log('Custodio eliminado exitosamente');
+        this.openSnackBar('Custodio eliminado correctamente', 'Cerrar');
+      },
+      error: (error) => {
+        console.error('Error al eliminado Custodio:', error);
+        this.openSnackBar('El Custodio no se pudo eliminar', 'Cerrar');
+      }
+    });
   }
 
   actualizarCustodio(rol: CustodiosModel) {    
@@ -76,7 +95,7 @@ export class GestionCustodiosComponent implements AfterViewInit {
   @ViewChild(MatSort)
   sort!: MatSort;
 
-  constructor(private store: Store, public pdfreportService: PdfreportService) {
+  constructor(private store: Store, public pdfreportService: PdfreportService, private _snackBar: MatSnackBar) {
     this.custodios$ = this.store.select(CustodiosState.getCustodios);
     this.proyectos$ = this.store.select(ProyectoState.getProyectos);
   }
@@ -130,6 +149,10 @@ export class GestionCustodiosComponent implements AfterViewInit {
     this.custodios$.subscribe((custodios) => {
       this.dataSource.data = custodios; // Asigna los datos al dataSource
     });
+  }
+  
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {duration: 2000});
   }
 
   generarPDF() {

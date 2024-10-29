@@ -1,5 +1,6 @@
 import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Store } from '@ngxs/store';
 import { AulaModel } from 'src/app/ActivosComponent/models/ubicacion.model';
 import { DialogData } from 'src/app/ActivosComponent/services/dialogs/dialogs-access.service';
@@ -21,7 +22,16 @@ export class AulaDialogComponent implements OnInit {
 
   agregarAula() {
     this.aula.idBloque = this.data.aula.idBloque;
-    this.store.dispatch(new AddAula(this.aula));
+    this.store.dispatch(new AddAula(this.aula)).subscribe({
+      next: () => {
+        console.log('Aula agregada exitosamente');
+        this.openSnackBar('Aula agregada correctamente', 'Cerrar');
+      },
+      error: (error) => {
+        console.error('Error al agregar Aula:', error);
+        this.openSnackBar('El Aula no se pudo agregar', 'Cerrar');
+      }
+    });
     this.aula = {
       idAula: 0,
       nombre: '',
@@ -29,10 +39,13 @@ export class AulaDialogComponent implements OnInit {
     };
     this.cerrarDialog();
   }
-
+  
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {duration: 2000});
+  }
   constructor(private store: Store, private dialog: MatDialog,
     public dialogRef: MatDialogRef<AulaDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData,) {}
+    @Inject(MAT_DIALOG_DATA) public data: DialogData, private _snackBar: MatSnackBar) {}
 
   ngOnInit(): void {
   }

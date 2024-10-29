@@ -3,6 +3,7 @@ import { UserServiceService } from '../services/user-service.service';
 import { LoginModel } from '../models/user.model';
 import { JwtdecoderService } from '../services/jwtdecoder.service';
 import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-activos-login',
@@ -19,7 +20,7 @@ export class ActivosLoginComponent implements OnInit  {
   };
   hide = true;
   // Constructor
-  constructor(private router: Router, private userService: UserServiceService, private jwdecoder: JwtdecoderService) { }
+  constructor(private router: Router, private userService: UserServiceService, private jwdecoder: JwtdecoderService, private _snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
   }
@@ -41,10 +42,15 @@ export class ActivosLoginComponent implements OnInit  {
       },
       error: (error) => {
         console.error('Error Login:', error);
-        alert('Hubo un error al hacer login.');
+        this.openSnackBar('Usuario o contraseña incorrectos', 'Cerrar');
       }
     });
   }
+  
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {duration: 2000});
+  }
+
   guardarDatos(token: string, userid: number, rolid: number, correo: string){
     // Guarda los datos en el local storage, los Id se convierten a string, debes convertirlos a number al recuperarlos
     localStorage.setItem('token', token);

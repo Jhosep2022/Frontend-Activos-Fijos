@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { RolState } from '../state-management/rol/rol.state';
 import { RolModel } from '../models/rol.model';
 import { GetRols } from '../state-management/rol/rol.actions';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-registro-usuarios',
@@ -39,8 +40,16 @@ export class RegistroUsuariosComponent implements OnInit {
   }
 
   agregarUsuario() {
-    console.log(this.user);
-    this.store.dispatch(new AddUser(this.user));
+    this.store.dispatch(new AddUser(this.user)).subscribe({
+      next: () => {
+        console.log('Activo registrado exitosamente');
+        this.openSnackBar('Usuario agregado correctamente', 'Cerrar');
+      },
+      error: (error) => {
+        console.error('Error al registrar activo:', error);
+        this.openSnackBar('El Usuario no se pudo registrar', 'Cerrar');
+      }
+    });
     this.user = {
       idUsuario: 0,
       nombre: '',
@@ -53,12 +62,16 @@ export class RegistroUsuariosComponent implements OnInit {
       apellidoMaterno: ''
     };
   }
+  
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {duration: 2000});
+  }
 
   //sidebar menu activation end
   
   hide = true;
   
-    constructor(private store: Store) {
+    constructor(private store: Store,private _snackBar: MatSnackBar) {
       this.roles$ = this.store.select(RolState.getRols);
     }
   

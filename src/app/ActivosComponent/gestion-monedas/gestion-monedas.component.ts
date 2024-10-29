@@ -15,6 +15,7 @@ import { DivisaModel } from '../models/divisa.model';
 import { Observable } from 'rxjs';
 import { DivisaState } from '../state-management/divisa/divisa.state';
 import { PdfreportService } from '../services/reportes/pdfreport.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-gestion-monedas',
@@ -40,7 +41,7 @@ export class GestionMonedasComponent implements AfterViewInit {
   @ViewChild(MatSort)
   sort!: MatSort;
 
-  constructor(private store: Store, public pdfreportService: PdfreportService) {
+  constructor(private store: Store, public pdfreportService: PdfreportService, private _snackBar: MatSnackBar) {
     this.divisas$ = this.store.select(DivisaState.getDivisa);
   }
 
@@ -55,7 +56,20 @@ export class GestionMonedasComponent implements AfterViewInit {
   }
 
   eliminarDivisa(id: number) {    
-    this.store.dispatch(new DeleteCurrency(id));
+    this.store.dispatch(new DeleteCurrency(id)).subscribe({
+      next: () => {
+        console.log('Moneda eliminada exitosamente');
+        this.openSnackBar('Moneda eliminada correctamente', 'Cerrar');
+      },
+      error: (error) => {
+        console.error('Error al eliminar moneda:', error);
+        this.openSnackBar('La Moneda no se pudo eliminar', 'Cerrar');
+      }
+    });
+  }
+  
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {duration: 2000});
   }
 
   applyFilter(event: Event) {

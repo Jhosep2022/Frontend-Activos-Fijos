@@ -94,6 +94,7 @@ import { GestionMarcasComponent } from './gestion-marcas/gestion-marcas.componen
 import { GestionModelosComponent } from './gestion-modelos/gestion-modelos.component';
 import { MarcaState } from "./state-management/marca/marca.state";
 import { ModeloState } from "./state-management/modelo/modelo.state";
+import {MatSnackBar, MatSnackBarModule} from '@angular/material/snack-bar';
 
 @NgModule({
   imports: [
@@ -128,6 +129,7 @@ import { ModeloState } from "./state-management/modelo/modelo.state";
     HttpClientModule,
     MatTableModule,
     DragDropModule,
+    MatSnackBarModule,
     NgxsModule.forRoot([RolState, UserState, DivisaState, ActivoState, CustodiosState, EmpresasState, AreasState, ProyectoState, PaisState, DepartamentoState, ProvinciaState, MunicipioState, SucursalState, BloqueState, AulaState, DireccionState, CategoriaState, DepreciacionState, IdentificadorState, EstadoState, MarcaState, ModeloState]),  // Registra tu estado de usuarios
     NgxsLoggerPluginModule.forRoot(),
     NgxsReduxDevtoolsPluginModule.forRoot() 

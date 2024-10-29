@@ -14,6 +14,7 @@ import { RolState } from '../state-management/rol/rol.state';
 import { AddRol, DeleteRol, GetRols, UpdateRol } from '../state-management/rol/rol.actions';
 import { Store } from '@ngxs/store';
 import { UserModel } from '../models/user.model';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-gestion-roles',
@@ -28,7 +29,16 @@ export class GestionRolesComponent implements AfterViewInit {
   };
 
   agregarRol() {
-    this.store.dispatch(new AddRol(this.rol));
+    this.store.dispatch(new AddRol(this.rol)).subscribe({
+      next: () => {
+        console.log('Rol registrado exitosamente');
+        this.openSnackBar('Rol agregado correctamente', 'Cerrar');
+      },
+      error: (error) => {
+        console.error('Error al registrar rol:', error);
+        this.openSnackBar('El Rol no se pudo registrar', 'Cerrar');
+      }
+    });
     this.rol = {
       nombre: '',
       idRol: 0,
@@ -36,7 +46,16 @@ export class GestionRolesComponent implements AfterViewInit {
   }
 
   eliminarRol(id: number) {
-    this.store.dispatch(new DeleteRol(id));
+    this.store.dispatch(new DeleteRol(id)).subscribe({
+      next: () => {
+        console.log('Rol eliminado exitosamente');
+        this.openSnackBar('Rol eliminado correctamente', 'Cerrar');
+      },
+      error: (error) => {
+        console.error('Error al eliminado rol:', error);
+        this.openSnackBar('El Rol no se pudo eliminar', 'Cerrar');
+      }
+    });
   }
 
   actualizarRol(rol: RolModel) {    
@@ -63,7 +82,7 @@ export class GestionRolesComponent implements AfterViewInit {
   @ViewChild(MatSort)
   sort!: MatSort;
 
-  constructor(private store: Store) {
+  constructor(private store: Store, private _snackBar: MatSnackBar) {
     this.roles$ = this.store.select(RolState.getRols);
   }
 
@@ -96,6 +115,10 @@ export class GestionRolesComponent implements AfterViewInit {
     }
 
     this.selection.select(...this.dataSource.data);
+  }
+  
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {duration: 2000});
   }
 
   /** The label for the checkbox on the passed row */

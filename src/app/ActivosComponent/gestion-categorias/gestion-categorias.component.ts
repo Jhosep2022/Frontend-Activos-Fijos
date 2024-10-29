@@ -9,6 +9,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Store } from '@ngxs/store';
 import { PdfreportService } from '../services/reportes/pdfreport.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-gestion-categorias',
@@ -22,7 +23,17 @@ export class GestionCategoriasComponent implements AfterViewInit {
   };
 
   agregarCategoria() {
-    this.store.dispatch(new AddCategoria(this.categoria));
+    
+    this.store.dispatch(new AddCategoria(this.categoria)).subscribe({
+      next: () => {
+        console.log('Custodio eliminado exitosamente');
+        this.openSnackBar('Custodio eliminado correctamente', 'Cerrar');
+      },
+      error: (error) => {
+        console.error('Error al eliminado Custodio:', error);
+        this.openSnackBar('El Custodio no se pudo eliminar', 'Cerrar');
+      }
+    });
     this.categoria = {
       idCategoria: 0,
       nombre: ''
@@ -57,7 +68,7 @@ export class GestionCategoriasComponent implements AfterViewInit {
   @ViewChild(MatSort)
   sort!: MatSort;
 
-  constructor(private store: Store, public pdfreportService: PdfreportService) {
+  constructor(private store: Store, public pdfreportService: PdfreportService, private _snackBar: MatSnackBar) {
     this.categorias$ = this.store.select(CategoriaState.getCategorias);
   }
 
@@ -69,6 +80,10 @@ export class GestionCategoriasComponent implements AfterViewInit {
   generarPDF() {
     const categoriasSeleccionados = this.selection.selected;
     this.pdfreportService.categoriaspdf(categoriasSeleccionados);
+  }
+  
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {duration: 2000});
   }
 
   applyFilter(event: Event) {

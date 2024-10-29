@@ -89,8 +89,9 @@ const routes: Routes = [
   //Rutas ActivosFijos
   //Rutas comunes
   {
-    path: 'loginActivos',
-    component: ActivosLoginComponent
+    path: '',
+    component: ActivosLoginComponent,
+    pathMatch: 'full' 
   },
   {
     path: 'recuperarpassword',
@@ -181,7 +182,7 @@ const routes: Routes = [
   },
 
   //Rutas Inventual
-  { path: '', component: LoginComponent, pathMatch: 'full' },
+  { path: 'logininventual', component: LoginComponent},
   {
     path: 'dashboard',
     component: DashboardComponent

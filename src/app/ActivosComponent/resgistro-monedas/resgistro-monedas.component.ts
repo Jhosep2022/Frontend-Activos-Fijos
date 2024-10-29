@@ -2,6 +2,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { DivisaModel } from '../models/divisa.model';
 import { Store } from '@ngxs/store';
 import { AddCurrency } from '../state-management/divisa/divisa.action';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-resgistro-monedas',
@@ -18,13 +19,26 @@ export class ResgistroMonedasComponent implements OnInit {
   };
 
   agregarMoneda() {
-    this.store.dispatch(new AddCurrency(this.divisa));
+    this.store.dispatch(new AddCurrency(this.divisa)).subscribe({
+      next: () => {
+        console.log('Moneda registrada exitosamente');
+        this.openSnackBar('Moneda registrada correctamente', 'Cerrar');
+      },
+      error: (error) => {
+        console.error('Error al registrar moneda:', error);
+        this.openSnackBar('La Moneda no se pudo registrar', 'Cerrar');
+      }
+    });
     this.divisa = {
       idDivisa: 0,
       valor: 0,
       nombre: '',
       abreviacion: ''
     };
+  }
+  
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {duration: 2000});
   }
 
   //sidebar menu activation start
@@ -41,7 +55,7 @@ export class ResgistroMonedasComponent implements OnInit {
   
   hide = true;
   
-    constructor(private store: Store) { }
+    constructor(private store: Store, private _snackBar: MatSnackBar) { }
   
     ngOnInit(): void {}
   

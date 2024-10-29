@@ -31,6 +31,16 @@
       </div>
       <div class="inventual-content-area px-7">
         <div class="inventual-addsupplier-area bg-white p-7 custom-shadow rounded-8 mb-5">
+          <h5 class="text-[15px] text-heading font-semibold mb-3">¿Tienes un archivo CSV con activos?</h5>
+          <div class="inventual-material-btn pt-2.5 justify-end">
+            <div style="display: flex; flex-direction: column;">
+              <label for="singleFile">Sube el archivo CSV</label>
+              <input id="singleFile" type="file" (change)="onFileSelected($event)" />
+            </div>
+            <button mat-raised-button color="primary" (click)="agregarActivos()">Cargar Activos CSV</button>
+          </div>          
+        </div>        
+        <div class="inventual-addsupplier-area bg-white p-7 custom-shadow rounded-8 mb-5">
           <div class="grid grid-cols-12 gap-x-7 sm:gap-x-0">
             <div class="col-span-4 md:col-span-6 sm:col-span-12">
               <div class="inventual-select-field mb-5">
