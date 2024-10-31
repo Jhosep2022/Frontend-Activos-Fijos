@@ -18,6 +18,7 @@ import { AreasState } from '../state-management/area/area.state';
 import { DatePipe } from '@angular/common';
 import { GetArea } from '../state-management/area/area.action';
 import { PdfreportService } from '../services/reportes/pdfreport.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-gestion-proyectos',
@@ -38,7 +39,16 @@ export class GestionProyectosComponent implements AfterViewInit {
   };
 
   agregarProyecto() {
-    this.store.dispatch(new AddProyecto(this.proyecto));
+    this.store.dispatch(new AddProyecto(this.proyecto)).subscribe({
+      next: () => {
+        console.log('Proyecto Registrado exitosamente');
+        this.openSnackBar('Proyecto Registrado correctamente', 'Cerrar');
+      },
+      error: (error) => {
+        console.error('Error al Registrar Proyecto:', error);
+        this.openSnackBar('El Proyecto no se pudo Registrar', 'Cerrar');
+      }
+    });
     this.proyecto = {
       idProyecto: 0,
       nombre: '',
@@ -49,11 +59,24 @@ export class GestionProyectosComponent implements AfterViewInit {
   }
 
   eliminarProyecto(id: number) {
-    this.store.dispatch(new DeleteProyecto(id));
+    this.store.dispatch(new DeleteProyecto(id)).subscribe({
+      next: () => {
+        console.log('Proyecto eliminado exitosamente');
+        this.openSnackBar('Proyecto eliminado correctamente', 'Cerrar');
+      },
+      error: (error) => {
+        console.error('Error al eliminado Proyecto:', error);
+        this.openSnackBar('El Proyecto no se pudo eliminar', 'Cerrar');
+      }
+    });
   }
 
   actualizarProyecto(proyecto: ProyectoModel) {    
     this.store.dispatch(new UpdateProyecto(this.proyecto));
+  }
+  
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {duration: 2000});
   }
 
   proyectos$: Observable<ProyectoModel[]>;
@@ -76,7 +99,7 @@ export class GestionProyectosComponent implements AfterViewInit {
   @ViewChild(MatSort)
   sort!: MatSort;
 
-  constructor(private store: Store, private datePipe: DatePipe, public pdfreportService: PdfreportService) {
+  constructor(private store: Store, private datePipe: DatePipe, public pdfreportService: PdfreportService, private _snackBar: MatSnackBar) {
     this.proyectos$ = this.store.select(ProyectoState.getProyectos);
     this.areas$ = this.store.select(AreasState.getAreas);
   }

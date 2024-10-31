@@ -9,6 +9,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { PdfreportService } from '../services/reportes/pdfreport.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-gestion-estadouso',
@@ -23,7 +24,16 @@ export class GestionEstadousoComponent implements AfterViewInit {
   };
 
   agregarEstado() {
-    this.store.dispatch(new AddEstado(this.estado));
+    this.store.dispatch(new AddEstado(this.estado)).subscribe({
+      next: () => {
+        console.log('Estado Registrado exitosamente');
+        this.openSnackBar('Estado Registrado correctamente', 'Cerrar');
+      },
+      error: (error) => {
+        console.error('Error al Registrar Estado:', error);
+        this.openSnackBar('El Estado no se pudo Registrar', 'Cerrar');
+      }
+    });
     this.estado = {
       idEstado: 0,
       nombre: '',
@@ -32,11 +42,24 @@ export class GestionEstadousoComponent implements AfterViewInit {
   }
 
   eliminarEstado(id: number) {
-    this.store.dispatch(new DeleteEstado(id));
+    this.store.dispatch(new DeleteEstado(id)).subscribe({
+      next: () => {
+        console.log('Estado eliminado exitosamente');
+        this.openSnackBar('Estado eliminado correctamente', 'Cerrar');
+      },
+      error: (error) => {
+        console.error('Error al eliminado Estado:', error);
+        this.openSnackBar('El Estado no se pudo eliminar', 'Cerrar');
+      }
+    });
   }
 
   actualizarEstado(estado: EstadosModel) {    
     this.store.dispatch(new UpdateEstado(this.estado));
+  }
+  
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {duration: 2000});
   }
 
   estados$: Observable<EstadosModel[]>;
@@ -59,7 +82,7 @@ export class GestionEstadousoComponent implements AfterViewInit {
   @ViewChild(MatSort)
   sort!: MatSort;
 
-  constructor(private store: Store, public pdfreportService: PdfreportService) {
+  constructor(private store: Store, public pdfreportService: PdfreportService, private _snackBar: MatSnackBar) {
     this.estados$ = this.store.select(EstadoState.getEstados);
   }
 

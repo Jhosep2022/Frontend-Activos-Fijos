@@ -12,6 +12,7 @@ import { PdfreportService } from '../services/reportes/pdfreport.service';
 import { MarcaModel } from '../models/marca.model';
 import { MarcaState } from '../state-management/marca/marca.state';
 import { GetMarca } from '../state-management/marca/marca.action';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-gestion-modelos',
@@ -30,7 +31,16 @@ export class GestionModelosComponent {
   };
   
   agregarModelo() {
-    this.store.dispatch(new AddModelo(this.modelo));
+    this.store.dispatch(new AddModelo(this.modelo)).subscribe({
+      next: () => {
+        console.log('Modelo Registrado exitosamente');
+        this.openSnackBar('Modelo Registrado correctamente', 'Cerrar');
+      },
+      error: (error) => {
+        console.error('Error al Registrar Modelo:', error);
+        this.openSnackBar('El Modelo no se pudo Registrar', 'Cerrar');
+      }
+    });
     this.modelo = {
       idModelo: 0,
       nombre: '',
@@ -41,11 +51,24 @@ export class GestionModelosComponent {
   }
   
   eliminarModelo(id: number) {
-    this.store.dispatch(new DeleteModelo(id));
+    this.store.dispatch(new DeleteModelo(id)).subscribe({
+      next: () => {
+        console.log('Modelo eliminado exitosamente');
+        this.openSnackBar('Modelo eliminado correctamente', 'Cerrar');
+      },
+      error: (error) => {
+        console.error('Error al eliminado Modelo:', error);
+        this.openSnackBar('El Modelo no se pudo eliminar', 'Cerrar');
+      }
+    });
   }
   
   actualizarModelo(modelo: ModeloModel) {    
     this.store.dispatch(new UpdateModelo(this.modelo));
+  }
+  
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {duration: 2000});
   }
   
   modelos$: Observable<ModeloModel[]>;
@@ -65,7 +88,7 @@ export class GestionModelosComponent {
   @ViewChild(MatSort)
   sort!: MatSort;
   
-  constructor(private store: Store, public pdfreportService: PdfreportService) {
+  constructor(private store: Store, public pdfreportService: PdfreportService, private _snackBar: MatSnackBar) {
     this.modelos$ = this.store.select(ModeloState.getModelos);
     this.marcas$ = this.store.select(MarcaState.getMarcas);
   }

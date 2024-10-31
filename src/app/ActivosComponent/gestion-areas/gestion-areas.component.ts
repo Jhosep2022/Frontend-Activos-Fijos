@@ -12,6 +12,7 @@ import { EmpresasState } from '../state-management/empresa/empresa.state';
 import { EmpresaModel } from '../models/empresa.model';
 import { GetEmpresa } from '../state-management/empresa/empresa-action';
 import { PdfreportService } from '../services/reportes/pdfreport.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-gestion-areas',
@@ -29,7 +30,16 @@ export class GestionAreasComponent implements AfterViewInit  {
   };
   
   agregarArea() {
-    this.store.dispatch(new AddArea(this.area));
+    this.store.dispatch(new AddArea(this.area)).subscribe({
+      next: () => {
+        console.log('Area Registrado exitosamente');
+        this.openSnackBar('Area Registrado correctamente', 'Cerrar');
+      },
+      error: (error) => {
+        console.error('Error al Registrar Area:', error);
+        this.openSnackBar('El Area no se pudo Registrar', 'Cerrar');
+      }
+    });
     this.area = {
       idArea: 0,
       idEmpresa: 0,
@@ -38,11 +48,24 @@ export class GestionAreasComponent implements AfterViewInit  {
   }
   
   eliminarArea(id: number) {
-    this.store.dispatch(new DeleteArea(id));
+    this.store.dispatch(new DeleteArea(id)).subscribe({
+      next: () => {
+        console.log('Area eliminada exitosamente');
+        this.openSnackBar('Area eliminada correctamente', 'Cerrar');
+      },
+      error: (error) => {
+        console.error('Error al eliminada Area:', error);
+        this.openSnackBar('La Area no se pudo eliminar', 'Cerrar');
+      }
+    });
   }
   
   actualizarArea(area: AreaModel) {    
     this.store.dispatch(new UpdateArea(this.area));
+  }
+  
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {duration: 2000});
   }
   
   areas$: Observable<AreaModel[]>;
@@ -61,7 +84,7 @@ export class GestionAreasComponent implements AfterViewInit  {
   @ViewChild(MatSort)
   sort!: MatSort;
   
-  constructor(private store: Store, public pdfreportService: PdfreportService) {
+  constructor(private store: Store, public pdfreportService: PdfreportService, private _snackBar: MatSnackBar) {
     this.areas$ = this.store.select(AreasState.getAreas);
     this.empresas$ = this.store.select(EmpresasState.getEmpresas);
   }

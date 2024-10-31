@@ -8,6 +8,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-gestion-identificadores',
@@ -23,7 +24,16 @@ export class GestionIdentificadoresComponent implements AfterViewInit {
   };
 
   agregarIdentificador() {
-    this.store.dispatch(new AddIdentificador(this.identificador));
+    this.store.dispatch(new AddIdentificador(this.identificador)).subscribe({
+      next: () => {
+        console.log('Identificador Registrado exitosamente');
+        this.openSnackBar('Identificador Registrado correctamente', 'Cerrar');
+      },
+      error: (error) => {
+        console.error('Error al Registrar Identificador:', error);
+        this.openSnackBar('El Identificador no se pudo Registrar', 'Cerrar');
+      }
+    });
     this.identificador = {
       idIdentificador: 0,
       codigoQr: '',
@@ -33,11 +43,24 @@ export class GestionIdentificadoresComponent implements AfterViewInit {
   }
 
   eliminarIdentificador(id: number) {
-    this.store.dispatch(new DeleteIdentificador(id));
+    this.store.dispatch(new DeleteIdentificador(id)).subscribe({
+      next: () => {
+        console.log('Identificador eliminado exitosamente');
+        this.openSnackBar('Identificador eliminado correctamente', 'Cerrar');
+      },
+      error: (error) => {
+        console.error('Error al eliminado Identificador:', error);
+        this.openSnackBar('El Identificador no se pudo eliminar', 'Cerrar');
+      }
+    });
   }
 
   actualizarIdentificador(identificador: IdentificadoresModel) {    
     this.store.dispatch(new UpdateIdentificador(this.identificador));
+  }
+  
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {duration: 2000});
   }
 
   identificadores$: Observable<IdentificadoresModel[]>;
@@ -60,7 +83,7 @@ export class GestionIdentificadoresComponent implements AfterViewInit {
   @ViewChild(MatSort)
   sort!: MatSort;
 
-  constructor(private store: Store) {
+  constructor(private store: Store, private _snackBar: MatSnackBar) {
     this.identificadores$ = this.store.select(IdentificadorState.getIdentificadores);
   }
 

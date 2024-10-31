@@ -22,16 +22,15 @@ export class GestionCategoriasComponent implements AfterViewInit {
     nombre: ''
   };
 
-  agregarCategoria() {
-    
+  agregarCategoria() {    
     this.store.dispatch(new AddCategoria(this.categoria)).subscribe({
       next: () => {
-        console.log('Custodio eliminado exitosamente');
-        this.openSnackBar('Custodio eliminado correctamente', 'Cerrar');
+        console.log('Categoria agregada exitosamente');
+        this.openSnackBar('Categoria agregada correctamente', 'Cerrar');
       },
       error: (error) => {
-        console.error('Error al eliminado Custodio:', error);
-        this.openSnackBar('El Custodio no se pudo eliminar', 'Cerrar');
+        console.error('Error al agregada Categoria:', error);
+        this.openSnackBar('La Categoria no se pudo agregada', 'Cerrar');
       }
     });
     this.categoria = {
@@ -41,7 +40,16 @@ export class GestionCategoriasComponent implements AfterViewInit {
   }
 
   eliminarCategoria(id: number) {
-    this.store.dispatch(new DeleteCategoria(id));
+    this.store.dispatch(new DeleteCategoria(id)).subscribe({
+      next: () => {
+        console.log('Categoria eliminada exitosamente');
+        this.openSnackBar('Categoria eliminada correctamente', 'Cerrar');
+      },
+      error: (error) => {
+        console.error('Error al eliminada Categoria:', error);
+        this.openSnackBar('La Categoria no se pudo eliminar', 'Cerrar');
+      }
+    });
   }
 
   actualizarCategoria(rol: CategoriaModel) {    

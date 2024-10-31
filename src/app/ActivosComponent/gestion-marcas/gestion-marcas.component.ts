@@ -9,6 +9,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { PdfreportService } from '../services/reportes/pdfreport.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-gestion-marcas',
@@ -25,7 +26,16 @@ export class GestionMarcasComponent {
   };
   
   agregarMarca() {
-    this.store.dispatch(new AddMarca(this.marca));
+    this.store.dispatch(new AddMarca(this.marca)).subscribe({
+      next: () => {
+        console.log('Marca agregada exitosamente');
+        this.openSnackBar('Marca agregada correctamente', 'Cerrar');
+      },
+      error: (error) => {
+        console.error('Error al agregada Marca:', error);
+        this.openSnackBar('La Marca no se pudo agregada', 'Cerrar');
+      }
+    });
     this.marca = {
       idMarca: 0,
       nombre: '',
@@ -36,7 +46,20 @@ export class GestionMarcasComponent {
   }
   
   eliminarMarca(id: number) {
-    this.store.dispatch(new DeleteMarca(id));
+    this.store.dispatch(new DeleteMarca(id)).subscribe({
+      next: () => {
+        console.log('Marca eliminada exitosamente');
+        this.openSnackBar('Marca eliminada correctamente', 'Cerrar');
+      },
+      error: (error) => {
+        console.error('Error al eliminada Marca:', error);
+        this.openSnackBar('La Marca no se pudo eliminar', 'Cerrar');
+      }
+    });
+  }
+  
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {duration: 2000});
   }
   
   actualizarMarca(marca: MarcaModel) {    
@@ -60,7 +83,7 @@ export class GestionMarcasComponent {
   @ViewChild(MatSort)
   sort!: MatSort;
   
-  constructor(private store: Store, public pdfreportService: PdfreportService) {
+  constructor(private store: Store, public pdfreportService: PdfreportService, private _snackBar: MatSnackBar) {
     this.marcas$ = this.store.select(MarcaState.getMarcas);
   }
   
