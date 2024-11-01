@@ -81,7 +81,7 @@
                               <div class="inventual-select-field-style">
                                 <mat-form-field>
                                   <mat-select class="block" [placeholder]="'Selecionar Area'" class="form-control" id="idArea" [(ngModel)]="proyecto.idArea" name="idArea">
-                                    <mat-option *ngFor="let area of areas$ | async" [value]="area.idEmpresa">
+                                    <mat-option *ngFor="let area of areas$ | async" [value]="area.idArea">
                                       {{ area.nombre }}
                                     </mat-option>
                                   </mat-select>

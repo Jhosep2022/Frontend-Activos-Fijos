@@ -43,18 +43,6 @@
                                     </mat-form-field>
                                 </div>
                             </div>
-                            <div class="inventual-select-field mb-5">
-                              <h5 class="text-[15px] text-heading font-semibold mb-3">Empresa</h5>
-                              <div class="inventual-select-field-style">
-                                <mat-form-field>
-                                  <mat-select class="block" [placeholder]="'Selecionar Empresa'" class="form-control" id="rolId" [(ngModel)]="area.idEmpresa" name="rolId">
-                                    <mat-option *ngFor="let rol of empresas$ | async" [value]="rol.idEmpresa">
-                                      {{ rol.nombre }}
-                                    </mat-option>
-                                  </mat-select>
-                                </mat-form-field>
-                              </div>
-                            </div>
                         </div>
                         <div class="inventual-material-btn mb-7">
                             <button mat-raised-button color="primary" class="mb-1" (click)="agregarArea()">

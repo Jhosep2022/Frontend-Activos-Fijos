@@ -56,13 +56,13 @@ export const navbarDataEditor: INavbarData[] = [
       {
         routeLink: '/identificadores',
         icon: 'fal fa-ballot',
-        label: 'Identificadores',
-      },
-      {
-        routeLink: '/depreciacion',
-        icon: 'fal fa-ballot',
-        label: 'Depreciaciones',
-      },
+        label: 'Identificadores X',
+      },      
+      //{
+      //  routeLink: '/depreciacion',
+      //  icon: 'fal fa-ballot',
+      //  label: 'Depreciaciones',
+      //},
     ],
   },
   {
@@ -70,11 +70,11 @@ export const navbarDataEditor: INavbarData[] = [
     icon: 'fal fa-coins',
     label: 'Organización (Activos)',
     items: [
-      {
-        routeLink: '/empresas',
-        icon: 'fal fa-ballot',
-        label: 'Empresas',
-      },
+      //{
+      //  routeLink: '/empresas',
+      //  icon: 'fal fa-ballot',
+      //  label: 'Empresas',
+      //},
       {
         routeLink: '/areas',
         icon: 'fal fa-ballot',
@@ -90,15 +90,15 @@ export const navbarDataEditor: INavbarData[] = [
   {
     routeLink: 'editar',
     icon: 'fal fa-coins',
-    label: 'Edición Activos',
+    label: 'Edición Activos X',
     items: [
       {
         routeLink: '/editar/activo',
-        label: 'Editar Activo (Individual)',
+        label: 'Editar Activo (Individual) X',
       },
       {
         routeLink: '/editar/activoProyecto',
-        label: 'Editar Activos por Proyecto',
+        label: 'Editar Activos por Proyecto X',
       }
     ],
   },

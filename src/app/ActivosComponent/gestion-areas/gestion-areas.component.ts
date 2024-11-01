@@ -25,7 +25,7 @@ export class GestionAreasComponent implements AfterViewInit  {
   empresas: EmpresaModel[] = [];
   area: AreaModel = {
     idArea: 0,
-    idEmpresa: 0,
+    idEmpresa: 1,
     nombre: ''
   };
   
@@ -42,7 +42,7 @@ export class GestionAreasComponent implements AfterViewInit  {
     });
     this.area = {
       idArea: 0,
-      idEmpresa: 0,
+      idEmpresa: 1,
       nombre: ''
     };
   }
