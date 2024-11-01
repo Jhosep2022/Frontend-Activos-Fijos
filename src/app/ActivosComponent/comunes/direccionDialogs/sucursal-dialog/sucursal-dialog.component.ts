@@ -33,7 +33,6 @@ export class SucursalDialogComponent implements OnInit {
 
   agregarSucursal() {
     this.sucursal.municipioId = this.data.sucursal.municipioId;
-    this.store.dispatch(new AddSucursal(this.sucursal));
     this.store.dispatch(new AddSucursal(this.sucursal)).subscribe({
       next: () => {
         console.log('Sucursal agregada exitosamente');

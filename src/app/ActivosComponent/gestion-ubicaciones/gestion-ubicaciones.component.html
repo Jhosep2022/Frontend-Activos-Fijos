@@ -155,7 +155,7 @@
                 <h5 class="text-[15px] text-heading font-semibold mb-3">Direccion</h5>
                 <div class="inventual-select-field-style">
                   <mat-form-field>
-                    <mat-select class="block" [placeholder]="'Selecionar Rol'" class="form-control" id="idDireccion" [(ngModel)]="bloque.idDireccion" name="idDireccion">
+                    <mat-select class="block" [placeholder]="'Selecionar Dirección'" class="form-control" id="idDireccion" [(ngModel)]="bloque.idDireccion" name="idDireccion">
                       <ng-container *ngIf="bloque.idSucursal !== 0">
                         <mat-option *ngFor="let direccion of direcciones$ | async" [value]="direccion.idDireccion">
                           {{ direccion.zona+', '+direccion.calle+', '+direccion.detalle }}
@@ -202,7 +202,7 @@
                         <ng-container *ngFor="let aulaS of aulas$ | async">
                           <ng-container *ngIf="aulaS.idBloque === aula.idBloque">
                             <mat-option [value]="aulaS.idBloque">
-                              {{ aulaS.nombre }}
+                              {{ aulaS.nombre+' - '+aulaS.codigoUbicacion }}
                             </mat-option>
                           </ng-container>
                         </ng-container>

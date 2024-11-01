@@ -19,7 +19,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class GestionCategoriasComponent implements AfterViewInit {
   categoria: CategoriaModel = {
     idCategoria: 0,
-    nombre: ''
+    nombre: '',
+    tiempoDeVida: 0,
+    coeficienteAnual: 0
   };
 
   agregarCategoria() {    
@@ -35,7 +37,9 @@ export class GestionCategoriasComponent implements AfterViewInit {
     });
     this.categoria = {
       idCategoria: 0,
-      nombre: ''
+      nombre: '',
+      tiempoDeVida: 0,
+      coeficienteAnual: 0
     };
   }
 
@@ -67,7 +71,7 @@ export class GestionCategoriasComponent implements AfterViewInit {
     }
   }
   //sidebar menu activation end
-  displayedColumns: string[] = ['select', 'nombre', 'accion'];
+  displayedColumns: string[] = ['select', 'nombre', 'tiempoDeVida', 'coeficienteAnual','accion'];
   dataSource: MatTableDataSource<CategoriaModel> = new MatTableDataSource(); // Cambiado el tipo a `any`
   selection = new SelectionModel<CategoriaModel>(true, []);
 

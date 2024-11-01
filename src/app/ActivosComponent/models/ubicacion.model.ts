@@ -37,6 +37,7 @@ export interface BloqueModel {
 export interface AulaModel {
     idAula: number;
     nombre: string;
+    codigoUbicacion: string;
     idBloque: number;
 }
 

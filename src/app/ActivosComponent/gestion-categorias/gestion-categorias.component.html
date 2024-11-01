@@ -21,11 +21,11 @@
         </div>
         <div class="inventual-breadcrumb-area px-7 py-9 bg-white mb-5">
             <div class="inventual-breadcrumb-area-inner px-0.5">
-                <h5 class="text-[20px] text-heading font-bold mb-3">Categorias</h5>
+                <h5 class="text-[20px] text-heading font-bold mb-3">Categorias (Según la ley Boliviana)</h5>
                 <div class="inventual-breadcrumb-area-inner-wrap">
                     <span class="text-[14px] text-body font-normal inline-block me-2">Gestion Categorias</span>
                     <span class="text-[14px] text-body font-normal inline-block me-2">></span>
-                    <span class="text-[14px] text-body font-normal inline-block me-2">Categorias</span>
+                    <span class="text-[14px] text-body font-normal inline-block me-2">Categorias (Información legal, evitar modificaciones innecesarias)</span>
                 </div>
             </div>
         </div>
@@ -40,6 +40,24 @@
                                     <mat-form-field class="w-full" [floatLabel]="'always'">
                                         <mat-label class="hidden">Kilogram</mat-label>
                                         <input matInput [placeholder]="'Ej. Inmuebles'" type="text" class="form-control" id="nombre" [(ngModel)]="categoria.nombre" name="name">
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="inventual-select-field mb-7">
+                                <h5 class="text-[15px] text-heading font-semibold mb-3">Tiempo de Vida (Años)</h5>
+                                <div class="inventual-input-field-style">
+                                    <mat-form-field class="w-full" [floatLabel]="'always'">
+                                        <mat-label class="hidden">Kilogram</mat-label>
+                                        <input matInput [placeholder]="'Ej. 10'" type="number" class="form-control" id="tiempoDeVida" [(ngModel)]="categoria.tiempoDeVida" name="tiempoDeVida">
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="inventual-select-field mb-7">
+                                <h5 class="text-[15px] text-heading font-semibold mb-3">Coeficiante anual (porcentual) </h5>
+                                <div class="inventual-input-field-style">
+                                    <mat-form-field class="w-full" [floatLabel]="'always'">
+                                        <mat-label class="hidden">Kilogram</mat-label>
+                                        <input matInput [placeholder]="'Ej. 5.0'" type="number" class="form-control" id="coeficienteAnual" [(ngModel)]="categoria.coeficienteAnual" name="coeficienteAnual">
                                     </mat-form-field>
                                 </div>
                             </div>
@@ -79,6 +97,16 @@
                                 <ng-container matColumnDef="nombre">
                                     <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre de Categoria </th>
                                     <td mat-cell *matCellDef="let row"> {{row.nombre}} </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="tiempoDeVida">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Tiempo de Vida </th>
+                                    <td mat-cell *matCellDef="let row"> {{row.tiempoDeVida}} </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="coeficienteAnual">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Coeficiante anual </th>
+                                    <td mat-cell *matCellDef="let row"> {{row.coeficienteAnual}} </td>
                                 </ng-container>
 
                                 <ng-container matColumnDef="accion">

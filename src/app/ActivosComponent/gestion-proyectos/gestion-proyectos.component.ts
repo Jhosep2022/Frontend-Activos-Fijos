@@ -33,9 +33,10 @@ export class GestionProyectosComponent implements AfterViewInit {
   proyecto: ProyectoModel = {
     idProyecto: 0,
     nombre: '',
-      fechaInicio: '',
-      fechaFin: '',
-    idArea: 0
+    fechaInicio: '',
+    fechaFin: '',
+    idArea: 0,
+    codigoProyecto: ''
   };
 
   agregarProyecto() {
@@ -54,7 +55,8 @@ export class GestionProyectosComponent implements AfterViewInit {
       nombre: '',
       fechaInicio: '',
       fechaFin: '',
-      idArea: 0
+      idArea: 0,
+      codigoProyecto: ''
     };
   }
 
@@ -90,7 +92,7 @@ export class GestionProyectosComponent implements AfterViewInit {
     }
   }
   //sidebar menu activation end
-  displayedColumns: string[] = ['select', 'nombre', 'fechaInicio', 'fechaFin', 'idArea', 'accion'];
+  displayedColumns: string[] = ['select', 'nombre', 'fechaInicio', 'fechaFin', 'idArea', 'codigoProyecto','accion'];
   dataSource: MatTableDataSource<ProyectoModel> = new MatTableDataSource(); // Cambiado el tipo a `any`
   selection = new SelectionModel<ProyectoModel>(true, []);
 

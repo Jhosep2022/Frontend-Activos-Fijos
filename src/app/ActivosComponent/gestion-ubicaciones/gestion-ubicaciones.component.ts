@@ -86,7 +86,8 @@ export class GestionUbicacionesComponent implements OnInit {
   aula: AulaModel = {
     idAula: 0,
     nombre: '',
-    idBloque: 0
+    idBloque: 0,
+    codigoUbicacion: ''
   };
 
   direccion: DireccionModel = {
