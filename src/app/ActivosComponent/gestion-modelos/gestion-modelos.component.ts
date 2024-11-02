@@ -13,6 +13,7 @@ import { MarcaModel } from '../models/marca.model';
 import { MarcaState } from '../state-management/marca/marca.state';
 import { GetMarca } from '../state-management/marca/marca.action';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { DialogsAccessService } from '../services/dialogs/dialogs-access.service';
 
 @Component({
   selector: 'app-gestion-modelos',
@@ -88,7 +89,7 @@ export class GestionModelosComponent {
   @ViewChild(MatSort)
   sort!: MatSort;
   
-  constructor(private store: Store, public pdfreportService: PdfreportService, private _snackBar: MatSnackBar) {
+  constructor(private store: Store, public pdfreportService: PdfreportService, private _snackBar: MatSnackBar, public dialogsAccessService: DialogsAccessService) {
     this.modelos$ = this.store.select(ModeloState.getModelos);
     this.marcas$ = this.store.select(MarcaState.getMarcas);
   }

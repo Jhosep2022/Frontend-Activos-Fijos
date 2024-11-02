@@ -55,7 +55,7 @@ export class CustodiosState {
       tap((response) => {
         const state = getState();
         const custodios = [...state.custodios];
-        const index = custodios.findIndex((custodio) => custodio.idCustodio === payload.id);
+        const index = custodios.findIndex((custodio) => custodio.idCustodio === payload.idCustodio);
         custodios[index] = response.data;
         setState({
           ...state,

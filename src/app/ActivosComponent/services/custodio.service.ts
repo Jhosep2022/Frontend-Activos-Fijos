@@ -31,12 +31,12 @@ export class CustodioService {
     return this.http.post<ResponseModel<CustodiosModel>>(`${this.baseUrl}/crear`, custodio, { headers });
   }
   
-  updateCustodio(custodio: any): Observable<ResponseModel<CustodiosModel>> {
+  updateCustodio(custodio: CustodiosModel): Observable<ResponseModel<CustodiosModel>> {
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
-    return this.http.put<ResponseModel<CustodiosModel>>(`${this.baseUrl}/actualizar/${custodio.id}`, custodio, { headers });
+    return this.http.put<ResponseModel<CustodiosModel>>(`${this.baseUrl}/actualizar/${custodio.idCustodio}`, custodio, { headers });
   }
   
   deleteCustodio(custodioId: number): Observable<ResponseModel<CustodiosModel>> {

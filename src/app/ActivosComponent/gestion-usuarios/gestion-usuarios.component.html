@@ -125,7 +125,7 @@
                                         Accion <mat-icon>arrow_drop_down</mat-icon>
                                     </button>
                                     <mat-menu #beforeMenu="matMenu" xPosition="before">
-                                        <button mat-menu-item>
+                                        <button mat-menu-item  (click)="dialogsAccessService.actualizarUsuario(row)">
                                             <img src="../../../../../assets/img/icon/action-2.png" alt="icon not found">
                                             <span>Editar usuario</span>
                                         </button>

@@ -51,7 +51,7 @@ export class CategoriaState {
       tap((response) => {
         const state = getState();
         const categorias = [...state.categorias];
-        const index = categorias.findIndex((categoria) => categoria.idCategoria === payload.id);
+        const index = categorias.findIndex((categoria) => categoria.idCategoria === payload.idCategoria);
         categorias[index] = response.data;
         setState({
           ...state,

@@ -55,7 +55,7 @@ export class AreasState {
       tap((response) => {
         const state = getState();
         const areas = [...state.areas];
-        const index = areas.findIndex((area) => area.idArea === payload.id);
+        const index = areas.findIndex((area) => area.idArea === payload.idArea);
         areas[index] = response.data;
         setState({
           ...state,

@@ -17,6 +17,7 @@ import { ProyectoModel } from '../models/proyecto.model';
 import { ProyectoState } from '../state-management/proyecto/proyecto.state';
 import { PdfreportService } from '../services/reportes/pdfreport.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { DialogsAccessService } from '../services/dialogs/dialogs-access.service';
 
 @Component({
   selector: 'app-gestion-custodios',
@@ -95,7 +96,7 @@ export class GestionCustodiosComponent implements AfterViewInit {
   @ViewChild(MatSort)
   sort!: MatSort;
 
-  constructor(private store: Store, public pdfreportService: PdfreportService, private _snackBar: MatSnackBar) {
+  constructor(private store: Store, public pdfreportService: PdfreportService, private _snackBar: MatSnackBar, public dialogsAccessService: DialogsAccessService) {
     this.custodios$ = this.store.select(CustodiosState.getCustodios);
     this.proyectos$ = this.store.select(ProyectoState.getProyectos);
   }

@@ -13,6 +13,7 @@ import { EmpresaModel } from '../models/empresa.model';
 import { GetEmpresa } from '../state-management/empresa/empresa-action';
 import { PdfreportService } from '../services/reportes/pdfreport.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { DialogsAccessService } from '../services/dialogs/dialogs-access.service';
 
 @Component({
   selector: 'app-gestion-areas',
@@ -84,7 +85,7 @@ export class GestionAreasComponent implements AfterViewInit  {
   @ViewChild(MatSort)
   sort!: MatSort;
   
-  constructor(private store: Store, public pdfreportService: PdfreportService, private _snackBar: MatSnackBar) {
+  constructor(private store: Store, public pdfreportService: PdfreportService, private _snackBar: MatSnackBar, public dialogsAccessService: DialogsAccessService) {
     this.areas$ = this.store.select(AreasState.getAreas);
     this.empresas$ = this.store.select(EmpresasState.getEmpresas);
   }

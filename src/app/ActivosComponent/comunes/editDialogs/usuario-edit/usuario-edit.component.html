@@ -1,0 +1,111 @@
+<mat-dialog-content>
+    <div class="popup-body">
+        <div class="inventual-popup-inner">
+            <div class="inventual-popup-header relative mb-11">
+                <div class="inventual-popup-header-title">
+                    <h4 class="text-[20px] text-heading font-bold">Actualizar Usuario: {{data.usuario.nombre}}</h4>
+                </div>
+                <div class="inventual-popup-header-close absolute -top-4 ltr:-right-2.5 ltr:left-auto rtl:left-0 rtl:right-auto">
+                    <mat-dialog-actions>
+                        <div class="default-light-theme">
+                            <a href="javascript:void(0)" mat-dialog-close>
+                                <mat-icon>clear</mat-icon>
+                            </a>
+                        </div>
+                    </mat-dialog-actions>
+                </div>
+            </div>
+            <div class="grid grid-cols-12 gap-x-7 sm:gap-x-0">
+                <div class="col-span-6 md:col-span-6 sm:col-span-12">
+                  <div class="inventual-select-field mb-5">
+                    <h5 class="text-[15px] text-heading font-semibold mb-3">Nombre</h5>
+                    <div class="inventual-input-field-style">
+                      <mat-form-field class="w-full" [floatLabel]="'always'">
+                        <mat-label class="hidden">Joseph Tylor</mat-label>
+                        <input matInput [placeholder]="'{{data.usuario.nombre}}'" type="text" class="form-control" id="nombre" [(ngModel)]="user.nombre" name="name">
+                      </mat-form-field>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-span-6 md:col-span-6 sm:col-span-12">
+                  <div class="inventual-select-field mb-5">
+                    <h5 class="text-[15px] text-heading font-semibold mb-3">Apellido Paterno</h5>
+                    <div class="inventual-input-field-style">
+                      <mat-form-field class="w-full" [floatLabel]="'always'">
+                        <mat-label class="hidden">Joseph Tylor</mat-label>
+                        <input matInput [placeholder]="'{{data.usuario.apellidoPaterno}}'" type="text" class="form-control" id="apellidoPaterno" [(ngModel)]="user.apellidoPaterno" name="apellidoPaterno">
+                      </mat-form-field>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-span-6 md:col-span-6 sm:col-span-12">
+                  <div class="inventual-select-field mb-5">
+                    <h5 class="text-[15px] text-heading font-semibold mb-3">Apellido Materno</h5>
+                    <div class="inventual-input-field-style">
+                      <mat-form-field class="w-full" [floatLabel]="'always'">
+                        <mat-label class="hidden">Joseph Tylor</mat-label>
+                        <input matInput [placeholder]="'{{data.usuario.apellidoPaterno}}'" type="text" class="form-control" id="apellidoMaterno" [(ngModel)]="user.apellidoMaterno" name="apellidoMaterno">
+                      </mat-form-field>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-span-6 md:col-span-6 sm:col-span-12">
+                  <div class="inventual-select-field mb-5">
+                    <h5 class="text-[15px] text-heading font-semibold mb-3">Telefono</h5>
+                    <div class="inventual-input-field-style">
+                      <mat-form-field class="w-full" [floatLabel]="'always'">
+                        <mat-label class="hidden">00 000 000 000</mat-label>
+                        <input matInput [placeholder]="'{{data.usuario.telefono}}'" type="text" class="form-control" id="telefono" [(ngModel)]="user.telefono" name="telefono">
+                      </mat-form-field>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-span-6 md:col-span-6 sm:col-span-12">
+                  <div class="inventual-select-field mb-5">
+                    <h5 class="text-[15px] text-heading font-semibold mb-3">Email</h5>
+                    <div class="inventual-input-field-style">
+                      <mat-form-field class="w-full" [floatLabel]="'always'">
+                        <mat-label class="hidden">joseph&#64;example.com</mat-label>
+                        <input type="email" matInput [placeholder]="'{{data.usuario.email}}'" class="form-control" id="correo" [(ngModel)]="user.correo" name="correo">
+                      </mat-form-field>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-span-6 md:col-span-6 sm:col-span-12">
+                  <div class="inventual-select-field mb-5">
+                    <h5 class="text-[15px] text-heading font-semibold mb-3">Contraseña</h5>
+                    <div class="inventual-input-field-style inventual-input-field-style-eye">
+                      <mat-form-field appearance="fill">
+                        <mat-label class="hidden">Enter your password</mat-label>
+                        <input matInput [type]="hide ? 'password' : 'text'" class="form-control" id="password" [(ngModel)]="user.password" name="password">
+                        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+                          [attr.aria-pressed]="hide">
+                          <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                        </button>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-span-6 md:col-span-6 sm:col-span-12">
+                  <div class="inventual-select-field mb-5">
+                    <h5 class="text-[15px] text-heading font-semibold mb-3">Rol</h5>
+                    <div class="inventual-select-field-style">
+                      <mat-form-field>
+                        <mat-select class="block" [placeholder]="'{{data.usuario.rol}}'" class="form-control" id="rolId" [(ngModel)]="user.rolId" name="rolId">
+                          <mat-option *ngFor="let rol of roles$ | async" [value]="rol.idRol">
+                            {{ rol.nombre }}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-span-12">
+                    <div class="inventual-material-btn pt-1.5 justify-end">
+                        <button type="submit" mat-raised-button color="primary" (click)="actualizarUsuario()">Actualizar Usuario</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</mat-dialog-content>

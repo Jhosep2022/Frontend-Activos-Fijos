@@ -16,6 +16,8 @@ import { Observable } from 'rxjs';
 import { DivisaState } from '../state-management/divisa/divisa.state';
 import { PdfreportService } from '../services/reportes/pdfreport.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { CsvreportService } from '../services/reportes/csvreport.service';
+import { DialogsAccessService } from '../services/dialogs/dialogs-access.service';
 
 @Component({
   selector: 'app-gestion-monedas',
@@ -41,7 +43,7 @@ export class GestionMonedasComponent implements AfterViewInit {
   @ViewChild(MatSort)
   sort!: MatSort;
 
-  constructor(private store: Store, public pdfreportService: PdfreportService, private _snackBar: MatSnackBar) {
+  constructor(private store: Store, public pdfreportService: PdfreportService, private _snackBar: MatSnackBar, public csvreportService: CsvreportService, public dialogsAccessService: DialogsAccessService) {
     this.divisas$ = this.store.select(DivisaState.getDivisa);
   }
 
@@ -66,6 +68,11 @@ export class GestionMonedasComponent implements AfterViewInit {
         this.openSnackBar('La Moneda no se pudo eliminar', 'Cerrar');
       }
     });
+  }  
+
+  generarCSV() {
+    const monedasSeleccionados = this.selection.selected;
+    this.csvreportService.divisasCSV(monedasSeleccionados);
   }
   
   openSnackBar(message: string, action: string) {

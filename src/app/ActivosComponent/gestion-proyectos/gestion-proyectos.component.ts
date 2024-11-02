@@ -19,6 +19,7 @@ import { DatePipe } from '@angular/common';
 import { GetArea } from '../state-management/area/area.action';
 import { PdfreportService } from '../services/reportes/pdfreport.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { DialogsAccessService } from '../services/dialogs/dialogs-access.service';
 
 @Component({
   selector: 'app-gestion-proyectos',
@@ -101,7 +102,7 @@ export class GestionProyectosComponent implements AfterViewInit {
   @ViewChild(MatSort)
   sort!: MatSort;
 
-  constructor(private store: Store, private datePipe: DatePipe, public pdfreportService: PdfreportService, private _snackBar: MatSnackBar) {
+  constructor(private store: Store, private datePipe: DatePipe, public pdfreportService: PdfreportService, private _snackBar: MatSnackBar, public dialogsAccessService: DialogsAccessService) {
     this.proyectos$ = this.store.select(ProyectoState.getProyectos);
     this.areas$ = this.store.select(AreasState.getAreas);
   }

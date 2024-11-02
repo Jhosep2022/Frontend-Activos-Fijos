@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { UserModel } from '../../models/user.model';
 import { RolModel } from '../../models/rol.model';
+import { DivisaModel } from '../../models/divisa.model';
 
 @Injectable({
   providedIn: 'root'
@@ -49,4 +50,33 @@ export class CsvreportService {
     a.click();
     window.URL.revokeObjectURL(url);
   }
+  divisasCSV(divisasList: DivisaModel[]): void {
+    const headers = [
+      'ID Divisa',
+      'Nombre',
+      'Abreviación',
+      'Valor'
+    ];
+  
+    const csvData = [
+      headers.join(','), // Encabezados
+      ...divisasList.map(divisa => {
+        return [
+          divisa.idDivisa,
+          divisa.nombre,
+          divisa.abreviacion,
+          divisa.valor.toString() // Convierte el valor a cadena para el CSV
+        ].join(',');
+      })
+    ].join('\n');
+  
+    const blob = new Blob([csvData], { type: 'text/csv' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'divisas.csv';
+    a.click();
+    window.URL.revokeObjectURL(url);
+  }
+  
 }

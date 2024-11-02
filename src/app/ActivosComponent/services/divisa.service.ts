@@ -31,12 +31,12 @@ export class DivisaService {
     return this.http.post<ResponseModel<DivisaModel>>(`${this.baseUrl}/crear`, currency, { headers });
   }
 
-  updateCurrency(currency: any): Observable<ResponseModel<DivisaModel>> {
+  updateCurrency(currency: DivisaModel): Observable<ResponseModel<DivisaModel>> {
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
-    return this.http.put<ResponseModel<DivisaModel>>(`${this.baseUrl}/actualizar/${currency.id}`, currency, { headers });
+    return this.http.put<ResponseModel<DivisaModel>>(`${this.baseUrl}/actualizar/${currency.idDivisa}`, currency, { headers });
   }
 
   deleteCurrency(idDivisa: number): Observable<ResponseModel<DivisaModel>> {

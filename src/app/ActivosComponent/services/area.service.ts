@@ -31,12 +31,12 @@ export class AreaService {
     return this.http.post<ResponseModel<AreaModel>>(`${this.baseUrl}/crear`, area, { headers });
   }
   
-  updateArea(area: any): Observable<ResponseModel<AreaModel>> {
+  updateArea(area: AreaModel): Observable<ResponseModel<AreaModel>> {
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
-    return this.http.put<ResponseModel<AreaModel>>(`${this.baseUrl}/actualizar/${area.id}`, area, { headers });
+    return this.http.put<ResponseModel<AreaModel>>(`${this.baseUrl}/actualizar/${area.idArea}`, area, { headers });
   }
   
   deleteArea(areaId: number): Observable<ResponseModel<AreaModel>> {

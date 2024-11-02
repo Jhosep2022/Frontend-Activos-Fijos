@@ -51,7 +51,7 @@ export class EstadoState {
       tap((response) => {
         const state = getState();
         const estados = [...state.estados];
-        const index = estados.findIndex((estado) => estado.idEstado === payload.id);
+        const index = estados.findIndex((estado) => estado.idEstado === payload.idEstado);
         estados[index] = response.data;
         setState({
           ...state,

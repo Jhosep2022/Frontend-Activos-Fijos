@@ -100,15 +100,15 @@
                                                 Action <mat-icon>arrow_drop_down</mat-icon>
                                             </button>
                                             <mat-menu #beforeMenu="matMenu" xPosition="before">
-                                                <button mat-menu-item>
+                                                <button mat-menu-item (click)="dialogsAccessService.actualizarAreas(row)">
                                                     <img src="../../../../../assets/img/icon/action-2.png"
                                                         alt="icon not found">
-                                                    <span>Editar Empresa</span>
+                                                    <span>Editar Area</span>
                                                 </button>
                                                 <button mat-menu-item (click)="eliminarArea(row.idArea)">
                                                     <img src="../../../../../assets/img/icon/action-6.png"
                                                         alt="icon not found">
-                                                    <span>Eliminar Empresa</span>
+                                                    <span>Eliminar Area</span>
                                                 </button>
                                             </mat-menu>
                                         </div>

@@ -51,7 +51,7 @@ export class DepreciacionState {
       tap((response) => {
         const state = getState();
         const depreciaciones = [...state.depreciaciones];
-        const index = depreciaciones.findIndex((depreciacion) => depreciacion.idDepreciacion === payload.id);
+        const index = depreciaciones.findIndex((depreciacion) => depreciacion.idDepreciacion === payload.idDepreciacion);
         depreciaciones[index] = response.data;
         setState({
           ...state,

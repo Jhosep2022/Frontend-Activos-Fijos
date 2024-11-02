@@ -95,6 +95,15 @@ import { GestionModelosComponent } from './gestion-modelos/gestion-modelos.compo
 import { MarcaState } from "./state-management/marca/marca.state";
 import { ModeloState } from "./state-management/modelo/modelo.state";
 import {MatSnackBar, MatSnackBarModule} from '@angular/material/snack-bar';
+import { UsuarioEditComponent } from './comunes/editDialogs/usuario-edit/usuario-edit.component';
+import { DivisaEditComponent } from './comunes/editDialogs/divisa-edit/divisa-edit.component';
+import { CustodioEditComponent } from './comunes/editDialogs/custodio-edit/custodio-edit.component';
+import { CategoriaEditComponent } from './comunes/editDialogs/categoria-edit/categoria-edit.component';
+import { MarcasEditComponent } from './comunes/editDialogs/marcas-edit/marcas-edit.component';
+import { ModelosEditComponent } from './comunes/editDialogs/modelos-edit/modelos-edit.component';
+import { AreasEditComponent } from './comunes/editDialogs/areas-edit/areas-edit.component';
+import { ProyectosEditComponent } from './comunes/editDialogs/proyectos-edit/proyectos-edit.component';
+import { ActivosEditComponent } from './comunes/editDialogs/activos-edit/activos-edit.component';
 
 @NgModule({
   imports: [
@@ -176,6 +185,15 @@ import {MatSnackBar, MatSnackBarModule} from '@angular/material/snack-bar';
     GestionIdentificadoresComponent,
     GestionMarcasComponent,
     GestionModelosComponent,
+    UsuarioEditComponent,
+    DivisaEditComponent,
+    CustodioEditComponent,
+    CategoriaEditComponent,
+    MarcasEditComponent,
+    ModelosEditComponent,
+    AreasEditComponent,
+    ProyectosEditComponent,
+    ActivosEditComponent,
   ],
 })
 export class ActivosProyectModule {}

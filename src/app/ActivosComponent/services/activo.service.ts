@@ -31,12 +31,12 @@ export class ActivoService {
     return this.http.post<ResponseModel<ActivosModel>>(`${this.baseUrl}/crear`, activo, { headers });
   }
   
-  updateActivo(activo: any): Observable<ResponseModel<ActivosModel>> {
+  updateActivo(activo: ActivosModel): Observable<ResponseModel<ActivosModel>> {
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
-    return this.http.put<ResponseModel<ActivosModel>>(`${this.baseUrl}/actualizar/${activo.id}`, activo, { headers });
+    return this.http.put<ResponseModel<ActivosModel>>(`${this.baseUrl}/actualizar/${activo.idActivo}`, activo, { headers });
   }
   
   deleteActivo(activoId: number): Observable<ResponseModel<ActivosModel>> {

@@ -164,15 +164,15 @@
                                                 Action <mat-icon>arrow_drop_down</mat-icon>
                                             </button>
                                             <mat-menu #beforeMenu="matMenu" xPosition="before">
-                                                <button mat-menu-item>
+                                                <button mat-menu-item (click)="dialogsAccessService.actualizarProyecto(row)">
                                                     <img src="../../../../../assets/img/icon/action-2.png"
                                                         alt="icon not found">
-                                                    <span>Edit Role</span>
+                                                    <span>Editar Proyecto</span>
                                                 </button>
                                                 <button mat-menu-item (click)="eliminarProyecto(row.idProyecto)">
                                                     <img src="../../../../../assets/img/icon/action-6.png"
                                                         alt="icon not found">
-                                                    <span>Delete Role</span>
+                                                    <span>Eliminar Proyecto</span>
                                                 </button>
                                             </mat-menu>
                                         </div>

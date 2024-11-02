@@ -18,6 +18,7 @@ import { GetRols } from '../state-management/rol/rol.actions';
 import { RolState } from '../state-management/rol/rol.state';
 import { RolModel } from '../models/rol.model';
 import { CsvreportService } from '../services/reportes/csvreport.service';
+import { DialogsAccessService } from '../services/dialogs/dialogs-access.service';
 
 @Component({
   selector: 'app-gestion-usuarios',
@@ -47,7 +48,7 @@ export class GestionUsuariosComponent implements AfterViewInit {
   @ViewChild(MatSort)
   sort!: MatSort;
 
-  constructor(private store: Store, public pdfreportService: PdfreportService, public csvreportService: CsvreportService) {
+  constructor(private store: Store, public pdfreportService: PdfreportService, public csvreportService: CsvreportService, public dialogsAccessService: DialogsAccessService) {
     this.usuarios$ = this.store.select(UserState.getUsers);
     this.roles$ = this.store.select(RolState.getRols);
   }

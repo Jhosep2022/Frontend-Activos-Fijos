@@ -10,6 +10,24 @@ import { ProvinciaDialogComponent } from '../../comunes/direccionDialogs/provinc
 import { SucursalDialogComponent } from '../../comunes/direccionDialogs/sucursal-dialog/sucursal-dialog.component';
 import { AulaModel, BloqueModel, DepartamentoModel, DireccionModel, MunicipioModel, PaisModel, ProvinciaModel, SucursalModel } from '../../models/ubicacion.model';
 import {MAT_DIALOG_DATA, MatDialogRef, MatDialogModule} from '@angular/material/dialog';
+import { UserModel } from '../../models/user.model';
+import { UsuarioEditComponent } from '../../comunes/editDialogs/usuario-edit/usuario-edit.component';
+import { DivisaModel } from '../../models/divisa.model';
+import { DivisaEditComponent } from '../../comunes/editDialogs/divisa-edit/divisa-edit.component';
+import { ActivosModel } from '../../models/activos.model';
+import { ActivosEditComponent } from '../../comunes/editDialogs/activos-edit/activos-edit.component';
+import { AreaModel } from '../../models/area.model';
+import { AreasEditComponent } from '../../comunes/editDialogs/areas-edit/areas-edit.component';
+import { CategoriaEditComponent } from '../../comunes/editDialogs/categoria-edit/categoria-edit.component';
+import { CategoriaModel } from '../../models/categorias.model';
+import { CustodiosModel } from '../../models/custodios.model';
+import { CustodioEditComponent } from '../../comunes/editDialogs/custodio-edit/custodio-edit.component';
+import { MarcaModel } from '../../models/marca.model';
+import { MarcasEditComponent } from '../../comunes/editDialogs/marcas-edit/marcas-edit.component';
+import { ModeloModel } from '../../models/modelo.model';
+import { ModelosEditComponent } from '../../comunes/editDialogs/modelos-edit/modelos-edit.component';
+import { ProyectoModel } from '../../models/proyecto.model';
+import { ProyectosEditComponent } from '../../comunes/editDialogs/proyectos-edit/proyectos-edit.component';
 
 export interface DialogData {
   pais: PaisModel;
@@ -20,6 +38,16 @@ export interface DialogData {
   bloque: BloqueModel;
   aula: AulaModel;
   direccion: DireccionModel;
+  //para actualizar
+  usuario: UserModel;
+  divisa: DivisaModel;
+  activo: ActivosModel;
+  area: AreaModel;
+  categoria: CategoriaModel;
+  custodio: CustodiosModel;
+  marca: MarcaModel;
+  modelo: ModeloModel;
+  proyecto: ProyectoModel;
 
 }
 
@@ -83,6 +111,79 @@ export class DialogsAccessService {
     this.dialog.open(DireccionDialogComponent, {
       data: {
         direccion: direccion
+      },
+    });
+  }
+
+  //Funciones para editar
+  actualizarUsuario(usuario: UserModel): void {
+    this.dialog.open(UsuarioEditComponent, {
+      data: {
+        usuario: usuario
+      },
+    });
+  }
+
+  actualizarDivisa(divisa: DivisaModel): void {
+    this.dialog.open(DivisaEditComponent, {
+      data: {
+        divisa: divisa
+      },
+    });
+  }
+
+  actualizarActivo(activo: ActivosModel): void {
+    this.dialog.open(ActivosEditComponent, {
+      data: {
+        activo: activo
+      },
+    });
+  }
+
+  actualizarAreas(area: AreaModel): void {
+    this.dialog.open(AreasEditComponent, {
+      data: {
+        area: area
+      },
+    });
+  }
+
+  actualizarCategoria(categoria: CategoriaModel): void {
+    this.dialog.open(CategoriaEditComponent, {
+      data: {
+        categoria: categoria
+      },
+    });
+  }
+
+  actualizarCustodio(custodio: CustodiosModel): void {
+    this.dialog.open(CustodioEditComponent, {
+      data: {
+        custodio: custodio
+      },
+    });
+  }
+
+  actualizarMarcas(marca: MarcaModel): void {
+    this.dialog.open(MarcasEditComponent, {
+      data: {
+        marca: marca
+      },
+    });
+  }
+
+  actualizarModelo(modelo: ModeloModel): void {
+    this.dialog.open(ModelosEditComponent, {
+      data: {
+        modelo: modelo
+      },
+    });
+  }
+
+  actualizarProyecto(proyecto: ProyectoModel): void {
+    this.dialog.open(ProyectosEditComponent, {
+      data: {
+        proyecto: proyecto
       },
     });
   }

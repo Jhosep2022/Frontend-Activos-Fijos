@@ -44,7 +44,7 @@ export class UserServiceService {
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
-    return this.http.put<ResponseModel<UserModel>>(`${this.baseUrl}/actualizar/${user.id}`, user, { headers });
+    return this.http.put<ResponseModel<UserModel>>(`${this.baseUrl}/actualizar/${user.idUsuario}`, user, { headers });
   }
 
 

@@ -126,10 +126,10 @@
                                                 Action <mat-icon>arrow_drop_down</mat-icon>
                                             </button>
                                             <mat-menu #beforeMenu="matMenu" xPosition="before">
-                                                <button mat-menu-item>
+                                                <button mat-menu-item (click)="dialogsAccessService.actualizarCategoria(row)">
                                                     <img src="../../../../../assets/img/icon/action-2.png"
                                                         alt="icon not found">
-                                                    <span>Editar nombre</span>
+                                                    <span>Editar Categoria</span>
                                                 </button>
                                                 <button mat-menu-item (click)="this.eliminarCategoria(row.idCategoria)">
                                                     <img src="../../../../../assets/img/icon/action-6.png"

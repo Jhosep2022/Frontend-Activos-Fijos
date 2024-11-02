@@ -31,12 +31,12 @@ export class CategoriaService {
     return this.http.post<ResponseModel<CategoriaModel>>(`${this.baseUrlCategoria}/crear`, categoria, { headers });
   }
   
-  updateCategoria(categoria: any): Observable<ResponseModel<CategoriaModel>> {
+  updateCategoria(categoria: CategoriaModel): Observable<ResponseModel<CategoriaModel>> {
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
-    return this.http.put<ResponseModel<CategoriaModel>>(`${this.baseUrlCategoria}/actualizar/${categoria.id}`, categoria, { headers });
+    return this.http.put<ResponseModel<CategoriaModel>>(`${this.baseUrlCategoria}/actualizar/${categoria.idCategoria}`, categoria, { headers });
   }
   
   deleteCategoria(categoriaid: number): Observable<ResponseModel<CategoriaModel>> {

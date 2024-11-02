@@ -52,7 +52,7 @@
                                 <button matTooltip="Reporte PDF" type="button" class="pdf" (click)="generarPDF()">
                                     <app-pdf-icon></app-pdf-icon>
                                 </button>
-                                <button matTooltip="Reporte Csv" type="button" class="csv">
+                                <button matTooltip="Reporte Csv" type="button" class="csv" (click)="generarCSV()">
                                     <app-csv-icon></app-csv-icon>
                                 </button>
                             </div>
@@ -108,7 +108,7 @@
                                         Accion <mat-icon>arrow_drop_down</mat-icon>
                                     </button>
                                     <mat-menu #beforeMenu="matMenu" xPosition="before">
-                                        <button mat-menu-item>
+                                        <button mat-menu-item (click)="dialogsAccessService.actualizarDivisa(row)">
                                             <img src="../../../../../assets/img/icon/action-2.png" alt="icon not found">
                                             <span>Editar Divisa</span>
                                         </button>

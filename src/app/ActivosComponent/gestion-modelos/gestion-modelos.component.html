@@ -139,10 +139,10 @@
                                                 Action <mat-icon>arrow_drop_down</mat-icon>
                                             </button>
                                             <mat-menu #beforeMenu="matMenu" xPosition="before">
-                                                <button mat-menu-item>
+                                                <button mat-menu-item (click)="dialogsAccessService.actualizarModelo(row)">
                                                     <img src="../../../../../assets/img/icon/action-2.png"
                                                         alt="icon not found">
-                                                    <span>Edit custodio</span>
+                                                    <span>Editar Modelo</span>
                                                 </button>
                                                 <button mat-menu-item (click)="eliminarModelo(row.idModelo)">
                                                     <img src="../../../../../assets/img/icon/action-6.png"

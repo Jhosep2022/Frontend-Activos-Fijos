@@ -31,12 +31,12 @@ addProyecto(proyecto: any): Observable<ResponseModel<ProyectoModel>> {
   return this.http.post<ResponseModel<ProyectoModel>>(`${this.baseUrl}/crear`, proyecto, { headers });
 }
 
-updateProyecto(proyecto: any): Observable<ResponseModel<ProyectoModel>> {
+updateProyecto(proyecto: ProyectoModel): Observable<ResponseModel<ProyectoModel>> {
   const token = localStorage.getItem('token');
   const headers = new HttpHeaders({
     'Authorization': `Bearer ${token}`
   });
-  return this.http.put<ResponseModel<ProyectoModel>>(`${this.baseUrl}/actualizar/${proyecto.id}`, proyecto, { headers });
+  return this.http.put<ResponseModel<ProyectoModel>>(`${this.baseUrl}/actualizar/${proyecto.idProyecto}`, proyecto, { headers });
 }
 
 deleteProyecto(proyectoId: number): Observable<ResponseModel<ProyectoModel>> {
