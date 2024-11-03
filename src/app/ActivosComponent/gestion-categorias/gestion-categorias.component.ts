@@ -11,6 +11,7 @@ import { Store } from '@ngxs/store';
 import { PdfreportService } from '../services/reportes/pdfreport.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DialogsAccessService } from '../services/dialogs/dialogs-access.service';
+import { CsvreportService } from '../services/reportes/csvreport.service';
 
 @Component({
   selector: 'app-gestion-categorias',
@@ -81,7 +82,7 @@ export class GestionCategoriasComponent implements AfterViewInit {
   @ViewChild(MatSort)
   sort!: MatSort;
 
-  constructor(private store: Store, public pdfreportService: PdfreportService, private _snackBar: MatSnackBar, public dialogsAccessService: DialogsAccessService) {
+  constructor(private store: Store, public pdfreportService: PdfreportService, private _snackBar: MatSnackBar, public dialogsAccessService: DialogsAccessService, public csvreportService: CsvreportService) {
     this.categorias$ = this.store.select(CategoriaState.getCategorias);
   }
 
@@ -93,6 +94,11 @@ export class GestionCategoriasComponent implements AfterViewInit {
   generarPDF() {
     const categoriasSeleccionados = this.selection.selected;
     this.pdfreportService.categoriaspdf(categoriasSeleccionados);
+  }
+
+  generarCSV() {
+    const categoriasSeleccionados = this.selection.selected;
+    this.csvreportService.categoriasCSV(categoriasSeleccionados);
   }
   
   openSnackBar(message: string, action: string) {

@@ -11,6 +11,7 @@ import { Observable } from 'rxjs';
 import { PdfreportService } from '../services/reportes/pdfreport.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DialogsAccessService } from '../services/dialogs/dialogs-access.service';
+import { CsvreportService } from '../services/reportes/csvreport.service';
 
 @Component({
   selector: 'app-gestion-marcas',
@@ -84,7 +85,7 @@ export class GestionMarcasComponent {
   @ViewChild(MatSort)
   sort!: MatSort;
   
-  constructor(private store: Store, public pdfreportService: PdfreportService, private _snackBar: MatSnackBar, public dialogsAccessService: DialogsAccessService) {
+  constructor(private store: Store, public pdfreportService: PdfreportService, private _snackBar: MatSnackBar, public dialogsAccessService: DialogsAccessService, public csvreportService: CsvreportService) {
     this.marcas$ = this.store.select(MarcaState.getMarcas);
   }
   
@@ -96,6 +97,11 @@ export class GestionMarcasComponent {
   generarPDF() {
     const marcasSeleccionados = this.selection.selected;
     this.pdfreportService.marcaspdf(marcasSeleccionados);
+  }
+
+  generarCSV() {
+    const marcasSeleccionados = this.selection.selected;
+    this.csvreportService.marcasCSV(marcasSeleccionados);
   }
   
   applyFilter(event: Event) {

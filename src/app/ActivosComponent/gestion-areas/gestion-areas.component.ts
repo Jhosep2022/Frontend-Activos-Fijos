@@ -14,6 +14,7 @@ import { GetEmpresa } from '../state-management/empresa/empresa-action';
 import { PdfreportService } from '../services/reportes/pdfreport.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DialogsAccessService } from '../services/dialogs/dialogs-access.service';
+import { CsvreportService } from '../services/reportes/csvreport.service';
 
 @Component({
   selector: 'app-gestion-areas',
@@ -85,7 +86,7 @@ export class GestionAreasComponent implements AfterViewInit  {
   @ViewChild(MatSort)
   sort!: MatSort;
   
-  constructor(private store: Store, public pdfreportService: PdfreportService, private _snackBar: MatSnackBar, public dialogsAccessService: DialogsAccessService) {
+  constructor(private store: Store, public pdfreportService: PdfreportService, private _snackBar: MatSnackBar, public dialogsAccessService: DialogsAccessService, public csvreportService: CsvreportService) {
     this.areas$ = this.store.select(AreasState.getAreas);
     this.empresas$ = this.store.select(EmpresasState.getEmpresas);
   }
@@ -138,6 +139,16 @@ export class GestionAreasComponent implements AfterViewInit  {
     // Suscribirse a los roles para obtener la lista y generar el PDF
     empresas.subscribe((empresalist: EmpresaModel[]) => {
       this.pdfreportService.areapdf(areasSeleccionados, empresalist);
+    });
+  }
+
+  generarCSV() {
+    const areasSeleccionados = this.selection.selected;
+    const empresas = this.empresas$; // Aquí debes asegurarte de que tienes los roles correctamente cargados
+  
+    // Suscribirse a los roles para obtener la lista y generar el PDF
+    empresas.subscribe((empresalist: EmpresaModel[]) => {
+      this.csvreportService.areasCSV(areasSeleccionados, empresalist);
     });
   }
   

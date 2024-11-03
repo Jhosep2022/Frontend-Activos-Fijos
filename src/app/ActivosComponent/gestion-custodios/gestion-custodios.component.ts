@@ -18,6 +18,7 @@ import { ProyectoState } from '../state-management/proyecto/proyecto.state';
 import { PdfreportService } from '../services/reportes/pdfreport.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DialogsAccessService } from '../services/dialogs/dialogs-access.service';
+import { CsvreportService } from '../services/reportes/csvreport.service';
 
 @Component({
   selector: 'app-gestion-custodios',
@@ -96,7 +97,7 @@ export class GestionCustodiosComponent implements AfterViewInit {
   @ViewChild(MatSort)
   sort!: MatSort;
 
-  constructor(private store: Store, public pdfreportService: PdfreportService, private _snackBar: MatSnackBar, public dialogsAccessService: DialogsAccessService) {
+  constructor(private store: Store, public pdfreportService: PdfreportService, public csvreportService: CsvreportService, private _snackBar: MatSnackBar, public dialogsAccessService: DialogsAccessService) {
     this.custodios$ = this.store.select(CustodiosState.getCustodios);
     this.proyectos$ = this.store.select(ProyectoState.getProyectos);
   }
@@ -159,5 +160,10 @@ export class GestionCustodiosComponent implements AfterViewInit {
   generarPDF() {
     const custodiosSeleccionados = this.selection.selected;
     this.pdfreportService.custodiospdf(custodiosSeleccionados);
+  }
+
+  generarCSV() {
+    const custodiosSeleccionados = this.selection.selected;
+    this.csvreportService.custodiosCSV(custodiosSeleccionados);
   }
 }

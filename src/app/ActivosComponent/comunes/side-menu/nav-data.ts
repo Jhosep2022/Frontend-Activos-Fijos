@@ -16,7 +16,7 @@ export const navbarData: INavbarData[] = [
       },
       {
         routeLink: '/usuarios/actividades',
-        label: 'Actividades de los usuarios',
+        label: 'Actividades de los usuarios X',
       },
       {
         routeLink: '/usuarios/roles',

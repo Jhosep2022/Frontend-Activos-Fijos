@@ -14,6 +14,7 @@ import { MarcaState } from '../state-management/marca/marca.state';
 import { GetMarca } from '../state-management/marca/marca.action';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DialogsAccessService } from '../services/dialogs/dialogs-access.service';
+import { CsvreportService } from '../services/reportes/csvreport.service';
 
 @Component({
   selector: 'app-gestion-modelos',
@@ -89,7 +90,7 @@ export class GestionModelosComponent {
   @ViewChild(MatSort)
   sort!: MatSort;
   
-  constructor(private store: Store, public pdfreportService: PdfreportService, private _snackBar: MatSnackBar, public dialogsAccessService: DialogsAccessService) {
+  constructor(private store: Store, public pdfreportService: PdfreportService, private _snackBar: MatSnackBar, public dialogsAccessService: DialogsAccessService, public csvreportService: CsvreportService) {
     this.modelos$ = this.store.select(ModeloState.getModelos);
     this.marcas$ = this.store.select(MarcaState.getMarcas);
   }
@@ -106,6 +107,16 @@ export class GestionModelosComponent {
     // Suscribirse a los marcas para obtener la lista y generar el PDF
     marcas.subscribe((marcalist: MarcaModel[]) => {
       this.pdfreportService.modelospdf(modelosSeleccionados, marcalist);
+    });
+  }
+
+  generarCSV() {
+    const modelosSeleccionados = this.selection.selected;
+    const marcas = this.marcas$; // Aquí debes asegurarte de que tienes los roles correctamente cargados
+  
+    // Suscribirse a los marcas para obtener la lista y generar el PDF
+    marcas.subscribe((marcalist: MarcaModel[]) => {
+      this.csvreportService.modelosCSV(modelosSeleccionados, marcalist);
     });
   }
   

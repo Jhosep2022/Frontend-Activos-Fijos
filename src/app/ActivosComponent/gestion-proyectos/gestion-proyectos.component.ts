@@ -20,6 +20,7 @@ import { GetArea } from '../state-management/area/area.action';
 import { PdfreportService } from '../services/reportes/pdfreport.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DialogsAccessService } from '../services/dialogs/dialogs-access.service';
+import { CsvreportService } from '../services/reportes/csvreport.service';
 
 @Component({
   selector: 'app-gestion-proyectos',
@@ -102,7 +103,7 @@ export class GestionProyectosComponent implements AfterViewInit {
   @ViewChild(MatSort)
   sort!: MatSort;
 
-  constructor(private store: Store, private datePipe: DatePipe, public pdfreportService: PdfreportService, private _snackBar: MatSnackBar, public dialogsAccessService: DialogsAccessService) {
+  constructor(private store: Store, private datePipe: DatePipe, public pdfreportService: PdfreportService, private _snackBar: MatSnackBar, public dialogsAccessService: DialogsAccessService, public csvreportService: CsvreportService) {
     this.proyectos$ = this.store.select(ProyectoState.getProyectos);
     this.areas$ = this.store.select(AreasState.getAreas);
   }
@@ -178,6 +179,16 @@ export class GestionProyectosComponent implements AfterViewInit {
     // Suscribirse a los roles para obtener la lista y generar el PDF
     areas.subscribe((arealist: AreaModel[]) => {
       this.pdfreportService.proyectopdf(proyectosSeleccionados, arealist);
+    });
+  }
+
+  generarCSV() {
+    const proyectosSeleccionados = this.selection.selected;
+    const areas = this.areas$; // Aquí debes asegurarte de que tienes areas correctamente cargados
+  
+    // Suscribirse a los roles para obtener la lista y generar el PDF
+    areas.subscribe((arealist: AreaModel[]) => {
+      this.csvreportService.proyectosCSV(proyectosSeleccionados, arealist);
     });
   }
 

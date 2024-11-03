@@ -10,6 +10,7 @@ import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { PdfreportService } from '../services/reportes/pdfreport.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { CsvreportService } from '../services/reportes/csvreport.service';
 
 @Component({
   selector: 'app-gestion-estadouso',
@@ -82,7 +83,7 @@ export class GestionEstadousoComponent implements AfterViewInit {
   @ViewChild(MatSort)
   sort!: MatSort;
 
-  constructor(private store: Store, public pdfreportService: PdfreportService, private _snackBar: MatSnackBar) {
+  constructor(private store: Store, public pdfreportService: PdfreportService, private _snackBar: MatSnackBar, public csvreportService: CsvreportService) {
     this.estados$ = this.store.select(EstadoState.getEstados);
   }
 
@@ -140,5 +141,10 @@ export class GestionEstadousoComponent implements AfterViewInit {
   generarPDF() {
     const estadosSeleccionados = this.selection.selected;
     this.pdfreportService.estadospdf(estadosSeleccionados);
+  }
+
+  generarCSV() {
+    const estadosSeleccionados = this.selection.selected;
+    this.csvreportService.estadosUsoCSV(estadosSeleccionados);
   }
 }
