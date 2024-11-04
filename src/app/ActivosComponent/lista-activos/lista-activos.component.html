@@ -86,7 +86,7 @@
 
                         <ng-container matColumnDef="valorActual">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> Valor Actual </th>
-                            <td mat-cell *matCellDef="let row"> {{row.valorActual}} </td>
+                            <td mat-cell *matCellDef="let row"> {{calcularDepreciacionService.obtenerValorActual(row.fechaRegistro, row.precio, row.categoriaId)}} </td>
                         </ng-container>
 
                         <ng-container matColumnDef="valorInicial">
@@ -115,42 +115,32 @@
                         </ng-container>
 
                         <ng-container matColumnDef="idAula">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Aula </th>
-                            <td mat-cell *matCellDef="let row"> {{getAulaName(row.idAula)}} </td>
-                        </ng-container>
-
-                        <ng-container matColumnDef="idBloque">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Bloque </th>
-                            <td mat-cell *matCellDef="let row"> {{ getBloqueName(row.idBloque) }} </td>
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Aula / Oficina </th>
+                            <td mat-cell *matCellDef="let row"> {{getAulaName(row.aulaId)}} </td>
                         </ng-container>
 
                         <ng-container matColumnDef="idCategoria">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> Categoria </th>
-                            <td mat-cell *matCellDef="let row"> {{getCategoriaName(row.idCategoria)}} </td>
+                            <td mat-cell *matCellDef="let row"> {{getCategoriaName(row.categoriaId)}} </td>
                         </ng-container>
 
                         <ng-container matColumnDef="idCustodio">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> Custodio </th>
-                            <td mat-cell *matCellDef="let row"> {{getCustodioName(row.idCustodio)}} </td>
-                        </ng-container>
-
-                        <ng-container matColumnDef="idDepreciacion">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Depreciacion </th>
-                            <td mat-cell *matCellDef="let row"> {{getDepreciacionName(row.idDepreciacion)}} </td>
+                            <td mat-cell *matCellDef="let row"> {{getCustodioName(row.custodioId)}} </td>
                         </ng-container>
 
                         <ng-container matColumnDef="idEstadoactivo">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> Uso Activo </th>
-                            <td mat-cell *matCellDef="let row"> {{ getEstadoName(row.idEstadoactivo) }} </td>
+                            <td mat-cell *matCellDef="let row"> {{ row.estadoActivo }} </td>
                         </ng-container>
 
                         <ng-container matColumnDef="idProyecto">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> Proyecto </th>
-                            <td mat-cell *matCellDef="let row"> {{getProyectoName(row.idProyecto)}} </td>
+                            <td mat-cell *matCellDef="let row"> {{getProyectoName(row.proyectoId)}} </td>
                         </ng-container>
 
                         <ng-container matColumnDef="idModelo">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Modelo </th>
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Marca - Modelo </th>
                             <td mat-cell *matCellDef="let row"> {{ getModeloName(row.idModelo) }} </td>
                         </ng-container>
 
@@ -170,20 +160,10 @@
                             <th mat-header-cell *matHeaderCellDef> Action </th>
                             <td mat-cell *matCellDef="let row">
                                 <div class="table-action-menu-wrap">
-                                    <button mat-icon-button [matMenuTriggerFor]="beforeMenu"
-                                        class="common-action-menu-style" aria-label="Example icon-button with a menu">
-                                        Accion <mat-icon>arrow_drop_down</mat-icon>
+                                    <button mat-menu-item (click)="this.eliminarActivo(row.idActivo)">
+                                        <img src="../../../../../assets/img/icon/action-6.png" alt="icon not found">
+                                        <span>Eliminar Activo</span>
                                     </button>
-                                    <mat-menu #beforeMenu="matMenu" xPosition="before">
-                                        <button mat-menu-item>
-                                            <img src="../../../../../assets/img/icon/action-2.png" alt="icon not found">
-                                            <span>Editar Activo</span>
-                                        </button>
-                                        <button mat-menu-item (click)="this.eliminarUser(row.idActivo)">
-                                            <img src="../../../../../assets/img/icon/action-6.png" alt="icon not found">
-                                            <span>Eliminar Activo</span>
-                                        </button>
-                                    </mat-menu>
                                 </div>
                             </td>
                         </ng-container>

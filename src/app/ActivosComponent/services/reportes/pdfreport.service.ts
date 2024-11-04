@@ -444,13 +444,10 @@ export class PdfreportService {
 
     const columns = ['ID', 'Nombre', 'Valor Actual', 'Valor Inicial', 'Fecha Registro', 'Detalle', 'Activo/Inactivo', 'Precio', 'ComprobanteCompra','Estado de Uso', 'Custodio', 'Categoria', 'Depreciacion', 'Estado Uso', 'Proyecto', 'Modelo', 'Aula', 'Bloque'];
     const data = activolist.map((activo) => {
-      const aulaActivo = aulaslist.find(aula => aula.idAula === activo.idAula);
-      const bloqueActivo = bloqueslist.find(bloque => bloque.idBloque === activo.idBloque);
-      const categoriaActivo = categoriaslist.find(categoria => categoria.idCategoria === activo.idCategoria);
-      const custodioActivo = custodioslist.find(custodio => custodio.idCustodio === activo.idCustodio);
-      const depreciacionActivo = depreciacioneslist.find(depreciacion => depreciacion.idDepreciacion === activo.idDepreciacion);
-      const estadoActivo = estadoslist.find(estado => estado.idEstado === activo.idEstadoactivo);
-      const proyectoActivo = proyectoslist.find(proyecto => proyecto.idProyecto === activo.idProyecto);
+      const aulaActivo = aulaslist.find(aula => aula.idAula === activo.aulaId);
+      const categoriaActivo = categoriaslist.find(categoria => categoria.idCategoria === activo.categoriaId);
+      const custodioActivo = custodioslist.find(custodio => custodio.idCustodio === activo.custodioId);
+      const proyectoActivo = proyectoslist.find(proyecto => proyecto.idProyecto === activo.proyectoId);
       const modeloActivo = modeloslist.find(modelo => modelo.idModelo === activo.idModelo);
       return [
         activo.idActivo,
@@ -462,14 +459,13 @@ export class PdfreportService {
         activo.estado ? 'Activo' : 'Inactivo',
         activo.precio,
         activo.comprobanteCompra,
-        estadoActivo ? estadoActivo.nombre : 'Sin Estado',
+        activo.estadoActivo,
+        //estadoActivo ? estadoActivo.nombre : 'Sin Estado',
         custodioActivo ? `${custodioActivo.nombre} ${custodioActivo.apellidoPaterno} ${custodioActivo.apellidoMaterno}` : 'Sin Custodio',
         categoriaActivo ? categoriaActivo.nombre : 'Sin Categoria',
-        depreciacionActivo ? depreciacionActivo.metodo : 'Sin Depreciacion',
         proyectoActivo ? proyectoActivo.nombre : 'Sin Proyecto',
         modeloActivo ? modeloActivo.nombre : 'Sin Modelo',
         aulaActivo ? aulaActivo.nombre : 'Sin Aula',
-        bloqueActivo ? bloqueActivo.nombre : 'Sin Bloque',
       ];
     });
 

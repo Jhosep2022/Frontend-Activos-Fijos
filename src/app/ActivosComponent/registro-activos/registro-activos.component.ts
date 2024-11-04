@@ -42,6 +42,10 @@ import { ModeloModel } from '../models/modelo.model';
 import { ModeloState } from '../state-management/modelo/modelo.state';
 import { GetModelo } from '../state-management/modelo/modelo.action';
 import { CsvActivosService } from '../services/csv-activos.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MarcaModel } from '../models/marca.model';
+import { MarcaState } from '../state-management/marca/marca.state';
+import { GetMarca } from '../state-management/marca/marca.action';
 
 @Component({
   selector: 'app-registro-activos',
@@ -61,6 +65,9 @@ export class RegistroActivosComponent implements OnInit {
   bloques$: Observable<BloqueModel[]>;
   aulas$: Observable<AulaModel[]>;
   direcciones$: Observable<DireccionModel[]>;
+
+  marcas$: Observable<MarcaModel[]>; 
+  marcas: MarcaModel[] = [];
 
   pais: PaisModel = {
     idPais: 0,
@@ -129,13 +136,11 @@ export class RegistroActivosComponent implements OnInit {
     estado: true,
     precio: 0,
     comprobanteCompra: '',
-    idAula: 0,
-    idBloque: 0,
-    idCategoria: 0,
-    idCustodio: 0,
-    idDepreciacion: 2,
-    idEstadoactivo: 0,
-    idProyecto: 0,
+    estadoActivo: '',
+    aulaId: 0,
+    categoriaId: 0,
+    custodioId: 0,
+    proyectoId: 0,
     idModelo: 0
   };
 
@@ -149,12 +154,15 @@ export class RegistroActivosComponent implements OnInit {
         response => {
           if (response.success) {
             console.log('Archivo cargado correctamente:', response.data);
+            this.openSnackBar('Archivo cargado correctamente', 'Cerrar');
           } else {
             console.error('Error al cargar el archivo:', response.message);
+            this.openSnackBar('Error al cargar el archivo', 'Cerrar');
           }
         },
         error => {
           console.error('Error en la solicitud:', error);
+          this.openSnackBar('El Archivo no se pudo subir', 'Cerrar');
         }
       );
     } else {
@@ -165,11 +173,11 @@ export class RegistroActivosComponent implements OnInit {
   agregarActivo() {
     this.store.dispatch(new AddActivo(this.activo)).subscribe({
       next: () => {
-        console.log('Activo registrado exitosamente');
+        this.openSnackBar('Activo agregado correctamente', 'Cerrar');
       },
       error: (error) => {
         console.error('Error al registrar activo:', error);
-        alert('Hubo un error al registrar el activo, intente de nuevo.');
+        this.openSnackBar('El Activo no se pudo agregar', 'Cerrar');
       }
     });
     this.activo = {
@@ -182,15 +190,24 @@ export class RegistroActivosComponent implements OnInit {
       estado: true,
       precio: 0,
       comprobanteCompra: '',
-      idAula: 0,
-      idBloque: 0,
-      idCategoria: 0,
-      idCustodio: 0,
-      idDepreciacion: 2,
-      idEstadoactivo: 0,
-      idProyecto: 0,
+      estadoActivo: '',
+      aulaId: 0,
+      categoriaId: 0,
+      custodioId: 0,
+      proyectoId: 0,
       idModelo: 0
     };
+  }
+  nombreMarca(marcaId: number): string {    
+    if (!this.marcas.length) {
+      return 'Cargando...'; // Si los roles aún no se han cargado
+    }
+    const marca = this.marcas.find((r) => r.idMarca === marcaId);
+    return marca ? marca.nombre : 'Sin Marca';  // Devuelve el nombre del rol o "Sin Rol" si no se encuentra
+  }
+
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {duration: 2000});
   }
 
   //sidebar menu activation start
@@ -207,7 +224,7 @@ export class RegistroActivosComponent implements OnInit {
   
   hide = true;
   
-    constructor(private store: Store, public fileUploadService: CsvActivosService) {
+    constructor(private store: Store, public fileUploadService: CsvActivosService, private _snackBar: MatSnackBar) {
       this.aulas$ = this.store.select(AulaState.getAulas);
       this.bloques$ = this.store.select(BloqueState.getBloques);
       this.categorias$ = this.store.select(CategoriaState.getCategorias);
@@ -225,10 +242,16 @@ export class RegistroActivosComponent implements OnInit {
       this.municipios$ = this.store.select(MunicipioState.getMunicipios);
       this.sucursales$ = this.store.select(SucursalState.getSucursales);
       this.direcciones$ = this.store.select(DireccionState.getDirecciones);
+
+      this.marcas$ = this.store.select(MarcaState.getMarcas);
      }
   
     ngOnInit(): void {
-      this.store.dispatch([new GetAula(), new GetBloque(), new GetCustodio(), new GetProyecto(), new GetCategoria(), new GetDepreciacion(), new GetIdentificador(), new GetEstado(),new GetPais(), new GetDepartamento(), new GetProvincia(), new GetMunicipio(), new GetSucursal(), new GetDireccion(), new GetDepreciacion(), new GetModelo()]);
+      this.store.dispatch([new GetMarca() ,new GetAula(), new GetBloque(), new GetCustodio(), new GetProyecto(), new GetCategoria(), new GetDepreciacion(), new GetIdentificador(), new GetEstado(),new GetPais(), new GetDepartamento(), new GetProvincia(), new GetMunicipio(), new GetSucursal(), new GetDireccion(), new GetDepreciacion(), new GetModelo()]);
+      
+      this.marcas$.subscribe((marcas) => {
+        this.marcas = marcas;
+      });
     }
   
   }

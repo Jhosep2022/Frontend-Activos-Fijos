@@ -38,6 +38,10 @@ import { GetDepreciacion } from '../state-management/depreciaciones/depreciacion
 import { GetEstado } from '../state-management/estado/estado.action';
 import { GetProyecto } from '../state-management/proyecto/proyecto.action';
 import { GetModelo } from '../state-management/modelo/modelo.action';
+import { CalcularDepreciacionService } from '../services/calcular-depreciacion.service';
+import { MarcaState } from '../state-management/marca/marca.state';
+import { MarcaModel } from '../models/marca.model';
+import { GetMarca } from '../state-management/marca/marca.action';
 
 
 @Component({
@@ -74,24 +78,24 @@ export class ListaActivosComponent implements AfterViewInit {
   proyectoslist: ProyectoModel[] = [];
   modeloslist: ModeloModel[] = [];
 
+  marcas$: Observable<MarcaModel[]>; 
+  marcas: MarcaModel[] = [];
+
   displayedColumns: string[] = [
     'select',
     'nombre',
+    'idProyecto',
+    'estado',
+    'idCategoria',
+    'idModelo',
+    'detalle',
+    'fechaRegistro',
     'valorActual',
     'valorInicial',
-    'fechaRegistro',
-    'detalle',
-    'estado',
-    'precio',
     'comprobanteCompra',
     'idAula',
-    'idBloque',
-    'idCategoria',
     'idCustodio',
-    'idDepreciacion',
     'idEstadoactivo',
-    'idProyecto',
-    'idModelo',
     'action'
   ];
   dataSource: MatTableDataSource<ActivosModel> = new MatTableDataSource(); // Cambiado el tipo a `any`
@@ -102,7 +106,7 @@ export class ListaActivosComponent implements AfterViewInit {
   @ViewChild(MatSort)
   sort!: MatSort;
 
-  constructor(private store: Store, public pdfreportService: PdfreportService) {
+  constructor(private store: Store, public pdfreportService: PdfreportService, public calcularDepreciacionService: CalcularDepreciacionService) {
     this.activos$ = this.store.select(ActivoState.getActivos);
     this.aulas$ = this.store.select(AulaState.getAulas);
     this.bloques$ = this.store.select(BloqueState.getBloques);
@@ -112,6 +116,15 @@ export class ListaActivosComponent implements AfterViewInit {
     this.estadouso$ = this.store.select(EstadoState.getEstados);
     this.proyectos$ = this.store.select(ProyectoState.getProyectos);
     this.modelos$ = this.store.select(ModeloState.getModelos);
+
+    this.marcas$ = this.store.select(MarcaState.getMarcas);
+  }
+  nombreMarca(marcaId: number): string {    
+    if (!this.marcas.length) {
+      return 'Cargando...'; // Si los roles aún no se han cargado
+    }
+    const marca = this.marcas.find((r) => r.idMarca === marcaId);
+    return marca ? marca.nombre : 'Sin Marca';  // Devuelve el nombre del rol o "Sin Rol" si no se encuentra
   }
 
   generarPDF() {
@@ -202,12 +215,16 @@ export class ListaActivosComponent implements AfterViewInit {
       return 'Cargando...'; // Si los roles aún no se han cargado
     }
     const modelo = this.modelos.find((r) => r.idModelo === rolId);
-    return modelo ? modelo.nombre : 'Sin Modelo';  // Devuelve el nombre del rol o "Sin Rol" si no se encuentra
+    let marcanombre = 'Sin Marca';
+    if (modelo?.marcaId !== undefined) {
+      marcanombre = this.nombreMarca(modelo.marcaId);
+    }
+    return modelo ? (marcanombre +" - "+modelo.nombre) : 'Sin Modelo';  // Devuelve el nombre del rol o "Sin Rol" si no se encuentra
   }
 
   ngOnInit(): void {
     // Despacha la acción para obtener los usuarios
-    this.store.dispatch([new GetActivo(), new GetAula(), new GetBloque(), new GetCategoria(), new GetCustodio(), new GetDepreciacion(), new GetEstado(), new GetProyecto(), new GetModelo()]);
+    this.store.dispatch([new GetMarca(), new GetActivo(), new GetAula(), new GetBloque(), new GetCategoria(), new GetCustodio(), new GetDepreciacion(), new GetEstado(), new GetProyecto(), new GetModelo()]);
 
     // Suscríbete al observable para actualizar el dataSource
     this.activos$.subscribe((activos) => {
@@ -237,6 +254,9 @@ export class ListaActivosComponent implements AfterViewInit {
     });
     this.modelos$.subscribe((modelos) => {
       this.modelos = modelos;
+    });      
+    this.marcas$.subscribe((marcas) => {
+      this.marcas = marcas;
     });
   }
 
@@ -246,7 +266,7 @@ export class ListaActivosComponent implements AfterViewInit {
     this.dataSource.sort = this.sort;
   }
 
-  eliminarUser(id: number) {
+  eliminarActivo(id: number) {
     this.store.dispatch(new DeleteActivo(id));
   }
 

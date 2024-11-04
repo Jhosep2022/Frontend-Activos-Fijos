@@ -8,13 +8,14 @@ export interface ActivosModel {
     estado: boolean;
     precio: number;
     comprobanteCompra: string;
-    idAula: number;
-    idBloque: number;
-    idCategoria: number;
-    idCustodio: number;
-    idDepreciacion: number;
-    idEstadoactivo: number;
+    estadoActivo: string;
+    aulaId: number;
+    //idBloque: number;
+    categoriaId: number;
+    custodioId: number;
+    //idDepreciacion: number;
+    //idEstadoactivo: number;
     //idIdentificador: number;
-    idProyecto: number;
+    proyectoId: number;
     idModelo: number;
 }
