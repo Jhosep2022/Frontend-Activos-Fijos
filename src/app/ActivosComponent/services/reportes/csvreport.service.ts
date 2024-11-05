@@ -11,13 +11,16 @@ import { ProyectoModel } from '../../models/proyecto.model';
 import { CategoriaModel } from '../../models/categorias.model';
 import { CustodiosModel } from '../../models/custodios.model';
 import { EmpresaModel } from '../../models/empresa.model';
+import { CalcularDepreciacionService } from '../calcular-depreciacion.service';
+import { ActivosModel } from '../../models/activos.model';
+import { DepreciacionesModel } from '../../models/depreciaciones.model';
+import { AulaModel, BloqueModel } from '../../models/ubicacion.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CsvreportService {
-
-  constructor() { }
+  constructor(public calcularDepreciacionService: CalcularDepreciacionService) { }
   usuariosCSV(usuarioslist: UserModel[], roleslist: RolModel[]): void {
     const headers = [
       'ID Usuario',
@@ -295,6 +298,49 @@ proyectosCSV(proyectoslist: ProyectoModel[], arealist: AreaModel[]): void {
   const a = document.createElement('a');
   a.href = url;
   a.download = 'proyectos.csv';
+  a.click();
+  window.URL.revokeObjectURL(url);
+}
+//Aqui se guarda los formatos para realizar los reportes en pdf
+activocsv(activolist: ActivosModel[], aulaslist: AulaModel[], bloqueslist: BloqueModel[], categoriaslist: CategoriaModel[], custodioslist: CustodiosModel[], depreciacioneslist: DepreciacionesModel[], estadoslist: EstadosModel[], proyectoslist: ProyectoModel[], modeloslist: ModeloModel[], arealist: AreaModel[], marcaslist: MarcaModel[]) {
+  const headers = ['ID', 'Nombre', 'Proyecto', 'Activo/Inactivo', 'Categoria', 'Modelo', 'Detalle', 'Fecha Registro', 'Valor Actual', 'Valor Inicial', 'Precio (Compra)', 'Comprobante Compra','Estado de Uso', 'Custodio', 'Aula'];
+  
+  const csvData = [
+    headers.join(','), // Encabezados
+    ...activolist.map(activo => {      
+      const aulaActivo = aulaslist.find(aula => aula.idAula === activo.aulaId);
+      const categoriaActivo = categoriaslist.find(categoria => categoria.idCategoria === activo.categoriaId);
+      const custodioActivo = custodioslist.find(custodio => custodio.idCustodio === activo.custodioId);
+      const proyectoActivo = proyectoslist.find(proyecto => proyecto.idProyecto === activo.proyectoId);
+      const modeloActivo = modeloslist.find(modelo => modelo.idModelo === activo.idModelo);
+
+      const areaProyecto = proyectoActivo ? arealist.find(area => area.idArea === proyectoActivo.idArea) : undefined;
+      const marcaModelo = modeloActivo ? marcaslist.find(marca => marca.idMarca === modeloActivo.marcaId) : undefined;
+      return [
+        activo.idActivo,
+        activo.nombre,
+        proyectoActivo ? ((areaProyecto ? areaProyecto.nombre : 'Sin Area')+" - "+proyectoActivo.nombre) : 'Sin Proyecto',
+        activo.estado ? 'Activo' : 'Inactivo',
+        categoriaActivo ? categoriaActivo.nombre : 'Sin Categoria',
+        modeloActivo ? ((marcaModelo ? marcaModelo.nombre : 'Sin Marca')+" - "+modeloActivo.nombre) : 'Sin Modelo',
+        activo.detalle,
+        new Date(activo.fechaRegistro).toISOString().slice(0, 10), // Convertimos a Date si es necesario
+        this.calcularDepreciacionService.obtenerValorActual(activo.fechaRegistro, activo.precio, activo.categoriaId),
+        activo.valorInicial,
+        activo.precio,
+        activo.comprobanteCompra,
+        activo.estadoActivo,
+        custodioActivo ? `${custodioActivo.nombre} ${custodioActivo.apellidoPaterno} ${custodioActivo.apellidoMaterno} - ${custodioActivo.ci}` : 'Sin Custodio',
+        aulaActivo ? (aulaActivo.nombre+" ("+aulaActivo.codigoUbicacion+")") : 'Sin Aula',
+      ].join(',');
+    })
+  ].join('\n');
+
+  const blob = new Blob([csvData], { type: 'text/csv' });
+  const url = window.URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'activos.csv';
   a.click();
   window.URL.revokeObjectURL(url);
 }

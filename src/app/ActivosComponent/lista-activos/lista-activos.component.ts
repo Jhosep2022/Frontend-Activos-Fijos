@@ -42,6 +42,10 @@ import { CalcularDepreciacionService } from '../services/calcular-depreciacion.s
 import { MarcaState } from '../state-management/marca/marca.state';
 import { MarcaModel } from '../models/marca.model';
 import { GetMarca } from '../state-management/marca/marca.action';
+import { CsvreportService } from '../services/reportes/csvreport.service';
+import { AreaModel } from '../models/area.model';
+import { AreasState } from '../state-management/area/area.state';
+import { GetArea } from '../state-management/area/area.action';
 
 
 @Component({
@@ -80,6 +84,8 @@ export class ListaActivosComponent implements AfterViewInit {
 
   marcas$: Observable<MarcaModel[]>; 
   marcas: MarcaModel[] = [];
+  areas$: Observable<AreaModel[]>; 
+  areas: AreaModel[] = [];
 
   displayedColumns: string[] = [
     'select',
@@ -106,7 +112,7 @@ export class ListaActivosComponent implements AfterViewInit {
   @ViewChild(MatSort)
   sort!: MatSort;
 
-  constructor(private store: Store, public pdfreportService: PdfreportService, public calcularDepreciacionService: CalcularDepreciacionService) {
+  constructor(private store: Store, public pdfreportService: PdfreportService, public calcularDepreciacionService: CalcularDepreciacionService, public csvreportService: CsvreportService) {
     this.activos$ = this.store.select(ActivoState.getActivos);
     this.aulas$ = this.store.select(AulaState.getAulas);
     this.bloques$ = this.store.select(BloqueState.getBloques);
@@ -118,6 +124,7 @@ export class ListaActivosComponent implements AfterViewInit {
     this.modelos$ = this.store.select(ModeloState.getModelos);
 
     this.marcas$ = this.store.select(MarcaState.getMarcas);
+    this.areas$ = this.store.select(AreasState.getAreas);
   }
   nombreMarca(marcaId: number): string {    
     if (!this.marcas.length) {
@@ -154,7 +161,37 @@ export class ListaActivosComponent implements AfterViewInit {
     this.modelos$.subscribe((modelos: ModeloModel[]) => {
       this.modeloslist = modelos;
     });
-    this.pdfreportService.activopdf(activosSeleccionados, this.aulaslist, this.bloqueslist, this.categoriaslist, this.custodioslist, this.depreciacioneslist, this.estadoslist, this.proyectoslist, this.modeloslist);
+    this.pdfreportService.activopdf(activosSeleccionados, this.aulaslist, this.bloqueslist, this.categoriaslist, this.custodioslist, this.depreciacioneslist, this.estadoslist, this.proyectoslist, this.modeloslist, this.areas, this.marcas);
+  }
+  
+  generarCSV() {
+    const activosSeleccionados = this.selection.selected;
+    
+    this.aulas$.subscribe((aulas: AulaModel[]) => {
+      this.aulaslist = aulas;
+    });
+    this.bloques$.subscribe((bloques: BloqueModel[]) => {
+      this.bloqueslist = bloques;
+    });
+    this.categorias$.subscribe((categorias: CategoriaModel[]) => {
+      this.categoriaslist = categorias;
+    });
+    this.custodios$.subscribe((custodios: CustodiosModel[]) => {
+      this.custodioslist = custodios;
+    });
+    this.depreciaciones$.subscribe((depreciaciones: DepreciacionesModel[]) => {
+      this.depreciacioneslist = depreciaciones;
+    });
+    this.estadouso$.subscribe((estados: EstadosModel[]) => {
+      this.estadoslist = estados;
+    });
+    this.proyectos$.subscribe((proyectos: ProyectoModel[]) => {
+      this.proyectoslist = proyectos;
+    });
+    this.modelos$.subscribe((modelos: ModeloModel[]) => {
+      this.modeloslist = modelos;
+    });
+    this.csvreportService.activocsv(activosSeleccionados, this.aulaslist, this.bloqueslist, this.categoriaslist, this.custodioslist, this.depreciacioneslist, this.estadoslist, this.proyectoslist, this.modeloslist, this.areas, this.marcas);
   }
 
   // Función para obtener el nombre del rol por ID
@@ -163,7 +200,7 @@ export class ListaActivosComponent implements AfterViewInit {
       return 'Cargando...'; // Si los roles aún no se han cargado
     }
     const aula = this.aulas.find((r) => r.idAula === rolId);
-    return aula ? aula.nombre : 'Sin Aula';  // Devuelve el nombre del rol o "Sin Rol" si no se encuentra
+    return aula ? (aula.nombre+"("+aula.codigoUbicacion+")") : 'Sin Aula';  // Devuelve el nombre del rol o "Sin Rol" si no se encuentra
   }
 
   getBloqueName(rolId: number): string {
@@ -185,7 +222,7 @@ export class ListaActivosComponent implements AfterViewInit {
       return 'Cargando...'; // Si los roles aún no se han cargado
     }
     const custodio = this.custodios.find((r) => r.idCustodio === rolId);
-    return custodio ? custodio.nombre : 'Sin Custodio';  // Devuelve el nombre del rol o "Sin Rol" si no se encuentra
+    return custodio ? (custodio.nombre+" "+custodio.apellidoPaterno+" "+custodio.apellidoMaterno+" - "+custodio.ci) : 'Sin Custodio';  // Devuelve el nombre del rol o "Sin Rol" si no se encuentra
   }
   
   getDepreciacionName(rolId: number): string {
@@ -203,12 +240,23 @@ export class ListaActivosComponent implements AfterViewInit {
     const estado = this.estadouso.find((r) => r.idEstado === rolId);
     return estado ? estado.nombre : 'Sin Estado';  // Devuelve el nombre del rol o "Sin Rol" si no se encuentra
   }
+  getAreaName(areaId: number): string {
+    if (!this.areas.length) {
+      return 'Cargando...'; // Si los roles aún no se han cargado
+    }
+    const area = this.areas.find((r) => r.idArea === areaId);
+    return area ? area.nombre : 'Sin Area';  // Devuelve el nombre del rol o "Sin Rol" si no se encuentra
+  }
   getProyectoName(rolId: number): string {
     if (!this.proyectos.length) {
       return 'Cargando...'; // Si los roles aún no se han cargado
     }
     const proyecto = this.proyectos.find((r) => r.idProyecto === rolId);
-    return proyecto ? proyecto.nombre : 'Sin Proyecto';  // Devuelve el nombre del rol o "Sin Rol" si no se encuentra
+    let areanombre = 'Sin Area';
+    if (proyecto?.idArea !== undefined) {
+      areanombre = this.getAreaName(proyecto.idArea);
+    }
+    return proyecto ? (areanombre+" - "+proyecto.nombre) : 'Sin Proyecto';  // Devuelve el nombre del rol o "Sin Rol" si no se encuentra
   }
   getModeloName(rolId: number): string {
     if (!this.modelos.length) {
@@ -224,7 +272,7 @@ export class ListaActivosComponent implements AfterViewInit {
 
   ngOnInit(): void {
     // Despacha la acción para obtener los usuarios
-    this.store.dispatch([new GetMarca(), new GetActivo(), new GetAula(), new GetBloque(), new GetCategoria(), new GetCustodio(), new GetDepreciacion(), new GetEstado(), new GetProyecto(), new GetModelo()]);
+    this.store.dispatch([new GetArea(), new GetMarca(), new GetActivo(), new GetAula(), new GetBloque(), new GetCategoria(), new GetCustodio(), new GetDepreciacion(), new GetEstado(), new GetProyecto(), new GetModelo()]);
 
     // Suscríbete al observable para actualizar el dataSource
     this.activos$.subscribe((activos) => {
@@ -257,6 +305,9 @@ export class ListaActivosComponent implements AfterViewInit {
     });      
     this.marcas$.subscribe((marcas) => {
       this.marcas = marcas;
+    }); 
+    this.areas$.subscribe((areas) => {
+      this.areas = areas;
     });
   }
 

@@ -17,11 +17,13 @@ import { EstadosModel } from '../../models/estadosUso.model';
 import { MarcaModel } from '../../models/marca.model';
 import { ModeloModel } from '../../models/modelo.model';
 import { DepreciacionesModel } from '../../models/depreciaciones.model';
+import { CalcularDepreciacionService } from '../calcular-depreciacion.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PdfreportService {
+  constructor(public calcularDepreciacionService: CalcularDepreciacionService) { }
   //Aqui se guarda los formatos para realizar los reportes en pdf
   userpdf(userlist: UserModel[], rollist: RolModel[]) {
     const doc = new jsPDF('l', 'mm', [297, 210]);
@@ -436,38 +438,41 @@ export class PdfreportService {
     doc.save('informe-marcas.pdf');
   }
   //Aqui se guarda los formatos para realizar los reportes en pdf
-  activopdf(activolist: ActivosModel[], aulaslist: AulaModel[], bloqueslist: BloqueModel[], categoriaslist: CategoriaModel[], custodioslist: CustodiosModel[], depreciacioneslist: DepreciacionesModel[], estadoslist: EstadosModel[], proyectoslist: ProyectoModel[], modeloslist: ModeloModel[]) {
-    const doc = new jsPDF('l', 'mm', [297, 210]);
+  activopdf(activolist: ActivosModel[], aulaslist: AulaModel[], bloqueslist: BloqueModel[], categoriaslist: CategoriaModel[], custodioslist: CustodiosModel[], depreciacioneslist: DepreciacionesModel[], estadoslist: EstadosModel[], proyectoslist: ProyectoModel[], modeloslist: ModeloModel[], arealist: AreaModel[], marcaslist: MarcaModel[]) {
+    const doc = new jsPDF('l', 'mm', [357, 260]);
     doc.text('Informe de Activos generado: ' + new Date().toLocaleString(), 10, 10);
     const fecha = new Date().toLocaleString();
     // doc.text('/n Fecha de generacion: ' + fecha, 10, 10);
 
-    const columns = ['ID', 'Nombre', 'Valor Actual', 'Valor Inicial', 'Fecha Registro', 'Detalle', 'Activo/Inactivo', 'Precio', 'ComprobanteCompra','Estado de Uso', 'Custodio', 'Categoria', 'Depreciacion', 'Estado Uso', 'Proyecto', 'Modelo', 'Aula', 'Bloque'];
+    const columns = ['ID', 'Nombre', 'Area/Proyecto', 'Activo/Inactivo', 'Categoria', 'Marca/Modelo', 'Detalle', 'Fecha Registro', 'Valor Actual', 'Valor Inicial', 'Precio (Compra)', 'Comprobante Compra','Estado de Uso', 'Custodio', 'Aula'];
     const data = activolist.map((activo) => {
       const aulaActivo = aulaslist.find(aula => aula.idAula === activo.aulaId);
       const categoriaActivo = categoriaslist.find(categoria => categoria.idCategoria === activo.categoriaId);
       const custodioActivo = custodioslist.find(custodio => custodio.idCustodio === activo.custodioId);
       const proyectoActivo = proyectoslist.find(proyecto => proyecto.idProyecto === activo.proyectoId);
       const modeloActivo = modeloslist.find(modelo => modelo.idModelo === activo.idModelo);
+
+      const areaProyecto = proyectoActivo ? arealist.find(area => area.idArea === proyectoActivo.idArea) : undefined;
+      const marcaModelo = modeloActivo ? marcaslist.find(marca => marca.idMarca === modeloActivo.marcaId) : undefined;
+      
       return [
         activo.idActivo,
         activo.nombre,
-        activo.valorActual,
-        activo.valorInicial,
-        activo.fechaRegistro.toString(),
-        activo.detalle,
+        proyectoActivo ? ((areaProyecto ? areaProyecto.nombre : 'Sin Area')+" - "+proyectoActivo.nombre) : 'Sin Proyecto',
         activo.estado ? 'Activo' : 'Inactivo',
+        categoriaActivo ? categoriaActivo.nombre : 'Sin Categoria',
+        modeloActivo ? ((marcaModelo ? marcaModelo.nombre : 'Sin Marca')+" - "+modeloActivo.nombre) : 'Sin Modelo',
+        activo.detalle,
+        new Date(activo.fechaRegistro).toISOString().slice(0, 10), // Convertimos a Date si es necesario
+        this.calcularDepreciacionService.obtenerValorActual(activo.fechaRegistro, activo.precio, activo.categoriaId),
+        activo.valorInicial,
         activo.precio,
         activo.comprobanteCompra,
         activo.estadoActivo,
-        //estadoActivo ? estadoActivo.nombre : 'Sin Estado',
-        custodioActivo ? `${custodioActivo.nombre} ${custodioActivo.apellidoPaterno} ${custodioActivo.apellidoMaterno}` : 'Sin Custodio',
-        categoriaActivo ? categoriaActivo.nombre : 'Sin Categoria',
-        proyectoActivo ? proyectoActivo.nombre : 'Sin Proyecto',
-        modeloActivo ? modeloActivo.nombre : 'Sin Modelo',
-        aulaActivo ? aulaActivo.nombre : 'Sin Aula',
+        custodioActivo ? `${custodioActivo.nombre} ${custodioActivo.apellidoPaterno} ${custodioActivo.apellidoMaterno} - ${custodioActivo.ci}` : 'Sin Custodio',
+        aulaActivo ? (aulaActivo.nombre+" ("+aulaActivo.codigoUbicacion+")") : 'Sin Aula',
       ];
-    });
+    });    
 
     autoTable(doc, {
       head: [columns],
