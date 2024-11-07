@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { tap } from 'rxjs/operators';
 import { ActivoService } from '../../services/activo.service';
 import { ActivosModel } from '../../models/activos.model';
-import { AddActivo, DeleteActivo, GetActivo, UpdateActivo } from './activos.action';
+import { AddActivo, DeleteActivo, GetActivo, GetActivosByProyectoId, UpdateActivo } from './activos.action';
 
 export interface ActivoStateModel {
   activos: ActivosModel[];
@@ -29,6 +29,18 @@ export class ActivoState {
   @Action(GetActivo)
   getActivos({ patchState }: StateContext<ActivoStateModel>) {
     return this.activoService.getAllActivos().pipe(
+      tap((response) => {
+        patchState({ activos: response.data });
+      })
+    );
+  }
+
+  @Action(GetActivosByProyectoId)
+  getProductosByCategoriaId(
+    { patchState }: StateContext<ActivoStateModel>,
+    { proyectoId }: GetActivosByProyectoId
+  ) {
+    return this.activoService.getActivoByProyectoId(proyectoId).pipe(
       tap((response) => {
         patchState({ activos: response.data });
       })

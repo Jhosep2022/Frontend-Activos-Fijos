@@ -21,11 +21,11 @@
         </div>
         <div class="inventual-breadcrumb-area px-7 py-9 bg-white mb-5">
             <div class="inventual-breadcrumb-area-inner px-0.5">
-                <h5 class="text-[20px] text-heading font-bold mb-3">Editar Activo</h5>
+                <h5 class="text-[20px] text-heading font-bold mb-3">Editar Activos De Proyectos</h5>
                 <div class="inventual-breadcrumb-area-inner-wrap">
                     <span class="text-[14px] text-body font-normal inline-block me-2">Gestion Activos</span>
                     <span class="text-[14px] text-body font-normal inline-block me-2">></span>
-                    <span class="text-[14px] text-body font-normal inline-block me-2">Editar Activo</span>
+                    <span class="text-[14px] text-body font-normal inline-block me-2">Editar Activos De Proyectos</span>
                 </div>
             </div>
         </div>
@@ -34,20 +34,20 @@
               <div class="grid grid-cols-12 gap-x-7 sm:gap-x-0">
                 <div class="col-span-12 md:col-span-6 sm:col-span-12">
                   <div class="inventual-select-field mb-5">
-                    <h5 class="text-[15px] text-heading font-semibold mb-3">Selecciona Activo Para Editar</h5>
+                    <h5 class="text-[15px] text-heading font-semibold mb-3">Selecciona Proyecto Para Gestionar</h5>
                     <div class="inventual-input-field-style">
                         <mat-form-field class="w-full" [floatLabel]="'always'">
                           <mat-label class="hidden">Number</mat-label>
                           <input type="text"
-                                 placeholder="Selecciona un Activo"
+                                 placeholder="Selecciona un Proyecto"
                                  aria-label="Number"
                                  matInput
                                  [formControl]="myControl"
-                                 [(ngModel)]="activo"
+                                 [(ngModel)]="proyecto"
                                  [matAutocomplete]="auto">
                           <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
-                            <mat-option *ngFor="let option of filteredActivos | async" [value]="option">
-                              {{option.nombre+", "+getModeloName(option.idModelo)+' ('+getProyectoName(option.proyectoId)+')'}}
+                            <mat-option *ngFor="let option of filteredProyectos | async" [value]="option" (click)="actualizarActivosProyecto()">
+                              {{option.nombre+", "+ getAreaName(option.idArea)}}
                             </mat-option>
                           </mat-autocomplete>
                         </mat-form-field>
@@ -57,7 +57,7 @@
               </div>
             </div>
         </div>
-        <ng-container *ngIf="activo.nombre !== ''">        
+        <ng-container *ngIf="proyecto.nombre !== ''">        
             <div class="inventual-content-area px-7">
                 <div class="grid grid-cols-12 gap-x-5">
                     <div class="col-span-4 lg:col-span-12 md:col-span-12 sm:col-span-12 lg:order-2 sm:order-2">
@@ -74,7 +74,7 @@
                                     <div class="inventual-select-field mb-7">
                                         <div class="inventual-select-field-style">                  
                                             <span class="text-[14px] text-body font-normal inline-block me-2">Id:</span>
-                                            {{activo.idActivo}}
+                                            {{proyecto.idProyecto}}
                                         </div>
                                     </div>
                                 </div>
@@ -82,7 +82,7 @@
                                     <div class="inventual-select-field mb-7">
                                         <div class="inventual-select-field-style">
                                             <span class="text-[14px] text-body font-normal inline-block me-2">Nombre Activo:</span>
-                                            {{activo.nombre}}
+                                            {{proyecto.nombre}}
                                         </div>
                                     </div>
                                 </div>
@@ -90,7 +90,7 @@
                                     <div class="inventual-select-field mb-7">
                                         <div class="inventual-select-field-style">     
                                             <span class="text-[14px] text-body font-normal inline-block me-2">Proyecto Perteneciente:</span>
-                                            {{getProyectoName(activo.proyectoId)}}
+                                            {{proyecto.fechaInicio}}
                                         </div>
                                     </div>
                                 </div>
@@ -98,14 +98,7 @@
                                     <div class="inventual-select-field mb-7">
                                         <div class="inventual-input-field-style">
                                             <span class="text-[14px] text-body font-normal inline-block me-2">Custodio:</span>
-                                            {{getProyectoName(activo.custodioId)}}
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-span-12 sm:col-span-12">
-                                    <div class="inventual-select-field mb-7">
-                                        <div class="inventual-select-field-style">
-                                            <span class="text-[14px] text-body font-normal inline-block me-2">Direccion:</span>
+                                            {{proyecto.fechaFin}}
                                         </div>
                                     </div>
                                 </div>
@@ -113,63 +106,20 @@
                                     <div class="inventual-select-field mb-7">
                                         <div class="inventual-select-field-style">
                                             <span class="text-[14px] text-body font-normal inline-block me-2">Estado:</span>
-                                            {{activo.estado}}
+                                            {{getAreaName(proyecto.idArea)}}
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-span-12 sm:col-span-12">
-                                    <div class="inventual-select-field mb-7">
-                                        <div class="inventual-select-field-style">                
-                                            <span class="text-[14px] text-body font-normal inline-block me-2">Uso del Activo:</span>
-                                            {{activo.estadoActivo}}
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-span-12 sm:col-span-12">
-                                    <div class="inventual-select-field mb-7">
-                                        <div class="inventual-select-field-style">   
-                                            <span class="text-[14px] text-body font-normal inline-block me-2">Modelo:</span>
-                                            {{getProyectoName(activo.idModelo)}}
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-span-12 sm:col-span-12">
-                                    <div class="inventual-select-field mb-7">
-                                        <div class="inventual-select-field-style">
-                                            <span class="text-[14px] text-body font-normal inline-block me-2">Valor:</span>
-                                            {{calcularDepreciacionService.obtenerValorActual(activo.fechaRegistro, activo.precio, activo.categoriaId) | number: '1.2-2'}}
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-span-12 sm:col-span-12">
-                                    <div class="inventual-select-field mb-7">
-                                        <div class="inventual-select-field-style">
-                                            <span class="text-[14px] text-body font-normal inline-block me-2">Codigo QR:</span>
-                                        </div>
-                                    </div>
-                                </div>         
-                                <div class="col-span-12 sm:col-span-12">
-                                    <div class="inventual-select-field mb-7">
-                                        <div class="inventual-select-field-style">
-                                            <span class="text-[14px] text-body font-normal inline-block me-2">Codigo Barras:</span>
-                                        </div>
-                                    </div>
-                                </div>                             
-                            </div>
-                            <div class="inventual-possale-tab-menu flex flex-wrap justify-between gap-5 mb-1">
-                                <button type="button" class="inventual-btn primary-btn flex-grow">Descargar QR</button>
-                                <button type="button" class="inventual-btn primary-btn flex-grow">Descargar Codigo Barras</button>
+                                </div>                     
                             </div>
                         </div>
                     </div>       
-                    <!--hola-->    
                 <div class="col-span-8 lg:col-span-12 md:col-span-12 sm:col-span-12 lg:order-2 sm:order-2">
                     <div class="inventual-possale-area bg-white p-7 pb-2 rounded-8 mb-5">
                         <div class="grid grid-cols-12 gap-x-5 sm:gap-x-0">
                             <div class="col-span-12 sm:col-span-12">
                                 <div class="inventual-select-field mb-7 relative">
                                     <div class="inventual-select-field-style me-12">
-                                        <h5 class="text-[20px] text-heading font-bold mb-3">Información Actual</h5>
+                                        <h5 class="text-[20px] text-heading font-bold mb-3">Actualizar a Todos los Activos</h5>
                                     </div>
                                 </div>
                             </div>

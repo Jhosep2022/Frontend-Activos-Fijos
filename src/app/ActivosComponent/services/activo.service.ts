@@ -23,6 +23,16 @@ export class ActivoService {
     // Realizar la solicitud HTTP y devolver la respuesta directamente
     return this.http.get<ResponseModel<ActivosModel[]>>(`${this.baseUrl}`, { headers });
   }
+
+  getActivoByProyectoId(proyectoId: number): Observable<ResponseModel<ActivosModel[]>> {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+  
+    // Realizar la solicitud HTTP y devolver la respuesta directamente
+    return this.http.get<ResponseModel<ActivosModel[]>>(`${this.baseUrl}/proyecto/${proyectoId}`, { headers });
+  }
   
   addActivo(activo: any): Observable<ResponseModel<ActivosModel>> {
     const token = localStorage.getItem('token');

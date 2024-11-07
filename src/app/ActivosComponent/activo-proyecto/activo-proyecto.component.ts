@@ -12,7 +12,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { RoleInterfaceData, roleData } from 'src/app/inventual/data/roleData';
 import { FormControl } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Store } from '@ngxs/store';
+import { Select, Store } from '@ngxs/store';
 import { Observable, startWith, map } from 'rxjs';
 import { ActivosModel } from '../models/activos.model';
 import { AreaModel } from '../models/area.model';
@@ -31,7 +31,7 @@ import { ActivoService } from '../services/activo.service';
 import { CalcularDepreciacionService } from '../services/calcular-depreciacion.service';
 import { CsvreportService } from '../services/reportes/csvreport.service';
 import { PdfreportService } from '../services/reportes/pdfreport.service';
-import { UpdateActivo, GetActivo, DeleteActivo } from '../state-management/activos/activos.action';
+import { UpdateActivo, GetActivo, DeleteActivo, GetActivosByProyectoId } from '../state-management/activos/activos.action';
 import { ActivoState } from '../state-management/activos/activos.state';
 import { GetArea } from '../state-management/area/area.action';
 import { AreasState } from '../state-management/area/area.state';
@@ -76,7 +76,7 @@ import { SucursalState } from '../state-management/ubicacion/sucursal/sucursal.s
   encapsulation: ViewEncapsulation.None,
 })
 export class ActivoProyectoComponent implements AfterViewInit {
-  activos$: Observable<ActivosModel[]>;
+  //activos$: Observable<ActivosModel[]>;
   aulas$: Observable<AulaModel[]>;
   aulas: AulaModel[] = [];
   bloques$: Observable<BloqueModel[]>;
@@ -115,9 +115,11 @@ export class ActivoProyectoComponent implements AfterViewInit {
   areas$: Observable<AreaModel[]>; 
   areas: AreaModel[] = [];
   //historialActivos$: Observable<HistorialActivosModel[]>;
+  @Select(ActivoState.getActivos) activos$!: Observable<ActivosModel[]>;
   historialActivos: HistorialActivosModel[] = [];
   
   filteredActivos!: Observable<ActivosModel[]>;
+  filteredProyectos!: Observable<ProyectoModel[]>;
   myControl = new FormControl('');  
 
   pais: PaisModel = {
@@ -220,6 +222,15 @@ export class ActivoProyectoComponent implements AfterViewInit {
     nombreSucursal: ''
   };
 
+  proyecto: ProyectoModel = {
+    idProyecto: 0,
+    nombre: '',
+    codigoProyecto: '',
+    fechaInicio: '',
+    fechaFin: '',
+    idArea: 0
+  };
+
   displayedColumns: string[] = [
     'select',
     'nombre',
@@ -279,19 +290,25 @@ export class ActivoProyectoComponent implements AfterViewInit {
     return marca ? marca.nombre : 'Sin Marca';  // Devuelve el nombre del rol o "Sin Rol" si no se encuentra
   }
 
-  private _filter(value: string): ActivosModel[] {
+  private _filter(value: string): ProyectoModel[] {
     const filterValue = value?.toString().toLowerCase();  // Asegurarse de que siempre sea una cadena
-    let filteredActivos: ActivosModel[] = [];
+    let filteredProyectos: ProyectoModel[] = [];
     
-    this.activos$.subscribe((activos: ActivosModel[]) => {
-      filteredActivos = activos.filter(activo => activo.nombre.toLowerCase().includes(filterValue));
+    this.proyectos$.subscribe((proyectos: ProyectoModel[]) => {
+      filteredProyectos = proyectos.filter(proyectos => proyectos.nombre.toLowerCase().includes(filterValue));
     }).unsubscribe();
   
-    return filteredActivos;
+    return filteredProyectos;
   }
   
   displayFn(activo: ActivosModel): any {
     return activo && activo.nombre ? activo.nombre : "";
+  }
+
+  actualizarActivosProyecto(){    
+    if(this.proyecto.idProyecto !== 0){    
+    this.store.dispatch(new GetActivosByProyectoId(this.proyecto.idProyecto));
+    }
   }
 
   obtenerUbicacionActivo(activo: ActivosModel) {
@@ -314,29 +331,44 @@ export class ActivoProyectoComponent implements AfterViewInit {
   }
 
   actualizarActivo() {
-    this.store.dispatch(new UpdateActivo(this.activo)).subscribe({
-      next: () => {
-        this.openSnackBar('Custodio actualizado correctamente', 'Cerrar');
-        this.registrarHistorialActivo();
-      },
-      error: (error) => {
-        console.error('Error al actualizar custodio:', error);
-        this.openSnackBar('No se pudo actualizar el custodio', 'Cerrar');
+    const activosSeleccionados = this.selection.selected;
+    for (let activo of activosSeleccionados) {
+      if(this.activo.custodioId !== 0){
+        activo.custodioId = this.activo.custodioId;
       }
-    });
+      if(this.activo.estadoActivo !== ''){
+        activo.estadoActivo = this.activo.estadoActivo;
+      }
+      if(this.activo.aulaId !== 0){
+        activo.aulaId = this.activo.aulaId;
+      }
+      if(this.activo.proyectoId !== 0){
+        activo.proyectoId = this.activo.proyectoId;
+      } 
+      this.store.dispatch(new UpdateActivo(activo)).subscribe({
+        next: () => {
+          this.openSnackBar('Activos actualizados correctamente', 'Cerrar');
+          this.registrarHistorialActivo(activo);
+        },
+        error: (error) => {
+          console.error('Error al actualizar Activos:', error);
+          this.openSnackBar('No se pudo actualizar el Activo', 'Cerrar');
+        }
+      });
+    }
   }
 
-  registrarHistorialActivo() {
-    this.historialActivo.idActivo = this.activo.idActivo;
+  registrarHistorialActivo(activo: ActivosModel) {
+    this.historialActivo.idActivo = activo.idActivo;
     this.historialActivo.accion = "Actualización";
-    this.historialActivo.valorActual = this.activo.valorActual;
+    this.historialActivo.valorActual = activo.valorActual;
     this.historialActivo.fechaModificacion = new Date();
-    this.historialActivo.comprobante = this.activo.comprobanteCompra;
+    this.historialActivo.comprobante = activo.comprobanteCompra;
     this.historialActivo.estado = true;
-    this.historialActivo.estadoUso = this.activo.estadoActivo;
-    this.historialActivo.idAula = this.activo.aulaId;
-    this.historialActivo.idCustodio = this.activo.custodioId;
-    this.historialActivo.idProyecto = this.activo.proyectoId;
+    this.historialActivo.estadoUso = activo.estadoActivo;
+    this.historialActivo.idAula = activo.aulaId;
+    this.historialActivo.idCustodio = activo.custodioId;
+    this.historialActivo.idProyecto = activo.proyectoId;
     const userId = localStorage.getItem('userId');
     this.historialActivo.idUsuario = userId ? parseInt(userId, 10) : 0;
     this.store.dispatch(new AddHistorialActivo(this.historialActivo)).subscribe({
@@ -530,7 +562,7 @@ export class ActivoProyectoComponent implements AfterViewInit {
       this.areas = areas;
     });
 
-    this.filteredActivos = this.myControl.valueChanges.pipe(
+    this.filteredProyectos = this.myControl.valueChanges.pipe(
       startWith(''),
       map(value => this._filter(value || '')),
     );

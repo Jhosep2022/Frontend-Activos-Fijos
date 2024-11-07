@@ -16,3 +16,8 @@ export class DeleteActivo {
   static readonly type = '[Activo] Delete Activo';
   constructor(public id: number) {}
 }
+
+export class GetActivosByProyectoId {
+  static readonly type = '[ActivoProyecto] Get ActivoProyecto';
+  constructor(public proyectoId: number) {}
+}

@@ -90,15 +90,15 @@ export const navbarDataEditor: INavbarData[] = [
   {
     routeLink: 'editar',
     icon: 'fal fa-coins',
-    label: 'Edición Activos X',
+    label: 'Edición Activos',
     items: [
       {
         routeLink: '/editar/activo',
-        label: 'Editar Activo (Individual) X',
+        label: 'Editar Activo (Individual)',
       },
       {
         routeLink: '/editar/activoProyecto',
-        label: 'Editar Activos por Proyecto X',
+        label: 'Editar Activos por Proyecto',
       }
     ],
   },
