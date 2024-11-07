@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ResponseModel } from '../models/response.model';
 import { environment } from 'src/environments/environment';
+import { UbicacionActivoModel } from '../models/direccion-activo.model';
 
 @Injectable({
   providedIn: 'root'
@@ -45,5 +46,13 @@ export class ActivoService {
       'Authorization': `Bearer ${token}`
     });
     return this.http.delete<ResponseModel<ActivosModel>>(`${this.baseUrl}/eliminar/${activoId}`, { headers });
+  }
+
+  getUbicacionActivo(activoId: number): Observable<ResponseModel<UbicacionActivoModel>> {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    return this.http.get<ResponseModel<UbicacionActivoModel>>(`${this.baseUrl}/${activoId}/ubicacion`, { headers });
   }
 }

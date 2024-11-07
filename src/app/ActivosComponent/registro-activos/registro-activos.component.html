@@ -158,7 +158,7 @@
                 <h5 class="text-[15px] text-heading font-semibold mb-3">Estado Uso</h5>
                 <div class="inventual-select-field-style">
                   <mat-form-field>
-                    <mat-select class="block" [placeholder]="'Selecionar Proyecto'" class="form-control" id="estadoActivo" [(ngModel)]="activo.estadoActivo" name="estadoActivo">
+                    <mat-select class="block" [placeholder]="'Selecionar Estado Uso'" class="form-control" id="estadoActivo" [(ngModel)]="activo.estadoActivo" name="estadoActivo">
                       <mat-option *ngFor="let estado of estados$ | async" [value]="estado.nombre" matTooltip="{{estado.descripcion}}">
                         {{ estado.nombre }}
                       </mat-option>

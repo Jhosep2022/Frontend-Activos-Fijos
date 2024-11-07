@@ -83,6 +83,7 @@ import { GestionEstadousoComponent } from './ActivosComponent/gestion-estadouso/
 import { GestionIdentificadoresComponent } from './ActivosComponent/gestion-identificadores/gestion-identificadores.component';
 import { GestionMarcasComponent } from './ActivosComponent/gestion-marcas/gestion-marcas.component';
 import { GestionModelosComponent } from './ActivosComponent/gestion-modelos/gestion-modelos.component';
+import { ActivoProyectoComponent } from './ActivosComponent/activo-proyecto/activo-proyecto.component';
 
 
 const routes: Routes = [ 
@@ -146,6 +147,10 @@ const routes: Routes = [
   {
     path: 'editar/activo',
     component: ActivoIndividualComponent
+  },
+  {
+    path: 'editar/activoProyecto',
+    component: ActivoProyectoComponent
   },
   {
     path: 'categorias',

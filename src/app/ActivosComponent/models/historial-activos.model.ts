@@ -7,9 +7,9 @@ export interface HistorialActivosModel {
   detalle: string;
   estado: boolean;
   estadoUso: string;
-  activoEntity: number;
-  aulaEntity: number;
-  custodioEntity: number;
-  proyectoEntity: number;
-  usuarioEntity: number;
+  idActivo: number;
+  idAula: number;
+  idCustodio: number;
+  idProyecto: number;
+  idUsuario: number;
 }

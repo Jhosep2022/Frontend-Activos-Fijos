@@ -104,9 +104,15 @@ import { ModelosEditComponent } from './comunes/editDialogs/modelos-edit/modelos
 import { AreasEditComponent } from './comunes/editDialogs/areas-edit/areas-edit.component';
 import { ProyectosEditComponent } from './comunes/editDialogs/proyectos-edit/proyectos-edit.component';
 import { ActivosEditComponent } from './comunes/editDialogs/activos-edit/activos-edit.component';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {NgFor, AsyncPipe} from '@angular/common';
+import { HistorialActivoState } from "./state-management/historial-activo/historial-activo.state";
 
 @NgModule({
   imports: [
+    NgFor,
+    AsyncPipe,
+    MatAutocompleteModule,
     CommonModule,
     RouterModule,
     MatCheckboxModule,
@@ -139,7 +145,7 @@ import { ActivosEditComponent } from './comunes/editDialogs/activos-edit/activos
     MatTableModule,
     DragDropModule,
     MatSnackBarModule,
-    NgxsModule.forRoot([RolState, UserState, DivisaState, ActivoState, CustodiosState, EmpresasState, AreasState, ProyectoState, PaisState, DepartamentoState, ProvinciaState, MunicipioState, SucursalState, BloqueState, AulaState, DireccionState, CategoriaState, DepreciacionState, IdentificadorState, EstadoState, MarcaState, ModeloState]),  // Registra tu estado de usuarios
+    NgxsModule.forRoot([HistorialActivoState ,RolState, UserState, DivisaState, ActivoState, CustodiosState, EmpresasState, AreasState, ProyectoState, PaisState, DepartamentoState, ProvinciaState, MunicipioState, SucursalState, BloqueState, AulaState, DireccionState, CategoriaState, DepreciacionState, IdentificadorState, EstadoState, MarcaState, ModeloState]),  // Registra tu estado de usuarios
     NgxsLoggerPluginModule.forRoot(),
     NgxsReduxDevtoolsPluginModule.forRoot() 
   ],
