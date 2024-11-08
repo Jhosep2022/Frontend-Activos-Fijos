@@ -11,6 +11,7 @@ import { JwtdecoderService } from './jwtdecoder.service';
 })
 export class UserServiceService {
   private baseUrl = environment.apiUrl + 'api/v1/usuario';
+  private auditoriaUrl = environment.apiUrl + 'api/auditoria';
 
   constructor(private http: HttpClient, private jwtDecoderService: JwtdecoderService) {}
 
@@ -74,6 +75,19 @@ export class UserServiceService {
     });
 
     return this.http.get<ResponseModel<UserModel>>(`${this.baseUrl}/${userId}`, { headers });
+  }
+
+  logAuditoria(idUsuario: number, accion: string, detalles: string): Observable<any> {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    const body = {
+      idUsuario: idUsuario,
+      accion: accion,
+      detalles: detalles
+    };
+    return this.http.post<any>(`${this.auditoriaUrl}/crear`, body, { headers });
   }
 
 }

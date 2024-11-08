@@ -6,8 +6,8 @@ export const environment = {
   production: false,
   apiUrlLocal: 'http://localhost:8080/',
   //railway
-  apiUrl: 'https://activosfijosbackend-production.up.railway.app/',
-  //apiUrl: 'http://localhost:8080/',
+  //apiUrl: 'https://activosfijosbackend-production.up.railway.app/',
+  apiUrl: 'http://localhost:8080/',
 };
 
 /*
