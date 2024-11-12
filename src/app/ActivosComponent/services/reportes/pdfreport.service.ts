@@ -209,7 +209,7 @@ export class PdfreportService {
     const municipiocolumns = ['ID', 'Nombre', 'provinciaId'];
     const sucursalcolumns = ['ID', 'Nombre', 'municipioId'];
     const bloquecolumns = ['ID', 'Nombre', 'idSucursal', 'idDireccion'];
-    const aulacolumns = ['ID', 'Nombre', 'idBloque'];
+    const aulacolumns = ['ID', 'Nombre', 'idBloque', 'Codigo Ubicacion'];
     const direccioncolumns = ['ID', 'Calle', 'Detalle', 'Zona'];
   
     const paisdata = paislist.map((pais) => [
@@ -266,6 +266,7 @@ export class PdfreportService {
         aula.idAula,
         aula.nombre,
         bloques ? bloques.nombre : 'Sin Area',
+        aula.codigoUbicacion,
       ];
     });
     const direcciondata = direccionlist.map((direccion) => [

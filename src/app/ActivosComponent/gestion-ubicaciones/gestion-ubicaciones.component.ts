@@ -20,6 +20,7 @@ import { AulaState } from '../state-management/ubicacion/aula/aula.state';
 import { DireccionState } from '../state-management/ubicacion/direccion/direccion.state';
 import { DialogsAccessService } from '../services/dialogs/dialogs-access.service';
 import { PdfreportService } from '../services/reportes/pdfreport.service';
+import { CsvreportService } from '../services/reportes/csvreport.service';
 
 @Component({
   selector: 'app-gestion-ubicaciones',
@@ -144,7 +145,7 @@ export class GestionUbicacionesComponent implements OnInit {
   
   hide = true;
   
-    constructor(private store: Store, public dialogsAccessService: DialogsAccessService, public pdfreportService: PdfreportService) {
+    constructor(private store: Store, public dialogsAccessService: DialogsAccessService, public pdfreportService: PdfreportService, public csvreportService: CsvreportService) {
       this.paises$ = this.store.select(PaisState.getPaises);
       this.departamentos$ = this.store.select(DepartamentoState.getDepartamentos);
       this.provincias$ = this.store.select(ProvinciaState.getProvincias);
@@ -189,5 +190,33 @@ export class GestionUbicacionesComponent implements OnInit {
       this.pdfreportService.ubicacionespdf(this.paiseslist, this.departamentoslist, this.provinciaslist, this.municipioslist, this.sucursaleslist, this.bloqueslist, this.aulaslist, this.direccioneslist);
     }
   
+    generarCSV() {
+      this.paises$.subscribe((paises: PaisModel[]) => {
+        this.paiseslist = paises;
+      });
+      this.departamentos$.subscribe((departamentos: DepartamentoModel[]) => {
+        this.departamentoslist = departamentos;
+      });
+      this.provincias$.subscribe((provincias: ProvinciaModel[]) => {
+        this.provinciaslist = provincias;
+      });
+      this.municipios$.subscribe((municipios: MunicipioModel[]) => {
+        this.municipioslist = municipios;
+      });
+      this.sucursales$.subscribe((sucursales: SucursalModel[]) => {
+        this.sucursaleslist = sucursales;
+      });
+      this.bloques$.subscribe((bloques: BloqueModel[]) => {
+        this.bloqueslist = bloques;
+      });
+      this.aulas$.subscribe((aulas: AulaModel[]) => {
+        this.aulaslist = aulas;
+      });
+      this.direcciones$.subscribe((direcciones: DireccionModel[]) => {
+        this.direccioneslist = direcciones;
+      });
+
+      this.csvreportService.ubicacionescsv(this.paiseslist, this.departamentoslist, this.provinciaslist, this.municipioslist, this.sucursaleslist, this.bloqueslist, this.aulaslist, this.direccioneslist);
+    }
   }
   

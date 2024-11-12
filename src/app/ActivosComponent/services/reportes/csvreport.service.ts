@@ -14,7 +14,7 @@ import { EmpresaModel } from '../../models/empresa.model';
 import { CalcularDepreciacionService } from '../calcular-depreciacion.service';
 import { ActivosModel } from '../../models/activos.model';
 import { DepreciacionesModel } from '../../models/depreciaciones.model';
-import { AulaModel, BloqueModel } from '../../models/ubicacion.model';
+import { AulaModel, BloqueModel, DepartamentoModel, DireccionModel, MunicipioModel, PaisModel, ProvinciaModel, SucursalModel } from '../../models/ubicacion.model';
 
 @Injectable({
   providedIn: 'root'
@@ -341,6 +341,188 @@ activocsv(activolist: ActivosModel[], aulaslist: AulaModel[], bloqueslist: Bloqu
   const a = document.createElement('a');
   a.href = url;
   a.download = 'activos.csv';
+  a.click();
+  window.URL.revokeObjectURL(url);
+}
+
+downloadCSV(filename: any, headers: any, data: any) {
+  const csvContent = [headers.join(','), ...data].join('\n');
+  const blob = new Blob([csvContent], { type: 'text/csv' });
+  const url = window.URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  a.click();
+  window.URL.revokeObjectURL(url);
+}
+
+ubicacionescsv2( 
+  paislist: PaisModel[], 
+  departamentolist: DepartamentoModel[], 
+  provincialist: ProvinciaModel[], 
+  municipiolist: MunicipioModel[], 
+  sucursallist: SucursalModel[], 
+  bloquelist: BloqueModel[], 
+  aulalist: AulaModel[], 
+  direccionlist: DireccionModel[] 
+) {
+  // Países
+  const paisHeaders = ['ID País', 'Nombre País'];
+  const paisData = paislist.map(pais => [pais.idPais, pais.nombre].join(','));
+  this.downloadCSV('pais.csv', paisHeaders, paisData);
+
+  // Departamentos
+  const departamentoHeaders = ['ID Departamento', 'Nombre Departamento', 'País'];
+  const departamentoData = departamentolist.map(departamento => {
+    const pais = paislist.find(p => p.idPais === departamento.idPais);
+    return [departamento.idDepartamento, departamento.nombre, pais ? pais.nombre : 'Sin País'].join(',');
+  });
+  this.downloadCSV('departamento.csv', departamentoHeaders, departamentoData);
+
+  // Provincias
+  const provinciaHeaders = ['ID Provincia', 'Nombre Provincia', 'Departamento'];
+  const provinciaData = provincialist.map(provincia => {
+    const departamento = departamentolist.find(d => d.idDepartamento === provincia.idDepartamento);
+    return [provincia.idProvincia, provincia.nombre, departamento ? departamento.nombre : 'Sin Departamento'].join(',');
+  });
+  this.downloadCSV('provincia.csv', provinciaHeaders, provinciaData);
+
+  // Municipios
+  const municipioHeaders = ['ID Municipio', 'Nombre Municipio', 'Provincia'];
+  const municipioData = municipiolist.map(municipio => {
+    const provincia = provincialist.find(p => p.idProvincia === municipio.provinciaId);
+    return [municipio.idMunicipio, municipio.nombre, provincia ? provincia.nombre : 'Sin Provincia'].join(',');
+  });
+  this.downloadCSV('municipio.csv', municipioHeaders, municipioData);
+
+  // Sucursales
+  const sucursalHeaders = ['ID Sucursal', 'Nombre Sucursal', 'Municipio'];
+  const sucursalData = sucursallist.map(sucursal => {
+    const municipio = municipiolist.find(m => m.idMunicipio === sucursal.municipioId);
+    return [sucursal.idSucursal, sucursal.nombre, municipio ? municipio.nombre : 'Sin Municipio'].join(',');
+  });
+  this.downloadCSV('sucursal.csv', sucursalHeaders, sucursalData);
+
+  // Bloques
+  const bloqueHeaders = ['ID Bloque', 'Nombre Bloque', 'Sucursal', 'Dirección'];
+  const bloqueData = bloquelist.map(bloque => {
+    const sucursal = sucursallist.find(s => s.idSucursal === bloque.idSucursal);
+    const direccion = direccionlist.find(d => d.idDireccion === bloque.idDireccion);
+    return [bloque.idBloque, bloque.nombre, sucursal ? sucursal.nombre : 'Sin Sucursal', direccion ? direccion.calle : 'Sin Dirección'].join(',');
+  });
+  this.downloadCSV('bloque.csv', bloqueHeaders, bloqueData);
+
+  // Aulas
+  const aulaHeaders = ['ID Aula', 'Nombre Aula', 'Bloque', 'Código Ubicación'];
+  const aulaData = aulalist.map(aula => {
+    const bloque = bloquelist.find(b => b.idBloque === aula.idBloque);
+    return [aula.idAula, aula.nombre, bloque ? bloque.nombre : 'Sin Bloque', aula.codigoUbicacion].join(',');
+  });
+  this.downloadCSV('aula.csv', aulaHeaders, aulaData);
+
+  // Direcciones
+  const direccionHeaders = ['ID Dirección', 'Calle', 'Detalle', 'Zona'];
+  const direccionData = direccionlist.map(direccion => [
+    direccion.idDireccion,
+    direccion.calle,
+    direccion.detalle,
+    direccion.zona
+  ].join(','));
+  this.downloadCSV('direccion.csv', direccionHeaders, direccionData);
+}
+
+ubicacionescsv(
+  paislist: PaisModel[], 
+  departamentolist: DepartamentoModel[], 
+  provincialist: ProvinciaModel[], 
+  municipiolist: MunicipioModel[], 
+  sucursallist: SucursalModel[], 
+  bloquelist: BloqueModel[], 
+  aulalist: AulaModel[], 
+  direccionlist: DireccionModel[]
+) {
+  const headers = [
+    'Pais',
+    'Departamento',
+    'Municipio',
+    'Provincia',
+    'Sucursal',
+    'Bloque',
+    'Calle', 'Detalle', 'Zona',
+    'Aula', 'Codigo Ubicacion'
+  ];
+
+  const csvData = [headers.join(',')];
+
+  paislist.forEach(pais => {
+    const departamentos = departamentolist.filter(departamento => departamento.idPais === pais.idPais);
+    if (departamentos.length === 0) departamentos.push({
+      nombre: '', idPais: pais.idPais,
+      idDepartamento: 0
+    });
+
+    departamentos.forEach(departamento => {
+      const provincias = provincialist.filter(provincia => provincia.idDepartamento === departamento.idDepartamento);
+      if (provincias.length === 0) provincias.push({
+        nombre: '', idDepartamento: departamento.idDepartamento,
+        idProvincia: 0
+      });
+
+      provincias.forEach(provincia => {
+        const municipios = municipiolist.filter(municipio => municipio.provinciaId === provincia.idProvincia);
+        if (municipios.length === 0) municipios.push({
+          nombre: '', provinciaId: provincia.idProvincia,
+          idMunicipio: 0
+        });
+
+        municipios.forEach(municipio => {
+          const sucursales = sucursallist.filter(sucursal => sucursal.municipioId === municipio.idMunicipio);
+          if (sucursales.length === 0) sucursales.push({
+            nombre: '', municipioId: municipio.idMunicipio,
+            idSucursal: 0
+          });
+
+          sucursales.forEach(sucursal => {
+            const bloques = bloquelist.filter(bloque => bloque.idSucursal === sucursal.idSucursal);
+            if (bloques.length === 0) bloques.push({
+              nombre: '', idSucursal: sucursal.idSucursal, idDireccion: 0,
+              idBloque: 0
+            });
+
+            bloques.forEach(bloque => {
+              const aulas = aulalist.filter(aula => aula.idBloque === bloque.idBloque);
+              if (aulas.length === 0) aulas.push({
+                nombre: '', idBloque: bloque.idBloque, codigoUbicacion: '',
+                idAula: 0
+              });
+
+              const direccion = direccionlist.find(d => d.idDireccion === bloque.idDireccion);
+
+              aulas.forEach(aula => {
+                csvData.push([
+                  pais.nombre,
+                  departamento.nombre, 
+                  provincia.nombre,
+                  municipio.nombre,
+                  sucursal.nombre,
+                  bloque.nombre, 
+                  direccion ? direccion.calle : '', direccion ? direccion.detalle : '', direccion ? direccion.zona : '',
+                  aula.nombre, aula.codigoUbicacion,
+                ].join(','));
+              });
+            });
+          });
+        });
+      });
+    });
+  });
+
+  // Crear y descargar el archivo CSV
+  const blob = new Blob([csvData.join('\n')], { type: 'text/csv' });
+  const url = window.URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'ubicaciones.csv';
   a.click();
   window.URL.revokeObjectURL(url);
 }
