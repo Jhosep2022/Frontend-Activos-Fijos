@@ -4,3 +4,11 @@ export interface IdentificadoresModel {
     codigoBarra: string;
     idActivo: number;
   }
+
+  export interface IdentificadoresStringModel {
+    idIdentificador: number;
+    codigoQr: string;
+    codigoBarra: string;
+    idActivo: number;
+    idActivostring: string;
+  }

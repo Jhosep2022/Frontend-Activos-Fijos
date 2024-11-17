@@ -10,9 +10,9 @@ import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Store } from '@ngxs/store';
 import { DeleteUser, GetUsers } from '../state-management/user/user.actions';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { UserState } from '../state-management/user/user.state';
-import { UserModel } from '../models/user.model';
+import { UserModel, UserStringModel } from '../models/user.model';
 import { PdfreportService } from '../services/reportes/pdfreport.service';
 import { GetRols } from '../state-management/rol/rol.actions';
 import { RolState } from '../state-management/rol/rol.state';
@@ -40,7 +40,7 @@ export class GestionUsuariosComponent implements AfterViewInit {
     'rolId',
     'action'
   ];
-  dataSource: MatTableDataSource<UserModel> = new MatTableDataSource(); // Cambiado el tipo a `any`
+  dataSource: MatTableDataSource<UserStringModel> = new MatTableDataSource(); // Cambiado el tipo a `any`
   selection = new SelectionModel<UserModel>(true, []);
 
   @ViewChild(MatPaginator)
@@ -89,7 +89,7 @@ export class GestionUsuariosComponent implements AfterViewInit {
     this.store.dispatch([new GetUsers(), new GetRols()]);
 
     // Suscríbete al observable para actualizar el dataSource
-    this.usuarios$.subscribe((users) => {
+    this.transformarDatosString().subscribe((users) => {
       this.dataSource.data = users; // Asigna los datos al dataSource
     });
 
@@ -105,7 +105,8 @@ export class GestionUsuariosComponent implements AfterViewInit {
   }
 
   eliminarUser(id: number) {
-    this.store.dispatch(new DeleteUser(id));
+    //this.store.dispatch(new DeleteUser(id));
+    this.dialogsAccessService.eliminarElemento(id, 'Usuario');
   }
 
   applyFilter(event: Event) {
@@ -146,5 +147,26 @@ export class GestionUsuariosComponent implements AfterViewInit {
   menuSidebarActive: boolean = false;
   myfunction() {
     this.menuSidebarActive = !this.menuSidebarActive;
+  }
+
+  transformarDatosString(){
+    const listaActual$: Observable<UserModel[]> = this.usuarios$;
+    const listaModificada$: Observable<UserStringModel[]> = listaActual$.pipe(
+      map((objetos: UserModel[]) =>
+        objetos.map((objeto: UserModel) => ({
+          idUsuario: objeto.idUsuario,
+          nombre: objeto.nombre,
+          apellidoPaterno: objeto.apellidoPaterno,
+          apellidoMaterno: objeto.apellidoMaterno,
+          password: objeto.password,
+          correo: objeto.correo,
+          estado: objeto.estado,
+          telefono: objeto.telefono,
+          rolId: objeto.rolId,
+          rolIdstring: this.getRolName(objeto.rolId),
+        }))
+      )
+    );    
+    return listaModificada$;
   }
 }

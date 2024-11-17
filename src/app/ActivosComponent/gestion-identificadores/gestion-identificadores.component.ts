@@ -9,6 +9,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { DialogsAccessService } from '../services/dialogs/dialogs-access.service';
 
 @Component({
   selector: 'app-gestion-identificadores',
@@ -43,16 +44,7 @@ export class GestionIdentificadoresComponent implements AfterViewInit {
   }
 
   eliminarIdentificador(id: number) {
-    this.store.dispatch(new DeleteIdentificador(id)).subscribe({
-      next: () => {
-        console.log('Identificador eliminado exitosamente');
-        this.openSnackBar('Identificador eliminado correctamente', 'Cerrar');
-      },
-      error: (error) => {
-        console.error('Error al eliminado Identificador:', error);
-        this.openSnackBar('El Identificador no se pudo eliminar', 'Cerrar');
-      }
-    });
+    this.dialogsAccessService.eliminarElemento(id, 'Identificador');
   }
 
   actualizarIdentificador(identificador: IdentificadoresModel) {    
@@ -83,7 +75,7 @@ export class GestionIdentificadoresComponent implements AfterViewInit {
   @ViewChild(MatSort)
   sort!: MatSort;
 
-  constructor(private store: Store, private _snackBar: MatSnackBar) {
+  constructor(private store: Store, private _snackBar: MatSnackBar, public dialogsAccessService: DialogsAccessService) {
     this.identificadores$ = this.store.select(IdentificadorState.getIdentificadores);
   }
 

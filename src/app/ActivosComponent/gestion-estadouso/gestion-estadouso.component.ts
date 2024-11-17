@@ -11,6 +11,7 @@ import { Observable } from 'rxjs';
 import { PdfreportService } from '../services/reportes/pdfreport.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CsvreportService } from '../services/reportes/csvreport.service';
+import { DialogsAccessService } from '../services/dialogs/dialogs-access.service';
 
 @Component({
   selector: 'app-gestion-estadouso',
@@ -43,16 +44,7 @@ export class GestionEstadousoComponent implements AfterViewInit {
   }
 
   eliminarEstado(id: number) {
-    this.store.dispatch(new DeleteEstado(id)).subscribe({
-      next: () => {
-        console.log('Estado eliminado exitosamente');
-        this.openSnackBar('Estado eliminado correctamente', 'Cerrar');
-      },
-      error: (error) => {
-        console.error('Error al eliminado Estado:', error);
-        this.openSnackBar('El Estado no se pudo eliminar', 'Cerrar');
-      }
-    });
+    this.dialogsAccessService.eliminarElemento(id, 'Estado');
   }
 
   actualizarEstado(estado: EstadosModel) {    
@@ -83,7 +75,7 @@ export class GestionEstadousoComponent implements AfterViewInit {
   @ViewChild(MatSort)
   sort!: MatSort;
 
-  constructor(private store: Store, public pdfreportService: PdfreportService, private _snackBar: MatSnackBar, public csvreportService: CsvreportService) {
+  constructor(public dialogsAccessService: DialogsAccessService,private store: Store, public pdfreportService: PdfreportService, private _snackBar: MatSnackBar, public csvreportService: CsvreportService) {
     this.estados$ = this.store.select(EstadoState.getEstados);
   }
 

@@ -107,6 +107,10 @@ import { ActivosEditComponent } from './comunes/editDialogs/activos-edit/activos
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {NgFor, AsyncPipe} from '@angular/common';
 import { HistorialActivoState } from "./state-management/historial-activo/historial-activo.state";
+import { ProyectoDialogComponent } from './comunes/addDialogs/proyecto-dialog/proyecto-dialog.component';
+import { ModeloDialogComponent } from './comunes/addDialogs/modelo-dialog/modelo-dialog.component';
+import { CustodioDialogComponent } from './comunes/addDialogs/custodio-dialog/custodio-dialog.component';
+import { ConfirmacionDeleteComponent } from './comunes/addDialogs/confirmacion-delete/confirmacion-delete.component';
 
 @NgModule({
   imports: [
@@ -200,6 +204,10 @@ import { HistorialActivoState } from "./state-management/historial-activo/histor
     AreasEditComponent,
     ProyectosEditComponent,
     ActivosEditComponent,
+    ProyectoDialogComponent,
+    ModeloDialogComponent,
+    CustodioDialogComponent,
+    ConfirmacionDeleteComponent,
   ],
 })
 export class ActivosProyectModule {}

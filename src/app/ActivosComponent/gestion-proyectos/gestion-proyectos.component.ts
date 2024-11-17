@@ -8,9 +8,9 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
-import { ProyectoModel } from '../models/proyecto.model';
+import { ProyectoModel, ProyectoStringModel } from '../models/proyecto.model';
 import { AddProyecto, DeleteProyecto, GetProyecto, UpdateProyecto } from '../state-management/proyecto/proyecto.action';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { Store } from '@ngxs/store';
 import { ProyectoState } from '../state-management/proyecto/proyecto.state';
 import { AreaModel } from '../models/area.model';
@@ -63,16 +63,7 @@ export class GestionProyectosComponent implements AfterViewInit {
   }
 
   eliminarProyecto(id: number) {
-    this.store.dispatch(new DeleteProyecto(id)).subscribe({
-      next: () => {
-        console.log('Proyecto eliminado exitosamente');
-        this.openSnackBar('Proyecto eliminado correctamente', 'Cerrar');
-      },
-      error: (error) => {
-        console.error('Error al eliminado Proyecto:', error);
-        this.openSnackBar('El Proyecto no se pudo eliminar', 'Cerrar');
-      }
-    });
+    this.dialogsAccessService.eliminarElemento(id, 'Proyecto');
   }
 
   actualizarProyecto(proyecto: ProyectoModel) {    
@@ -95,7 +86,7 @@ export class GestionProyectosComponent implements AfterViewInit {
   }
   //sidebar menu activation end
   displayedColumns: string[] = ['select', 'nombre', 'fechaInicio', 'fechaFin', 'idArea', 'codigoProyecto','accion'];
-  dataSource: MatTableDataSource<ProyectoModel> = new MatTableDataSource(); // Cambiado el tipo a `any`
+  dataSource: MatTableDataSource<ProyectoStringModel> = new MatTableDataSource(); // Cambiado el tipo a `any`
   selection = new SelectionModel<ProyectoModel>(true, []);
 
   @ViewChild(MatPaginator)
@@ -163,7 +154,7 @@ export class GestionProyectosComponent implements AfterViewInit {
     this.store.dispatch([new GetProyecto(), new GetArea()]);
 
     // Suscríbete al observable para actualizar el dataSource
-    this.proyectos$.subscribe((proyectos) => {
+    this.transformarDatosString().subscribe((proyectos) => {
       this.dataSource.data = proyectos; // Asigna los datos al dataSource
     });
 
@@ -190,6 +181,24 @@ export class GestionProyectosComponent implements AfterViewInit {
     areas.subscribe((arealist: AreaModel[]) => {
       this.csvreportService.proyectosCSV(proyectosSeleccionados, arealist);
     });
+  }
+
+  transformarDatosString(){
+    const listaActual$: Observable<ProyectoModel[]> = this.proyectos$;
+    const listaModificada$: Observable<ProyectoStringModel[]> = listaActual$.pipe(
+      map((objetos: ProyectoModel[]) =>
+        objetos.map((objeto: ProyectoModel) => ({
+          idProyecto: objeto.idProyecto,
+          nombre: objeto.nombre,
+          codigoProyecto: objeto.codigoProyecto,
+          fechaInicio: objeto.fechaInicio,
+          fechaFin: objeto.fechaFin,
+          idArea: objeto.idArea,
+          idAreastring: this.getProyectosName(objeto.idArea)
+        }))
+      )
+    );    
+    return listaModificada$;
   }
 
 }

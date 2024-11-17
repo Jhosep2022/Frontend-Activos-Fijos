@@ -48,16 +48,7 @@ export class GestionMarcasComponent {
   }
   
   eliminarMarca(id: number) {
-    this.store.dispatch(new DeleteMarca(id)).subscribe({
-      next: () => {
-        console.log('Marca eliminada exitosamente');
-        this.openSnackBar('Marca eliminada correctamente', 'Cerrar');
-      },
-      error: (error) => {
-        console.error('Error al eliminada Marca:', error);
-        this.openSnackBar('La Marca no se pudo eliminar', 'Cerrar');
-      }
-    });
+    this.dialogsAccessService.eliminarElemento(id, 'Marca');
   }
   
   openSnackBar(message: string, action: string) {

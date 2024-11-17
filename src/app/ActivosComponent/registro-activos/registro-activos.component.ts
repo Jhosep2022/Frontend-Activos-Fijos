@@ -171,6 +171,7 @@ export class RegistroActivosComponent implements OnInit {
   }
 
   agregarActivo() {
+    this.activo.valorActual = this.activo.valorInicial;
     this.store.dispatch(new AddActivo(this.activo)).subscribe({
       next: () => {
         this.openSnackBar('Activo agregado correctamente', 'Cerrar');

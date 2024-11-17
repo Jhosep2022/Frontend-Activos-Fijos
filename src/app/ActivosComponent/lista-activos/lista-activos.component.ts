@@ -8,8 +8,8 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { StockReportInterfaceData, stockReportData } from 'src/app/inventual/data/stockReportData';
-import { ActivosModel } from '../models/activos.model';
-import { Observable } from 'rxjs';
+import { ActivosModel, ActivosStringModel } from '../models/activos.model';
+import { map, Observable } from 'rxjs';
 import { AulaModel, BloqueModel } from '../models/ubicacion.model';
 import { CategoriaModel } from '../models/categorias.model';
 import { CustodiosModel } from '../models/custodios.model';
@@ -46,6 +46,8 @@ import { CsvreportService } from '../services/reportes/csvreport.service';
 import { AreaModel } from '../models/area.model';
 import { AreasState } from '../state-management/area/area.state';
 import { GetArea } from '../state-management/area/area.action';
+import { get } from 'http';
+import { DialogsAccessService } from '../services/dialogs/dialogs-access.service';
 
 
 @Component({
@@ -104,7 +106,7 @@ export class ListaActivosComponent implements AfterViewInit {
     'idEstadoactivo',
     'action'
   ];
-  dataSource: MatTableDataSource<ActivosModel> = new MatTableDataSource(); // Cambiado el tipo a `any`
+  dataSource: MatTableDataSource<ActivosStringModel> = new MatTableDataSource(); // Cambiado el tipo a `any`
   selection = new SelectionModel<ActivosModel>(true, []);
 
   @ViewChild(MatPaginator)
@@ -112,7 +114,7 @@ export class ListaActivosComponent implements AfterViewInit {
   @ViewChild(MatSort)
   sort!: MatSort;
 
-  constructor(private store: Store, public pdfreportService: PdfreportService, public calcularDepreciacionService: CalcularDepreciacionService, public csvreportService: CsvreportService) {
+  constructor(private store: Store, public pdfreportService: PdfreportService, public calcularDepreciacionService: CalcularDepreciacionService, public csvreportService: CsvreportService, public dialogsAccessService: DialogsAccessService) {
     this.activos$ = this.store.select(ActivoState.getActivos);
     this.aulas$ = this.store.select(AulaState.getAulas);
     this.bloques$ = this.store.select(BloqueState.getBloques);
@@ -275,7 +277,7 @@ export class ListaActivosComponent implements AfterViewInit {
     this.store.dispatch([new GetArea(), new GetMarca(), new GetActivo(), new GetAula(), new GetBloque(), new GetCategoria(), new GetCustodio(), new GetDepreciacion(), new GetEstado(), new GetProyecto(), new GetModelo()]);
 
     // Suscríbete al observable para actualizar el dataSource
-    this.activos$.subscribe((activos) => {
+    this.transformarDatosString().subscribe((activos) => {
       this.dataSource.data = activos; // Asigna los datos al dataSource
     });
 
@@ -318,7 +320,8 @@ export class ListaActivosComponent implements AfterViewInit {
   }
 
   eliminarActivo(id: number) {
-    this.store.dispatch(new DeleteActivo(id));
+    //this.store.dispatch(new DeleteActivo(id));
+    this.dialogsAccessService.eliminarElemento(id, 'Activo');
   }
 
   applyFilter(event: Event) {
@@ -359,5 +362,36 @@ export class ListaActivosComponent implements AfterViewInit {
   menuSidebarActive: boolean = false;
   myfunction() {
     this.menuSidebarActive = !this.menuSidebarActive;
+  }
+
+  transformarDatosString(){
+    const listaActual$: Observable<ActivosModel[]> = this.activos$;
+    const listaModificada$: Observable<ActivosStringModel[]> = listaActual$.pipe(
+      map((objetos: ActivosModel[]) =>
+        objetos.map((objeto: ActivosModel) => ({
+          idActivo: objeto.idActivo,
+          nombre: objeto.nombre,
+          valorActual: objeto.valorActual,
+          valorInicial: objeto.valorInicial,
+          fechaRegistro: objeto.fechaRegistro, // Usamos string para representar la fecha con formato ISO
+          detalle: objeto.detalle,
+          estado: objeto.estado,
+          precio: objeto.precio,
+          comprobanteCompra: objeto.comprobanteCompra,
+          estadoActivo: objeto.estadoActivo,
+          aulaId: objeto.aulaId,
+          categoriaId: objeto.categoriaId,
+          custodioId: objeto.custodioId,
+          proyectoId: objeto.proyectoId,
+          idModelo: objeto.idModelo,
+          aulaIdstring: this.getAulaName(objeto.aulaId),
+          categoriaIdstring: this.getCategoriaName(objeto.categoriaId),
+          custodioIdstring: this.getCustodioName(objeto.custodioId),
+          proyectoIdstring: this.getProyectoName(objeto.proyectoId),
+          idModelostring: this.getModeloName(objeto.idModelo),
+        }))
+      )
+    );    
+    return listaModificada$;
   }
 }

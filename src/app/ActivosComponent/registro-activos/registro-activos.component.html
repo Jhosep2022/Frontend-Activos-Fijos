@@ -83,7 +83,7 @@
             </div> 
             <div class="col-span-4 md:col-span-6 sm:col-span-12">
               <div class="inventual-select-field mb-5">
-                <h5 class="text-[15px] text-heading font-semibold mb-3">Detalle Activo</h5>
+                <h5 class="text-[15px] text-heading font-semibold mb-3">Descripción Activo</h5>
                 <div class="inventual-input-field-style">
                   <mat-form-field class="w-full" [floatLabel]="'always'">
                     <mat-label class="hidden">Joseph Tylor</mat-label>
@@ -108,18 +108,18 @@
             </div>
             <div class="col-span-4 md:col-span-6 sm:col-span-12">
               <div class="inventual-select-field mb-5">
-                <h5 class="text-[15px] text-heading font-semibold mb-3">Comprobante de Adquisicion (Compra)</h5>
+                <h5 class="text-[15px] text-heading font-semibold mb-3" matTooltip="Aqui se debe ingresar el codigo de la factura, recibo u otro comprobante de compra.">Codigo Comprobante de Adquisicion (Compra)</h5>
                 <div class="inventual-input-field-style">
                   <mat-form-field class="w-full" [floatLabel]="'always'">
                     <mat-label class="hidden">Joseph Tylor</mat-label>
-                    <input matInput [placeholder]="'Ej. Cmb-213213'" class="form-control" id="comprobanteCompra" [(ngModel)]="activo.comprobanteCompra" name="comprobanteCompra">
+                    <input matInput [placeholder]="'Ej. Cmb-213213'" class="form-control" id="comprobanteCompra" [(ngModel)]="activo.comprobanteCompra" name="comprobanteCompra" matTooltip="Aqui se debe ingresar el codigo de la factura, recibo u otro comprobante de compra.">
                   </mat-form-field>
                 </div>
               </div>
             </div>        
             <div class="col-span-4 md:col-span-6 sm:col-span-12">
                 <div class="inventual-select-field mb-5">
-                  <h5 class="text-[15px] text-heading font-semibold mb-3">Valor Adquisicion (Compra)</h5>
+                  <h5 class="text-[15px] text-heading font-semibold mb-3">Valor Adquisicion (Bruto)</h5>
                   <div class="inventual-input-field-style">
                     <mat-form-field class="w-full" [floatLabel]="'always'">
                       <mat-label class="hidden">Joseph Tylor</mat-label>
@@ -130,18 +130,18 @@
             </div>
             <div class="col-span-4 md:col-span-6 sm:col-span-12">
                 <div class="inventual-select-field mb-5">
-                  <h5 class="text-[15px] text-heading font-semibold mb-3" matTooltip="Se recomienda ingresar el precio de compra.">Valor Inicial (Contable)</h5>
+                  <h5 class="text-[15px] text-heading font-semibold mb-3" matTooltip="Se recomienda ingresar el precio de compra." matTooltip="Este Valor es el valor contable se recomienda descontar por impuestos al 87% del valor de compra. Este es el monto que se deprecia mensualmente.">Valor Neto de Impuestos (Depreciable)</h5>
                   <div class="inventual-input-field-style">
                     <mat-form-field class="w-full" [floatLabel]="'always'">
                       <mat-label class="hidden">Joseph Tylor</mat-label>
-                      <input matInput [placeholder]="'Ej. 1000'" type="number" class="form-control" id="valorInicial" [(ngModel)]="activo.valorInicial" name="valorInicial">
+                      <input matInput [placeholder]="'Ej. 1000'" type="number" class="form-control" id="valorInicial" [(ngModel)]="activo.valorInicial" name="valorInicial" matTooltip="Este Valor es el valor contable se recomienda descontar por impuestos al 87% del valor de compra. Este es el monto que se deprecia mensualmente.">
                     </mat-form-field>
                   </div>
                 </div>
             </div>  
             <div class="col-span-4 md:col-span-6 sm:col-span-12">
               <div class="inventual-select-field mb-5">
-                <h5 class="text-[15px] text-heading font-semibold mb-3">Custodio</h5>
+                <h5 class="text-[15px] text-heading font-semibold mb-3" matTooltip="Es la persona que custodia el activo (encargado o responsable).">Custodio</h5>
                 <div class="inventual-select-field-style">
                   <mat-form-field>
                     <mat-select class="block" [placeholder]="'Selecionar Proyecto'" class="form-control" id="idCustodio" [(ngModel)]="activo.custodioId" name="idCustodio">
@@ -169,7 +169,7 @@
             </div>
             <div class="col-span-12 md:col-span-6 sm:col-span-12">
               <div class="inventual-select-field mb-5">
-                <h5 class="text-[15px] text-heading font-semibold mb-3">Categoria</h5>
+                <h5 class="text-[15px] text-heading font-semibold mb-3">Categoria (Legal)</h5>
                 <div class="inventual-select-field-style">
                   <mat-form-field>
                     <mat-select class="block" [placeholder]="'Selecionar Proyecto'" class="form-control" id="idCategoria" [(ngModel)]="activo.categoriaId" name="idCategoria">

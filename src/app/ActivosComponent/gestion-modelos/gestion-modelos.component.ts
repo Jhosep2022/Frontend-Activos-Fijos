@@ -1,7 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
-import { ModeloModel } from '../models/modelo.model';
+import { ModeloModel, ModeloStringModel } from '../models/modelo.model';
 import { AddModelo, DeleteModelo, GetModelo, UpdateModelo } from '../state-management/modelo/modelo.action';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { ModeloState } from '../state-management/modelo/modelo.state';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatPaginator } from '@angular/material/paginator';
@@ -53,16 +53,7 @@ export class GestionModelosComponent {
   }
   
   eliminarModelo(id: number) {
-    this.store.dispatch(new DeleteModelo(id)).subscribe({
-      next: () => {
-        console.log('Modelo eliminado exitosamente');
-        this.openSnackBar('Modelo eliminado correctamente', 'Cerrar');
-      },
-      error: (error) => {
-        console.error('Error al eliminado Modelo:', error);
-        this.openSnackBar('El Modelo no se pudo eliminar', 'Cerrar');
-      }
-    });
+    this.dialogsAccessService.eliminarElemento(id, 'Modelo');
   }
   
   actualizarModelo(modelo: ModeloModel) {    
@@ -82,7 +73,7 @@ export class GestionModelosComponent {
   //sidebar menu activation end
   
   displayedColumns: string[] = ['select', 'marca', 'nombre', 'descripcion', 'estado', 'accion'];
-  dataSource: MatTableDataSource<ModeloModel> = new MatTableDataSource(); 
+  dataSource: MatTableDataSource<ModeloStringModel> = new MatTableDataSource(); 
   selection = new SelectionModel<ModeloModel>(true, []);
   
   @ViewChild(MatPaginator)
@@ -168,13 +159,30 @@ export class GestionModelosComponent {
     this.store.dispatch([new GetModelo(), new GetMarca()]);
 
     // Suscríbete al observable para actualizar el dataSource
-    this.modelos$.subscribe((modelos) => {
+    this.transformarDatosString().subscribe((modelos) => {
       this.dataSource.data = modelos; // Asigna los datos al dataSource
     });
 
     this.marcas$.subscribe((marcas) => {
       this.marcas = marcas;
     });
+  }
+
+  transformarDatosString(){
+    const listaActual$: Observable<ModeloModel[]> = this.modelos$;
+    const listaModificada$: Observable<ModeloStringModel[]> = listaActual$.pipe(
+      map((objetos: ModeloModel[]) =>
+        objetos.map((objeto: ModeloModel) => ({
+          idModelo: objeto.idModelo,
+          nombre: objeto.nombre,
+          marcaId: objeto.marcaId,
+          marcaIdstring: this.getMarcaName(objeto.marcaId),
+          descripcion: objeto.descripcion,
+          estado: objeto.estado
+        }))
+      )
+    );    
+    return listaModificada$;
   }
   
 }

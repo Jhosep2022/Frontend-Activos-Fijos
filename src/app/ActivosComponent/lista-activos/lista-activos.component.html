@@ -42,7 +42,7 @@
                                 <div class="inventual-input-field-style">
                                     <mat-form-field class="w-full" [floatLabel]="'always'">
                                         <mat-label class="hidden">Filtrar</mat-label>
-                                        <input matInput (keyup)="applyFilter($event)" placeholder="Busca usuarios" #input>
+                                        <input matInput (keyup)="applyFilter($event)" placeholder="Busca activos" #input>
                                     </mat-form-field>
                                 </div>
                             </div>
@@ -85,12 +85,12 @@
                         </ng-container>
 
                         <ng-container matColumnDef="valorActual">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Valor Actual </th>
-                            <td mat-cell *matCellDef="let row"> {{calcularDepreciacionService.obtenerValorActual(row.fechaRegistro, row.precio, row.categoriaId) | number: '1.2-2'}} </td>
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Valor Actual (Depreciado) </th>
+                            <td mat-cell *matCellDef="let row"> {{calcularDepreciacionService.obtenerValorActual(row.fechaRegistro, row.valorInicial, row.categoriaId) | number: '1.2-2'}} </td>
                         </ng-container>
 
                         <ng-container matColumnDef="valorInicial">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Valor Inicial </th>
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Valor Inicial Neto (Depreciable) </th>
                             <td mat-cell *matCellDef="let row"> {{ row.valorInicial | number: '1.2-2' }} </td>
                         </ng-container>
 
@@ -105,7 +105,7 @@
                         </ng-container>
 
                         <ng-container matColumnDef="precio">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Precio </th>
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Valor Adquisicion (Bruto) </th>
                             <td mat-cell *matCellDef="let row"> {{ row.precio | number: '1.2-2' }} </td>
                         </ng-container>
 
@@ -116,17 +116,17 @@
 
                         <ng-container matColumnDef="idAula">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> Aula / Oficina </th>
-                            <td mat-cell *matCellDef="let row"> {{getAulaName(row.aulaId)}} </td>
+                            <td mat-cell *matCellDef="let row"> {{row.aulaIdstring}} </td>
                         </ng-container>
 
                         <ng-container matColumnDef="idCategoria">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> Categoria </th>
-                            <td mat-cell *matCellDef="let row"> {{getCategoriaName(row.categoriaId)}} </td>
+                            <td mat-cell *matCellDef="let row"> {{row.categoriaIdstring}} </td>
                         </ng-container>
 
                         <ng-container matColumnDef="idCustodio">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> Custodio </th>
-                            <td mat-cell *matCellDef="let row"> {{getCustodioName(row.custodioId)}} </td>
+                            <td mat-cell *matCellDef="let row"> {{row.custodioIdstring}} </td>
                         </ng-container>
 
                         <ng-container matColumnDef="idEstadoactivo">
@@ -136,12 +136,12 @@
 
                         <ng-container matColumnDef="idProyecto">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> Proyecto </th>
-                            <td mat-cell *matCellDef="let row"> {{getProyectoName(row.proyectoId)}} </td>
+                            <td mat-cell *matCellDef="let row"> {{row.proyectoIdstring}} </td>
                         </ng-container>
 
                         <ng-container matColumnDef="idModelo">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> Marca - Modelo </th>
-                            <td mat-cell *matCellDef="let row"> {{ getModeloName(row.idModelo) }} </td>
+                            <td mat-cell *matCellDef="let row"> {{ row.idModelostring }} </td>
                         </ng-container>
 
                         <ng-container matColumnDef="estado">

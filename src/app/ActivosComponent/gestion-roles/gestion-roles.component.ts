@@ -15,6 +15,7 @@ import { AddRol, DeleteRol, GetRols, UpdateRol } from '../state-management/rol/r
 import { Store } from '@ngxs/store';
 import { UserModel } from '../models/user.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { DialogsAccessService } from '../services/dialogs/dialogs-access.service';
 
 @Component({
   selector: 'app-gestion-roles',
@@ -46,16 +47,7 @@ export class GestionRolesComponent implements AfterViewInit {
   }
 
   eliminarRol(id: number) {
-    this.store.dispatch(new DeleteRol(id)).subscribe({
-      next: () => {
-        console.log('Rol eliminado exitosamente');
-        this.openSnackBar('Rol eliminado correctamente', 'Cerrar');
-      },
-      error: (error) => {
-        console.error('Error al eliminado rol:', error);
-        this.openSnackBar('El Rol no se pudo eliminar', 'Cerrar');
-      }
-    });
+    this.dialogsAccessService.eliminarElemento(id, 'Rol');
   }
 
   actualizarRol(rol: RolModel) {    
@@ -82,7 +74,7 @@ export class GestionRolesComponent implements AfterViewInit {
   @ViewChild(MatSort)
   sort!: MatSort;
 
-  constructor(private store: Store, private _snackBar: MatSnackBar) {
+  constructor(private store: Store, private _snackBar: MatSnackBar, public dialogsAccessService: DialogsAccessService) {
     this.roles$ = this.store.select(RolState.getRols);
   }
 

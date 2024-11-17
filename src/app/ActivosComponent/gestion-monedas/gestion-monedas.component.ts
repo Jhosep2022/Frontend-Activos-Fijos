@@ -58,16 +58,7 @@ export class GestionMonedasComponent implements AfterViewInit {
   }
 
   eliminarDivisa(id: number) {    
-    this.store.dispatch(new DeleteCurrency(id)).subscribe({
-      next: () => {
-        console.log('Moneda eliminada exitosamente');
-        this.openSnackBar('Moneda eliminada correctamente', 'Cerrar');
-      },
-      error: (error) => {
-        console.error('Error al eliminar moneda:', error);
-        this.openSnackBar('La Moneda no se pudo eliminar', 'Cerrar');
-      }
-    });
+    this.dialogsAccessService.eliminarElemento(id, 'Divisa');
   }  
 
   generarCSV() {

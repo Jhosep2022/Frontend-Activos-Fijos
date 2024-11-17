@@ -19,6 +19,7 @@ import { PdfreportService } from '../services/reportes/pdfreport.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DialogsAccessService } from '../services/dialogs/dialogs-access.service';
 import { CsvreportService } from '../services/reportes/csvreport.service';
+import { GetProyecto } from '../state-management/proyecto/proyecto.action';
 
 @Component({
   selector: 'app-gestion-custodios',
@@ -60,17 +61,8 @@ export class GestionCustodiosComponent implements AfterViewInit {
     };
   }
 
-  eliminarCustodio(id: number) {
-    this.store.dispatch(new DeleteCustodio(id)).subscribe({
-      next: () => {
-        console.log('Custodio eliminado exitosamente');
-        this.openSnackBar('Custodio eliminado correctamente', 'Cerrar');
-      },
-      error: (error) => {
-        console.error('Error al eliminado Custodio:', error);
-        this.openSnackBar('El Custodio no se pudo eliminar', 'Cerrar');
-      }
-    });
+  eliminarCustodio(id: number) {    
+    this.dialogsAccessService.eliminarElemento(id, 'Custodio');
   }
 
   actualizarCustodio(rol: CustodiosModel) {    
@@ -145,7 +137,7 @@ export class GestionCustodiosComponent implements AfterViewInit {
 
   ngOnInit(): void {
     // Despacha la acción para obtener los roles
-    this.store.dispatch(new GetCustodio());
+    this.store.dispatch([new GetCustodio(), new GetProyecto()]);
 
     // Suscríbete al observable para actualizar el dataSource
     this.custodios$.subscribe((custodios) => {

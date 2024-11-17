@@ -45,17 +45,8 @@ export class GestionCategoriasComponent implements AfterViewInit {
     };
   }
 
-  eliminarCategoria(id: number) {
-    this.store.dispatch(new DeleteCategoria(id)).subscribe({
-      next: () => {
-        console.log('Categoria eliminada exitosamente');
-        this.openSnackBar('Categoria eliminada correctamente', 'Cerrar');
-      },
-      error: (error) => {
-        console.error('Error al eliminada Categoria:', error);
-        this.openSnackBar('La Categoria no se pudo eliminar', 'Cerrar');
-      }
-    });
+  eliminarCategoria(id: number) {    
+    this.dialogsAccessService.eliminarElemento(id, 'Categoria');
   }
 
   actualizarCategoria(rol: CategoriaModel) {    

@@ -28,6 +28,7 @@ import { ModeloModel } from '../../models/modelo.model';
 import { ModelosEditComponent } from '../../comunes/editDialogs/modelos-edit/modelos-edit.component';
 import { ProyectoModel } from '../../models/proyecto.model';
 import { ProyectosEditComponent } from '../../comunes/editDialogs/proyectos-edit/proyectos-edit.component';
+import { ConfirmacionDeleteComponent } from '../../comunes/addDialogs/confirmacion-delete/confirmacion-delete.component';
 
 export interface DialogData {
   pais: PaisModel;
@@ -48,7 +49,9 @@ export interface DialogData {
   marca: MarcaModel;
   modelo: ModeloModel;
   proyecto: ProyectoModel;
-
+  //eliminar
+  idelemento: number;
+  tipo: string;
 }
 
 @Injectable({
@@ -111,6 +114,16 @@ export class DialogsAccessService {
     this.dialog.open(DireccionDialogComponent, {
       data: {
         direccion: direccion
+      },
+    });
+  }
+
+  //Funciones para eliminar
+  eliminarElemento(idelemento: number, tipo: string): void {
+    this.dialog.open(ConfirmacionDeleteComponent, {
+      data: {
+        idelemento: idelemento,
+        tipo: tipo
       },
     });
   }

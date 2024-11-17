@@ -4,8 +4,8 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Store } from '@ngxs/store';
-import { Observable } from 'rxjs';
-import { AreaModel } from '../models/area.model';
+import { map, Observable } from 'rxjs';
+import { AreaModel, AreaStringModel } from '../models/area.model';
 import { AddArea, DeleteArea, GetArea, UpdateArea } from '../state-management/area/area.action';
 import { AreasState } from '../state-management/area/area.state';
 import { EmpresasState } from '../state-management/empresa/empresa.state';
@@ -50,16 +50,7 @@ export class GestionAreasComponent implements AfterViewInit  {
   }
   
   eliminarArea(id: number) {
-    this.store.dispatch(new DeleteArea(id)).subscribe({
-      next: () => {
-        console.log('Area eliminada exitosamente');
-        this.openSnackBar('Area eliminada correctamente', 'Cerrar');
-      },
-      error: (error) => {
-        console.error('Error al eliminada Area:', error);
-        this.openSnackBar('La Area no se pudo eliminar', 'Cerrar');
-      }
-    });
+    this.dialogsAccessService.eliminarElemento(id, 'Area');
   }
   
   actualizarArea(area: AreaModel) {    
@@ -78,7 +69,7 @@ export class GestionAreasComponent implements AfterViewInit  {
   }
   //sidebar menu activation end
   displayedColumns: string[] = ['select', 'nombre', 'empresa', 'accion'];
-  dataSource: MatTableDataSource<AreaModel> = new MatTableDataSource(); 
+  dataSource: MatTableDataSource<AreaStringModel> = new MatTableDataSource(); 
   selection = new SelectionModel<AreaModel>(true, []);
   
   @ViewChild(MatPaginator)
@@ -157,7 +148,7 @@ export class GestionAreasComponent implements AfterViewInit  {
     this.store.dispatch([new GetArea(), new GetEmpresa()]);
   
     // Suscríbete al observable para actualizar el dataSource
-    this.areas$.subscribe((areas) => {
+    this.transformarDatosString().subscribe((areas) => {
       this.dataSource.data = areas; // Asigna los datos al dataSource
     });
 
@@ -173,6 +164,21 @@ export class GestionAreasComponent implements AfterViewInit  {
     }
     const empresa = this.empresas.find((r) => r.idEmpresa === rolId);
     return empresa ? empresa.nombre : 'Sin Empresas';  // Devuelve el nombre del rol o "Sin Rol" si no se encuentra
+  }
+
+  transformarDatosString(){
+    const listaActual$: Observable<AreaModel[]> = this.areas$;
+    const listaModificada$: Observable<AreaStringModel[]> = listaActual$.pipe(
+      map((objetos: AreaModel[]) =>
+        objetos.map((objeto: AreaModel) => ({
+          idArea: objeto.idArea,
+          idEmpresa: objeto.idEmpresa,
+          idEmpresastring: this.getEmpresaName(objeto.idEmpresa),
+          nombre: objeto.nombre
+        }))
+      )
+    );    
+    return listaModificada$;
   }
   
 }

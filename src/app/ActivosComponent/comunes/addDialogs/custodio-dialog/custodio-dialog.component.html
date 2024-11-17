@@ -1,0 +1,84 @@
+<mat-dialog-content>
+    <div class="popup-body">
+        <div class="inventual-popup-inner">
+            <div class="inventual-popup-header relative mb-11">
+                <div class="inventual-popup-header-title">
+                    <h4 class="text-[20px] text-heading font-bold">Registrar Custodio</h4>
+                </div>
+                <div class="inventual-popup-header-close absolute -top-4 ltr:-right-2.5 ltr:left-auto rtl:left-0 rtl:right-auto">
+                    <mat-dialog-actions>
+                        <div class="default-light-theme">
+                            <a href="javascript:void(0)" mat-dialog-close>
+                                <mat-icon>clear</mat-icon>
+                            </a>
+                        </div>
+                    </mat-dialog-actions>
+                </div>
+            </div>
+            <div class="grid grid-cols-12 gap-x-7 sm:gap-x-0">
+                <div class="col-span-12 sm:col-span-12">
+                    <div class="inventual-select-field mb-6">
+                        <h5 class="text-[15px] text-heading font-semibold mb-3">Nombre</h5>
+                        <div class="inventual-input-field-style">
+                            <mat-form-field class="w-full" [floatLabel]="'always'">
+                                <mat-label class="hidden">Kilogram</mat-label>
+                                <input matInput [placeholder]="'Ej. Juan'" type="text" class="form-control" id="nombre" [(ngModel)]="custodio.nombre" name="name">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="inventual-select-field mb-6">
+                        <h5 class="text-[15px] text-heading font-semibold mb-3">Apellido Paterno</h5>
+                        <div class="inventual-input-field-style">
+                            <mat-form-field class="w-full" [floatLabel]="'always'">
+                                <mat-label class="hidden">Kilogram</mat-label>
+                                <input matInput [placeholder]="'Ej. Perez'" type="text" class="form-control" id="apellidoPaterno" [(ngModel)]="custodio.apellidoPaterno" name="apellidoPaterno">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="inventual-select-field mb-6">
+                        <h5 class="text-[15px] text-heading font-semibold mb-3">Apellido Materno</h5>
+                        <div class="inventual-input-field-style">
+                            <mat-form-field class="w-full" [floatLabel]="'always'">
+                                <mat-label class="hidden">Kilogram</mat-label>
+                                <input matInput [placeholder]="'Ej. Paredes'" type="text" class="form-control" id="apellidoMaterno" [(ngModel)]="custodio.apellidoMaterno" name="apellidoMaterno">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="inventual-select-field mb-6">
+                        <h5 class="text-[15px] text-heading font-semibold mb-3">Telefono</h5>
+                        <div class="inventual-input-field-style">
+                            <mat-form-field class="w-full" [floatLabel]="'always'">
+                                <mat-label class="hidden">Kilogram</mat-label>
+                                <input matInput [placeholder]="'Ej. 784546984'" type="text" class="form-control" id="telefono" [(ngModel)]="custodio.telefono" name="telefono">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="inventual-select-field mb-6">
+                        <h5 class="text-[15px] text-heading font-semibold mb-3">Correo</h5>
+                        <div class="inventual-input-field-style">
+                            <mat-form-field class="w-full" [floatLabel]="'always'">
+                                <mat-label class="hidden">Kilogram</mat-label>
+                                <input matInput [placeholder]="'Ej. ejemplo@gmail.com'" type="text" class="form-control" id="correo" [(ngModel)]="custodio.correo" name="correo">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="inventual-select-field mb-6">
+                        <h5 class="text-[15px] text-heading font-semibold mb-3">CI</h5>
+                        <div class="inventual-input-field-style">
+                            <mat-form-field class="w-full" [floatLabel]="'always'">
+                                <mat-label class="hidden">Kilogram</mat-label>
+                                <input matInput [placeholder]="'Ej. 968512417 LP'" type="text" class="form-control" id="ci" [(ngModel)]="custodio.ci" name="ci">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-span-12">
+                    <div class="inventual-material-btn pt-1.5 justify-end">
+                        <button type="submit" mat-raised-button color="primary" (click)="agregarCustodio()">
+                            Registrar Custodio</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</mat-dialog-content>
