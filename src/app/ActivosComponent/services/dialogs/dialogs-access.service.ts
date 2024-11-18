@@ -29,6 +29,9 @@ import { ModelosEditComponent } from '../../comunes/editDialogs/modelos-edit/mod
 import { ProyectoModel } from '../../models/proyecto.model';
 import { ProyectosEditComponent } from '../../comunes/editDialogs/proyectos-edit/proyectos-edit.component';
 import { ConfirmacionDeleteComponent } from '../../comunes/addDialogs/confirmacion-delete/confirmacion-delete.component';
+import { CustodioDialogComponent } from '../../comunes/addDialogs/custodio-dialog/custodio-dialog.component';
+import { ProyectoDialogComponent } from '../../comunes/addDialogs/proyecto-dialog/proyecto-dialog.component';
+import { ModeloDialogComponent } from '../../comunes/addDialogs/modelo-dialog/modelo-dialog.component';
 
 export interface DialogData {
   pais: PaisModel;
@@ -199,5 +202,16 @@ export class DialogsAccessService {
         proyecto: proyecto
       },
     });
+  }
+
+  //Funciones para agregar
+  agregarCustodio(): void {
+    this.dialog.open(CustodioDialogComponent);
+  }
+  agregarModelo(): void {
+    this.dialog.open(ModeloDialogComponent);
+  }
+  agregarProyecto(): void {
+    this.dialog.open(ProyectoDialogComponent);
   }
 }

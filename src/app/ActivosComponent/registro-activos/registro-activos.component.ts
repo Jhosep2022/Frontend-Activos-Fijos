@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivosModel } from '../models/activos.model';
 import { AddActivo } from '../state-management/activos/activos.action';
 import { Store } from '@ngxs/store';
@@ -6,7 +6,7 @@ import { GetAula } from '../state-management/ubicacion/aula/aula.actions';
 import { GetBloque } from '../state-management/ubicacion/bloque/bloque.actions';
 import { GetCustodio } from '../state-management/custodios/custodios.action';
 import { GetProyecto } from '../state-management/proyecto/proyecto.action';
-import { Observable } from 'rxjs';
+import { map, Observable, startWith } from 'rxjs';
 import { AulaModel, BloqueModel, DepartamentoModel, DireccionModel, MunicipioModel, PaisModel, ProvinciaModel, SucursalModel } from '../models/ubicacion.model';
 import { CategoriaModel } from '../models/categorias.model';
 import { CustodiosState } from '../state-management/custodios/custodios.state';
@@ -46,6 +46,11 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MarcaModel } from '../models/marca.model';
 import { MarcaState } from '../state-management/marca/marca.state';
 import { GetMarca } from '../state-management/marca/marca.action';
+import { FormControl } from '@angular/forms';
+import { AreasState } from '../state-management/area/area.state';
+import { AreaModel } from '../models/area.model';
+import { GetArea } from '../state-management/area/area.action';
+import { DialogsAccessService } from '../services/dialogs/dialogs-access.service';
 
 @Component({
   selector: 'app-registro-activos',
@@ -53,7 +58,61 @@ import { GetMarca } from '../state-management/marca/marca.action';
   styleUrls: ['./registro-activos.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class RegistroActivosComponent implements OnInit {
+export class RegistroActivosComponent implements AfterViewInit {
+
+  // Variables para el manejo de los campos de autocompletado
+  areas$: Observable<AreaModel[]>; 
+  areas: AreaModel[] = [];
+  
+  filteredActivos!: Observable<ActivosModel[]>;
+  filteredProyectos!: Observable<ProyectoModel[]>;
+  myControl = new FormControl('');  
+  
+  filteredCustodios!: Observable<CustodiosModel[]>;
+  myControlCustodios = new FormControl('');  
+  
+  filteredModelos!: Observable<ModeloModel[]>;
+  myControlModelos = new FormControl('');  
+  
+  filteredSucursales!: Observable<SucursalModel[]>;
+  myControlSucursales = new FormControl('');  
+  
+  filteredDirecciones!: Observable<DireccionModel[]>;
+  myControlDirecciones = new FormControl('');  
+  
+  filteredAulas!: Observable<AulaModel[]>;
+  myControlAulas = new FormControl('');  
+  
+  filteredBloques!: Observable<BloqueModel[]>;
+  myControlBloques = new FormControl('');  
+
+  proyecto: ProyectoModel = {
+    idProyecto: 0,
+    nombre: '',
+    codigoProyecto: '',
+    fechaInicio: '',
+    fechaFin: '',
+    idArea: 0
+  };
+
+  custodio: CustodiosModel = {
+    idCustodio: 0,
+    nombre: '',
+    apellidoPaterno: '',
+    apellidoMaterno: '',
+    correo: '',
+    telefono: '',
+    ci: ''
+  };
+
+  modelo: ModeloModel = {
+    idModelo: 0,
+    nombre: '',
+    marcaId: 0,
+    descripcion: '',
+    estado: false
+  }
+  // Variables para el manejo de archivos
   selectedFile: File | null = null;
   
   modelos$: Observable<ModeloModel[]>;
@@ -68,6 +127,7 @@ export class RegistroActivosComponent implements OnInit {
 
   marcas$: Observable<MarcaModel[]>; 
   marcas: MarcaModel[] = [];
+  sucursales: SucursalModel[] = [];
 
   pais: PaisModel = {
     idPais: 0,
@@ -98,7 +158,20 @@ export class RegistroActivosComponent implements OnInit {
     municipioId: 0
   };
 
+  sucursal2: SucursalModel = {
+    idSucursal: 0,
+    nombre: '',
+    municipioId: 0
+  };
+
   bloque: BloqueModel = {
+    idBloque: 0,
+    nombre: '',
+    idSucursal: 0,
+    idDireccion: 0
+  };
+
+  bloque2: BloqueModel = {
     idBloque: 0,
     nombre: '',
     idSucursal: 0,
@@ -112,6 +185,13 @@ export class RegistroActivosComponent implements OnInit {
     codigoUbicacion: ''
   };
 
+  aula2: AulaModel = {
+    idAula: 0,
+    nombre: '',
+    idBloque: 0,
+    codigoUbicacion: ''
+  };
+
   direccion: DireccionModel = {
     idDireccion: 0,
     calle: '',
@@ -119,6 +199,13 @@ export class RegistroActivosComponent implements OnInit {
     zona: ''
   };
   
+  direccion2: DireccionModel = {
+    idDireccion: 0,
+    calle: '',
+    detalle: '',
+    zona: ''
+  };
+
   categorias$: Observable<CategoriaModel[]>; // Observable que contiene los categorias
   custodios$: Observable<CustodiosModel[]>; // Observable que contiene los custodios
   depreciaciones$: Observable<DepreciacionesModel[]>; // Observable que contiene los depreciaciones
@@ -148,6 +235,14 @@ export class RegistroActivosComponent implements OnInit {
     this.selectedFile = event.target.files[0];
   }
 
+  getAreaName(areaId: number): string {
+    if (!this.areas.length) {
+      return 'Cargando...'; // Si los roles aún no se han cargado
+    }
+    const area = this.areas.find((r) => r.idArea === areaId);
+    return area ? area.nombre : 'Sin Area';  // Devuelve el nombre del rol o "Sin Rol" si no se encuentra
+  }
+
   agregarActivos(): void {
     if (this.selectedFile) {
       this.fileUploadService.uploadFile(this.selectedFile).subscribe(
@@ -171,6 +266,10 @@ export class RegistroActivosComponent implements OnInit {
   }
 
   agregarActivo() {
+    this.activo.custodioId = this.custodio.idCustodio;
+    this.activo.proyectoId = this.proyecto.idProyecto;
+    this.activo.idModelo = this.modelo.idModelo;
+
     this.activo.valorActual = this.activo.valorInicial;
     this.store.dispatch(new AddActivo(this.activo)).subscribe({
       next: () => {
@@ -225,7 +324,7 @@ export class RegistroActivosComponent implements OnInit {
   
   hide = true;
   
-    constructor(private store: Store, public fileUploadService: CsvActivosService, private _snackBar: MatSnackBar) {
+    constructor(private cdr: ChangeDetectorRef, private store: Store, public fileUploadService: CsvActivosService, private _snackBar: MatSnackBar, public dialogsAccessService: DialogsAccessService) {
       this.aulas$ = this.store.select(AulaState.getAulas);
       this.bloques$ = this.store.select(BloqueState.getBloques);
       this.categorias$ = this.store.select(CategoriaState.getCategorias);
@@ -245,14 +344,186 @@ export class RegistroActivosComponent implements OnInit {
       this.direcciones$ = this.store.select(DireccionState.getDirecciones);
 
       this.marcas$ = this.store.select(MarcaState.getMarcas);
+      this.areas$ = this.store.select(AreasState.getAreas);
      }
-  
+  ngAfterViewInit(): void {
+    this.cdr.detectChanges();
+  }
+
+     //Funciones para el filtro de los campos de autocompletado
+
+     private _filter(value: string): ProyectoModel[] {
+       const filterValue = value?.toString().toLowerCase();  // Asegurarse de que siempre sea una cadena
+       let filteredProyectos: ProyectoModel[] = [];
+       
+       this.proyectos$.subscribe((proyectos: ProyectoModel[]) => {
+         filteredProyectos = proyectos.filter(proyectos => proyectos.nombre.toLowerCase().includes(filterValue));
+       }).unsubscribe();
+     
+       return filteredProyectos;
+     }
+     
+     displayFn(activo: ActivosModel): any {
+       return activo && activo.nombre ? activo.nombre : "";
+     }
+
+     private _filterModelo(value: string): ModeloModel[] {
+       const filterValue = value?.toString().toLowerCase();  // Asegurarse de que siempre sea una cadena
+       let filteredModelos: ModeloModel[] = [];
+       
+       this.modelos$.subscribe((modelos: ModeloModel[]) => {
+        filteredModelos = modelos.filter(modelos => modelos.nombre.toLowerCase().includes(filterValue));
+       }).unsubscribe();
+     
+       return filteredModelos;
+     }
+     
+     displayFnModelo(activo: ActivosModel): any {
+       return activo && activo.nombre ? activo.nombre : "";
+     }
+
+     private _filterCustodio(value: string): CustodiosModel[] {
+       const filterValue = value?.toString().toLowerCase();  // Asegurarse de que siempre sea una cadena
+       let filteredData: CustodiosModel[] = [];
+       
+       this.custodios$.subscribe((data: CustodiosModel[]) => {
+        filteredData = data.filter(data => data.nombre.toLowerCase().includes(filterValue));
+       }).unsubscribe();
+     
+       return filteredData;
+     }
+     
+     displayFnCustodio(activo: ActivosModel): any {
+       return activo && activo.nombre ? activo.nombre : "";
+     }
+
+     private _filterSucursal(value: string): SucursalModel[] {
+       const filterValue = value?.toString().toLowerCase();  // Asegurarse de que siempre sea una cadena
+       let filteredData: SucursalModel[] = [];
+       
+       this.sucursales$.subscribe((data: SucursalModel[]) => {
+        filteredData = data.filter(data => data.nombre.toLowerCase().includes(filterValue));
+       }).unsubscribe();
+     
+       return filteredData;
+     }
+     
+     displayFnSucursal(activo: ActivosModel): string {
+      return activo && activo.nombre ? activo.nombre : "";
+    }
+    
+     private _filterDireccion(value: string): DireccionModel[] {
+       const filterValue = value?.toString().toLowerCase();  // Asegurarse de que siempre sea una cadena
+       let filteredData: DireccionModel[] = [];
+       
+       this.direcciones$.subscribe((data: DireccionModel[]) => {
+        filteredData = data.filter(data => data.zona.toLowerCase().includes(filterValue));
+       }).unsubscribe();
+     
+       return filteredData;
+     }
+     
+     displayFnDireccion(activo: DireccionModel): any {
+       return activo && activo.zona ? activo.zona+" - "+activo.calle+" - "+activo.detalle : "";
+     }
+
+     private _filterAula(value: string): AulaModel[] {
+       const filterValue = value?.toString().toLowerCase();  // Asegurarse de que siempre sea una cadena
+       let filteredData: AulaModel[] = [];
+       
+       this.aulas$.subscribe((data: AulaModel[]) => {
+        filteredData = data.filter(data => data.nombre.toLowerCase().includes(filterValue));
+       }).unsubscribe();
+     
+       return filteredData;
+     }
+     
+     displayFnAula(activo: ActivosModel): any {
+       return activo && activo.nombre ? activo.nombre : "";
+     }
+
+     private _filterBloque(value: string): BloqueModel[] {
+        const filterValue = value?.toString().toLowerCase();  // Asegurarse de que siempre sea una cadena
+        let filteredData: BloqueModel[] = [];
+        
+        this.bloques$.subscribe((data: BloqueModel[]) => {
+          filteredData = data.filter(data => data.nombre.toLowerCase().includes(filterValue));
+        }).unsubscribe();
+      
+        return filteredData;
+      }
+     
+      displayFnBloque(activo: ActivosModel): any {
+        return activo && activo.nombre ? activo.nombre : "";
+      }
+      onSucursalChange(activo: SucursalModel) {
+        this.bloque.idSucursal = activo.idSucursal;
+      }
+      onBloqueChange(activo: BloqueModel) {
+        this.aula.idBloque = activo.idBloque;
+      }
+      onDireccionChange(activo: DireccionModel) {
+        this.bloque.idDireccion = activo.idDireccion;
+      }
+      onaulaChange(activo: AulaModel) {
+        this.activo.aulaId = activo.idAula;
+      }
+      
+  //--------------------------------------------------------------------------------
     ngOnInit(): void {
-      this.store.dispatch([new GetMarca() ,new GetAula(), new GetBloque(), new GetCustodio(), new GetProyecto(), new GetCategoria(), new GetDepreciacion(), new GetIdentificador(), new GetEstado(),new GetPais(), new GetDepartamento(), new GetProvincia(), new GetMunicipio(), new GetSucursal(), new GetDireccion(), new GetDepreciacion(), new GetModelo()]);
+      this.store.dispatch([new GetMarca() ,new GetAula(), new GetBloque(), new GetCustodio(), new GetProyecto(), new GetCategoria(), new GetDepreciacion(), new GetIdentificador(), new GetEstado(),new GetPais(), new GetDepartamento(), new GetProvincia(), new GetMunicipio(), new GetSucursal(), new GetDireccion(), new GetDepreciacion(), new GetModelo(), new GetArea()]);
       
       this.marcas$.subscribe((marcas) => {
         this.marcas = marcas;
       });
+
+      this.sucursales$.subscribe((sucursales) => {
+        this.sucursales = sucursales;
+      });
+
+      this.filteredProyectos = this.myControl.valueChanges.pipe(
+        startWith(''),
+        map(value => this._filter(value || '')),
+      );
+
+      this.filteredCustodios = this.myControlCustodios.valueChanges.pipe(
+        startWith(''),
+        map(value => this._filterCustodio(value || '')),
+      );
+
+      this.filteredModelos = this.myControlModelos.valueChanges.pipe(
+        startWith(''),
+        map(value => this._filterModelo(value || '')),
+      );
+
+      this.filteredSucursales = this.myControlSucursales.valueChanges.pipe(
+        startWith(''),
+        map(value => this._filterSucursal(value || '')),
+      );
+
+      this.filteredDirecciones = this.myControlDirecciones.valueChanges.pipe(
+        startWith(''),
+        map(value => this._filterDireccion(value || '')),
+      );
+
+      this.filteredAulas = this.myControlAulas.valueChanges.pipe(
+        startWith(''),
+        map(value => this._filterAula(value || '')),
+      );
+
+      this.filteredBloques = this.myControlBloques.valueChanges.pipe(
+        startWith(''),
+        map(value => this._filterBloque(value || '')),
+      );
+
+      this.areas$.subscribe((areas) => {
+        this.areas = areas;
+      });
+
+      this.sucursal2 = this.sucursal;
+      this.bloque2 = this.bloque;
+      this.direccion2 = this.direccion;
+      this.aula2 = this.aula;
     }
   
   }
