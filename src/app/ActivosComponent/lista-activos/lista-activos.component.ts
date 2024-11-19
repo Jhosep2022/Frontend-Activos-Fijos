@@ -48,6 +48,9 @@ import { AreasState } from '../state-management/area/area.state';
 import { GetArea } from '../state-management/area/area.action';
 import { get } from 'http';
 import { DialogsAccessService } from '../services/dialogs/dialogs-access.service';
+import { DivisaState } from '../state-management/divisa/divisa.state';
+import { DivisaModel } from '../models/divisa.model';
+import { GetCurrency } from '../state-management/divisa/divisa.action';
 
 
 @Component({
@@ -74,6 +77,8 @@ export class ListaActivosComponent implements AfterViewInit {
   proyectos: ProyectoModel[] = [];
   modelos$: Observable<ModeloModel[]>;
   modelos: ModeloModel[] = [];
+  monedas$: Observable<DivisaModel[]>;
+  monedas: DivisaModel[] = [];
 
   aulaslist: AulaModel[] = [];
   bloqueslist: BloqueModel[] = [];
@@ -88,6 +93,8 @@ export class ListaActivosComponent implements AfterViewInit {
   marcas: MarcaModel[] = [];
   areas$: Observable<AreaModel[]>; 
   areas: AreaModel[] = [];
+
+  fechaDepreciar: Date = new Date();
 
   displayedColumns: string[] = [
     'select',
@@ -109,6 +116,13 @@ export class ListaActivosComponent implements AfterViewInit {
   dataSource: MatTableDataSource<ActivosStringModel> = new MatTableDataSource(); // Cambiado el tipo a `any`
   selection = new SelectionModel<ActivosModel>(true, []);
 
+  moneda: DivisaModel = {
+    idDivisa: 0,
+    valor: 1,
+    nombre: 'Bolivianos',
+    abreviacion: 'Bs'
+  };
+
   @ViewChild(MatPaginator)
   paginator!: MatPaginator;
   @ViewChild(MatSort)
@@ -124,6 +138,7 @@ export class ListaActivosComponent implements AfterViewInit {
     this.estadouso$ = this.store.select(EstadoState.getEstados);
     this.proyectos$ = this.store.select(ProyectoState.getProyectos);
     this.modelos$ = this.store.select(ModeloState.getModelos);
+    this.monedas$ = this.store.select(DivisaState.getDivisa);
 
     this.marcas$ = this.store.select(MarcaState.getMarcas);
     this.areas$ = this.store.select(AreasState.getAreas);
@@ -163,7 +178,7 @@ export class ListaActivosComponent implements AfterViewInit {
     this.modelos$.subscribe((modelos: ModeloModel[]) => {
       this.modeloslist = modelos;
     });
-    this.pdfreportService.activopdf(activosSeleccionados, this.aulaslist, this.bloqueslist, this.categoriaslist, this.custodioslist, this.depreciacioneslist, this.estadoslist, this.proyectoslist, this.modeloslist, this.areas, this.marcas);
+    this.pdfreportService.activopdf(activosSeleccionados, this.aulaslist, this.bloqueslist, this.categoriaslist, this.custodioslist, this.depreciacioneslist, this.estadoslist, this.proyectoslist, this.modeloslist, this.areas, this.marcas, this.moneda);
   }
   
   generarCSV() {
@@ -193,7 +208,7 @@ export class ListaActivosComponent implements AfterViewInit {
     this.modelos$.subscribe((modelos: ModeloModel[]) => {
       this.modeloslist = modelos;
     });
-    this.csvreportService.activocsv(activosSeleccionados, this.aulaslist, this.bloqueslist, this.categoriaslist, this.custodioslist, this.depreciacioneslist, this.estadoslist, this.proyectoslist, this.modeloslist, this.areas, this.marcas);
+    this.csvreportService.activocsv(activosSeleccionados, this.aulaslist, this.bloqueslist, this.categoriaslist, this.custodioslist, this.depreciacioneslist, this.estadoslist, this.proyectoslist, this.modeloslist, this.areas, this.marcas, this.moneda);
   }
 
   // Función para obtener el nombre del rol por ID
@@ -272,9 +287,19 @@ export class ListaActivosComponent implements AfterViewInit {
     return modelo ? (marcanombre +" - "+modelo.nombre) : 'Sin Modelo';  // Devuelve el nombre del rol o "Sin Rol" si no se encuentra
   }
 
+  buscarBoliviano(){
+    this.moneda = this.monedas.find((r) => r.nombre === 'Boliviano') || {
+      idDivisa: 0,
+      valor: 1,
+      nombre: '',
+      abreviacion: 'Bs'
+    };
+    return this.moneda;
+  }
+
   ngOnInit(): void {
     // Despacha la acción para obtener los usuarios
-    this.store.dispatch([new GetArea(), new GetMarca(), new GetActivo(), new GetAula(), new GetBloque(), new GetCategoria(), new GetCustodio(), new GetDepreciacion(), new GetEstado(), new GetProyecto(), new GetModelo()]);
+    this.store.dispatch([new GetCurrency() ,new GetArea(), new GetMarca(), new GetActivo(), new GetAula(), new GetBloque(), new GetCategoria(), new GetCustodio(), new GetDepreciacion(), new GetEstado(), new GetProyecto(), new GetModelo()]);
 
     // Suscríbete al observable para actualizar el dataSource
     this.transformarDatosString().subscribe((activos) => {
@@ -310,6 +335,9 @@ export class ListaActivosComponent implements AfterViewInit {
     }); 
     this.areas$.subscribe((areas) => {
       this.areas = areas;
+    });
+    this.monedas$.subscribe((monedas) => {
+      this.monedas = monedas;
     });
   }
 

@@ -23,6 +23,8 @@ import { CalcularDepreciacionService } from '../calcular-depreciacion.service';
   providedIn: 'root'
 })
 export class PdfreportService {
+
+  fechaDepreciar: Date = new Date();
   constructor(public calcularDepreciacionService: CalcularDepreciacionService) { }
   //Aqui se guarda los formatos para realizar los reportes en pdf
   userpdf(userlist: UserModel[], rollist: RolModel[]) {
@@ -439,9 +441,9 @@ export class PdfreportService {
     doc.save('informe-marcas.pdf');
   }
   //Aqui se guarda los formatos para realizar los reportes en pdf
-  activopdf(activolist: ActivosModel[], aulaslist: AulaModel[], bloqueslist: BloqueModel[], categoriaslist: CategoriaModel[], custodioslist: CustodiosModel[], depreciacioneslist: DepreciacionesModel[], estadoslist: EstadosModel[], proyectoslist: ProyectoModel[], modeloslist: ModeloModel[], arealist: AreaModel[], marcaslist: MarcaModel[]) {
+  activopdf(activolist: ActivosModel[], aulaslist: AulaModel[], bloqueslist: BloqueModel[], categoriaslist: CategoriaModel[], custodioslist: CustodiosModel[], depreciacioneslist: DepreciacionesModel[], estadoslist: EstadosModel[], proyectoslist: ProyectoModel[], modeloslist: ModeloModel[], arealist: AreaModel[], marcaslist: MarcaModel[], divisa: DivisaModel) {
     const doc = new jsPDF('l', 'mm', [357, 260]);
-    doc.text('Informe de Activos generado: ' + new Date().toLocaleString(), 10, 10);
+    doc.text('Informe de Activos generado: ' + new Date().toLocaleString(), 10, 10)+" Moneda: "+divisa.nombre;
     const fecha = new Date().toLocaleString();
     // doc.text('/n Fecha de generacion: ' + fecha, 10, 10);
 
@@ -465,9 +467,9 @@ export class PdfreportService {
         modeloActivo ? ((marcaModelo ? marcaModelo.nombre : 'Sin Marca')+" - "+modeloActivo.nombre) : 'Sin Modelo',
         activo.detalle,
         new Date(activo.fechaRegistro).toISOString().slice(0, 10), // Convertimos a Date si es necesario
-        this.calcularDepreciacionService.obtenerValorActual(activo.fechaRegistro, activo.precio, activo.categoriaId),
-        activo.valorInicial,
-        activo.precio,
+        this.calcularDepreciacionService.obtenerValorActual(activo.fechaRegistro, activo.valorInicial, activo.categoriaId, this.fechaDepreciar)/divisa.valor+" "+divisa.abreviacion,
+        activo.valorInicial/divisa.valor+" "+divisa.abreviacion,
+        activo.precio/divisa.valor+" "+divisa.abreviacion,
         activo.comprobanteCompra,
         activo.estadoActivo,
         custodioActivo ? `${custodioActivo.nombre} ${custodioActivo.apellidoPaterno} ${custodioActivo.apellidoMaterno} - ${custodioActivo.ci}` : 'Sin Custodio',

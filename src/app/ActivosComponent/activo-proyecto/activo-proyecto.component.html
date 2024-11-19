@@ -384,7 +384,7 @@
                 
                                         <ng-container matColumnDef="valorActual">
                                             <th mat-header-cell *matHeaderCellDef mat-sort-header> Valor Actual </th>
-                                            <td mat-cell *matCellDef="let row"> {{calcularDepreciacionService.obtenerValorActual(row.fechaRegistro, row.precio, row.categoriaId) | number: '1.2-2'}} </td>
+                                            <td mat-cell *matCellDef="let row"> {{calcularDepreciacionService.obtenerValorActual(row.fechaRegistro, row.precio, row.categoriaId, fechaDepreciar) | number: '1.2-2'}} </td>
                                         </ng-container>
                 
                                         <ng-container matColumnDef="valorInicial">

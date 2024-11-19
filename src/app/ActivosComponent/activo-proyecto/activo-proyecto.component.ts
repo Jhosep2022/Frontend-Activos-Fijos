@@ -68,6 +68,7 @@ import { GetProvincia } from '../state-management/ubicacion/provincia/provincia.
 import { ProvinciaState } from '../state-management/ubicacion/provincia/provincia.state';
 import { GetSucursal } from '../state-management/ubicacion/sucursal/sucursal.actions';
 import { SucursalState } from '../state-management/ubicacion/sucursal/sucursal.state';
+import { DivisaModel } from '../models/divisa.model';
 
 @Component({
   selector: 'app-activo-proyecto',
@@ -120,7 +121,9 @@ export class ActivoProyectoComponent implements AfterViewInit {
   
   filteredActivos!: Observable<ActivosModel[]>;
   filteredProyectos!: Observable<ProyectoModel[]>;
-  myControl = new FormControl('');  
+  myControl = new FormControl(''); 
+
+  fechaDepreciar: Date = new Date(); 
 
   pais: PaisModel = {
     idPais: 0,
@@ -220,6 +223,13 @@ export class ActivoProyectoComponent implements AfterViewInit {
     nombreDepartamento: '',
     nombrePais: '',
     nombreSucursal: ''
+  };
+
+  moneda: DivisaModel = {
+    idDivisa: 1,
+    valor: 1,
+    nombre: 'Bolivianos',
+    abreviacion: 'Bs'
   };
 
   proyecto: ProyectoModel = {
@@ -410,7 +420,7 @@ export class ActivoProyectoComponent implements AfterViewInit {
     this.modelos$.subscribe((modelos: ModeloModel[]) => {
       this.modeloslist = modelos;
     });
-    this.pdfreportService.activopdf(activosSeleccionados, this.aulaslist, this.bloqueslist, this.categoriaslist, this.custodioslist, this.depreciacioneslist, this.estadoslist, this.proyectoslist, this.modeloslist, this.areas, this.marcas);
+    this.pdfreportService.activopdf(activosSeleccionados, this.aulaslist, this.bloqueslist, this.categoriaslist, this.custodioslist, this.depreciacioneslist, this.estadoslist, this.proyectoslist, this.modeloslist, this.areas, this.marcas, this.moneda);
   }
   
   generarCSV() {
@@ -440,7 +450,7 @@ export class ActivoProyectoComponent implements AfterViewInit {
     this.modelos$.subscribe((modelos: ModeloModel[]) => {
       this.modeloslist = modelos;
     });
-    this.csvreportService.activocsv(activosSeleccionados, this.aulaslist, this.bloqueslist, this.categoriaslist, this.custodioslist, this.depreciacioneslist, this.estadoslist, this.proyectoslist, this.modeloslist, this.areas, this.marcas);
+    this.csvreportService.activocsv(activosSeleccionados, this.aulaslist, this.bloqueslist, this.categoriaslist, this.custodioslist, this.depreciacioneslist, this.estadoslist, this.proyectoslist, this.modeloslist, this.areas, this.marcas, this.moneda);
   }
 
   // Función para obtener el nombre del rol por ID

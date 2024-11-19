@@ -35,6 +35,28 @@
                     <button mat-raised-button color="accent" [routerLink]="['/activos/registro']"
                         class="mb-1"><mat-icon>add_circle_outline</mat-icon> Agregar Activo</button>
                 </div>
+                <div class="grid grid-cols-12 gap-5 mb-7 pb-0.5">
+                    <div class="col-span-6 inventual-select-field-style">
+                        <h5 class="text-[15px] text-heading font-semibold mb-3">Divisa</h5>
+                        <mat-form-field class="w-full" >
+                          <mat-select class="block" [placeholder]="'Selecionar Divisa'" class="form-control" id="estadoActivo" [(ngModel)]="moneda" name="estadoActivo">
+                            <mat-option *ngFor="let estado of monedas$ | async" [value]="estado">
+                              {{ estado.nombre}}
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-span-6 inventual-select-field-style">
+                        <h5 class="text-[15px] text-heading font-semibold mb-3">Fecha Depreciar</h5>
+                        <mat-form-field class="w-full" [floatLabel]="'always'">
+                          <mat-label class="hidden">Elige tu fecha</mat-label>
+                          <input matInput [matDatepicker]="pickerInicio" [placeholder]="'MM/DD/YYYY'" class="form-control" id="fechaDepreciar" [(ngModel)]="fechaDepreciar" name="fechaDepreciar">
+                          <mat-hint>MM/DD/YYYY</mat-hint>
+                          <mat-datepicker-toggle matIconSuffix [for]="pickerInicio"></mat-datepicker-toggle>
+                          <mat-datepicker #pickerInicio></mat-datepicker>
+                        </mat-form-field> 
+                    </div>
+                </div>
                 <div class="inventual-table-header-search-area">
                     <div class="grid grid-cols-12 gap-5 mb-7 pb-0.5">
                         <div class="col-span-5 md:col-span-6 sm:col-span-12">
@@ -86,27 +108,27 @@
 
                         <ng-container matColumnDef="valorActual">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> Valor Actual (Depreciado) </th>
-                            <td mat-cell *matCellDef="let row"> {{calcularDepreciacionService.obtenerValorActual(row.fechaRegistro, row.valorInicial, row.categoriaId) | number: '1.2-2'}} </td>
+                            <td mat-cell *matCellDef="let row"> {{calcularDepreciacionService.obtenerValorActual(row.fechaRegistro, row.valorInicial, row.categoriaId, fechaDepreciar)/moneda.valor| number: '1.2-2'}} {{moneda.abreviacion}} </td>
                         </ng-container>
 
                         <ng-container matColumnDef="valorInicial">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> Valor Inicial Neto (Depreciable) </th>
-                            <td mat-cell *matCellDef="let row"> {{ row.valorInicial | number: '1.2-2' }} </td>
+                            <td mat-cell *matCellDef="let row"> {{ row.valorInicial/moneda.valor | number: '1.2-2' }} {{moneda.abreviacion}} </td>
                         </ng-container>
 
                         <ng-container matColumnDef="fechaRegistro">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha Registro </th>
-                            <td mat-cell *matCellDef="let row"> {{row.fechaRegistro | date}} </td>
+                            <td mat-cell *matCellDef="let row"> {{row.fechaRegistro | date: 'YYYY-MM-dd'}} </td>
                         </ng-container>
 
                         <ng-container matColumnDef="detalle">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> Detalle </th>
-                            <td mat-cell *matCellDef="let row"> {{row.detalle}} </td>
+                            <td mat-cell *matCellDef="let row"> {{row.detalle}}</td>
                         </ng-container>
 
                         <ng-container matColumnDef="precio">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> Valor Adquisicion (Bruto) </th>
-                            <td mat-cell *matCellDef="let row"> {{ row.precio | number: '1.2-2' }} </td>
+                            <td mat-cell *matCellDef="let row"> {{ row.precio | number: '1.2-2' }} {{moneda.abreviacion}}</td>
                         </ng-container>
 
                         <ng-container matColumnDef="comprobanteCompra">

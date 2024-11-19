@@ -34,9 +34,9 @@ export class CalcularDepreciacionService {
     return categoria || {idCategoria: 0, nombre: '', tiempoDeVida: 1, coeficienteAnual: 1};
   }
 
-  obtenerValorActual(fechaInicial: Date, valorInicial: number, categoriaId: number): number {
+  obtenerValorActual(fechaInicial: Date, valorInicial: number, categoriaId: number, fechaDepreciar: Date): number {
     const fecchaInicial = new Date(fechaInicial);
-    const fechaActual = new Date();
+    const fechaActual = new Date(fechaDepreciar);
     const categoriaEscogida = this.obtenerCategoria(categoriaId);
     const cantidadMeses = this.calcularMesesEntreFechas(fecchaInicial, fechaActual);
     let valorActual = valorInicial;
@@ -46,9 +46,10 @@ export class CalcularDepreciacionService {
     }else {
       if(cantidadMeses > 1){
         const montoDepreciado = cantidadMeses * (categoriaEscogida.coeficienteAnual / 12);
-        valorActual = valorInicial - montoDepreciado;
+        valorActual = valorInicial - (valorInicial*(montoDepreciado/100));
       }
     }
+
     return valorActual;
   }
 }

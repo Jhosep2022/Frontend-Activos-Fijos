@@ -125,7 +125,9 @@ export class ActivoIndividualComponent implements AfterViewInit {
   historialActivos: HistorialActivosModel[] = [];
   
   filteredActivos!: Observable<ActivosModel[]>;
-  myControl = new FormControl('');  
+  myControl = new FormControl(''); 
+
+  fechaDepreciar: Date = new Date(); 
 
   pais: PaisModel = {
     idPais: 0,

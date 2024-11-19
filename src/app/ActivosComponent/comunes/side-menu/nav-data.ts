@@ -14,10 +14,10 @@ export const navbarData: INavbarData[] = [
         routeLink: '/usuarios/registro',
         label: 'Registrar usuario',
       },
-      {
-        routeLink: '/usuarios/actividades',
-        label: 'Actividades de los usuarios X',
-      },
+      //{
+      //  routeLink: '/usuarios/actividades',
+      //  label: 'Actividades de los usuarios X',
+      //},
       {
         routeLink: '/usuarios/roles',
         label: 'Roles',

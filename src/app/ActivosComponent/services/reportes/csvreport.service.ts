@@ -20,6 +20,8 @@ import { AulaModel, BloqueModel, DepartamentoModel, DireccionModel, MunicipioMod
   providedIn: 'root'
 })
 export class CsvreportService {
+
+  fechaDepreciar: Date = new Date();
   constructor(public calcularDepreciacionService: CalcularDepreciacionService) { }
   usuariosCSV(usuarioslist: UserModel[], roleslist: RolModel[]): void {
     const headers = [
@@ -302,7 +304,7 @@ proyectosCSV(proyectoslist: ProyectoModel[], arealist: AreaModel[]): void {
   window.URL.revokeObjectURL(url);
 }
 //Aqui se guarda los formatos para realizar los reportes en pdf
-activocsv(activolist: ActivosModel[], aulaslist: AulaModel[], bloqueslist: BloqueModel[], categoriaslist: CategoriaModel[], custodioslist: CustodiosModel[], depreciacioneslist: DepreciacionesModel[], estadoslist: EstadosModel[], proyectoslist: ProyectoModel[], modeloslist: ModeloModel[], arealist: AreaModel[], marcaslist: MarcaModel[]) {
+activocsv(activolist: ActivosModel[], aulaslist: AulaModel[], bloqueslist: BloqueModel[], categoriaslist: CategoriaModel[], custodioslist: CustodiosModel[], depreciacioneslist: DepreciacionesModel[], estadoslist: EstadosModel[], proyectoslist: ProyectoModel[], modeloslist: ModeloModel[], arealist: AreaModel[], marcaslist: MarcaModel[], divisa: DivisaModel): void {
   const headers = ['ID', 'Nombre', 'Proyecto', 'Activo/Inactivo', 'Categoria', 'Modelo', 'Detalle', 'Fecha Registro', 'Valor Actual', 'Valor Inicial', 'Precio (Compra)', 'Comprobante Compra','Estado de Uso', 'Custodio', 'Aula'];
   
   const csvData = [
@@ -325,9 +327,9 @@ activocsv(activolist: ActivosModel[], aulaslist: AulaModel[], bloqueslist: Bloqu
         modeloActivo ? ((marcaModelo ? marcaModelo.nombre : 'Sin Marca')+" - "+modeloActivo.nombre) : 'Sin Modelo',
         activo.detalle,
         new Date(activo.fechaRegistro).toISOString().slice(0, 10), // Convertimos a Date si es necesario
-        this.calcularDepreciacionService.obtenerValorActual(activo.fechaRegistro, activo.precio, activo.categoriaId),
-        activo.valorInicial,
-        activo.precio,
+        this.calcularDepreciacionService.obtenerValorActual(activo.fechaRegistro, activo.valorInicial, activo.categoriaId, this.fechaDepreciar)/divisa.valor,
+        activo.valorInicial/divisa.valor,
+        activo.precio/divisa.valor,
         activo.comprobanteCompra,
         activo.estadoActivo,
         custodioActivo ? `${custodioActivo.nombre} ${custodioActivo.apellidoPaterno} ${custodioActivo.apellidoMaterno} - ${custodioActivo.ci}` : 'Sin Custodio',
