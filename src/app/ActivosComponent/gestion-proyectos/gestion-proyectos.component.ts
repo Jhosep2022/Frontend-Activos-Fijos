@@ -41,7 +41,34 @@ export class GestionProyectosComponent implements AfterViewInit {
     codigoProyecto: ''
   };
 
+  obtenerIniciales(texto: string): string {
+    if (!texto) return "A";
+  
+    // Palabras que se deben excluir
+    const palabrasExcluidas = ["de", "la"];
+  
+    // Dividir el texto en palabras
+    const palabras = texto
+      .toLowerCase()
+      .split(" ")
+      .filter(palabra => !palabrasExcluidas.includes(palabra));
+  
+    // Obtener las primeras letras de las primeras 4 palabras válidas
+    const iniciales = palabras
+      .slice(0, 4)
+      .map(palabra => palabra[0].toUpperCase());
+  
+    // Completar con "A" si hay menos de 4 palabras válidas
+    while (iniciales.length < 4) {
+      iniciales.push("A");
+    }
+  
+    // Unir las iniciales y devolver
+    return iniciales.join("");
+  }
+
   agregarProyecto() {
+    this.proyecto.codigoProyecto = this.obtenerIniciales(this.proyecto.nombre);
     this.store.dispatch(new AddProyecto(this.proyecto)).subscribe({
       next: () => {
         console.log('Proyecto Registrado exitosamente');

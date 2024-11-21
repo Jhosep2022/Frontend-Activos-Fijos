@@ -298,6 +298,7 @@ export class RegistroActivosComponent implements AfterViewInit {
       idModelo: 0
     };
   }
+
   nombreMarca(marcaId: number): string {    
     if (!this.marcas.length) {
       return 'Cargando...'; // Si los roles aún no se han cargado
