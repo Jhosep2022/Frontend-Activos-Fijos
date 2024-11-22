@@ -75,6 +75,7 @@ import { GetProvincia } from '../state-management/ubicacion/provincia/provincia.
 import { GetSucursal } from '../state-management/ubicacion/sucursal/sucursal.actions';
 import { ActivoService } from '../services/activo.service';
 import { UbicacionActivoModel } from '../models/direccion-activo.model';
+import { SafeUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-activo-individual',
@@ -83,6 +84,8 @@ import { UbicacionActivoModel } from '../models/direccion-activo.model';
   encapsulation: ViewEncapsulation.None,
 })
 export class ActivoIndividualComponent implements AfterViewInit {
+  public myAngularxQrCode: string = "";
+  public qrCodeDownloadLink: SafeUrl = "";
   activos$: Observable<ActivosModel[]>;
   aulas$: Observable<AulaModel[]>;
   aulas: AulaModel[] = [];
@@ -277,7 +280,7 @@ export class ActivoIndividualComponent implements AfterViewInit {
     this.areas$ = this.store.select(AreasState.getAreas);
     this.historialActivos$ = this.store.select(HistorialActivoState.getHistorialesActivos);
 
-    
+    this.myAngularxQrCode = 'Data QR Vacia';   
 
   }
   nombreMarca(marcaId: number): string {    
@@ -297,6 +300,23 @@ export class ActivoIndividualComponent implements AfterViewInit {
     }).unsubscribe();
   
     return filteredActivos;
+  }
+
+  getIdentificadorByActivoId(id: number): IdentificadoresModel {
+    let identificador: IdentificadoresModel = {
+      idIdentificador: 0,
+      codigoQr: 'sincodigo',
+      codigoBarra: 'sincodigo',
+      idActivo: 0
+    };
+    this.identificadores$.subscribe((identificadores: IdentificadoresModel[]) => {
+      identificador = identificadores.find(identificador => identificador.idActivo === id) || identificador;
+    }).unsubscribe();
+    return identificador;
+  }
+
+  onChangeURL(url: SafeUrl) {
+    this.qrCodeDownloadLink = url;
   }
   
   displayFn(activo: ActivosModel): any {

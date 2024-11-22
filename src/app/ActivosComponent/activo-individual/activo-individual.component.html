@@ -98,7 +98,7 @@
                                     <div class="inventual-select-field mb-7">
                                         <div class="inventual-input-field-style">
                                             <span class="text-[14px] text-body font-normal inline-block me-2">Custodio:</span>
-                                            {{getProyectoName(activo.custodioId)}}
+                                            {{getCustodioName(activo.custodioId)}}
                                         </div>
                                     </div>
                                 </div>
@@ -106,6 +106,7 @@
                                     <div class="inventual-select-field mb-7">
                                         <div class="inventual-select-field-style">
                                             <span class="text-[14px] text-body font-normal inline-block me-2">Direccion:</span>
+                                            {{getAulaName(activo.aulaId)}}
                                         </div>
                                     </div>
                                 </div>
@@ -129,7 +130,7 @@
                                     <div class="inventual-select-field mb-7">
                                         <div class="inventual-select-field-style">   
                                             <span class="text-[14px] text-body font-normal inline-block me-2">Modelo:</span>
-                                            {{getProyectoName(activo.idModelo)}}
+                                            {{getModeloName(activo.idModelo)}}
                                         </div>
                                     </div>
                                 </div>
@@ -145,6 +146,7 @@
                                     <div class="inventual-select-field mb-7">
                                         <div class="inventual-select-field-style">
                                             <span class="text-[14px] text-body font-normal inline-block me-2">Codigo QR:</span>
+                                            <qrcode (qrCodeURL)="onChangeURL($event)" [qrdata]="getIdentificadorByActivoId(activo.idActivo).codigoQr" [width]="123" [errorCorrectionLevel]="'M'"></qrcode>
                                         </div>
                                     </div>
                                 </div>         
@@ -157,7 +159,7 @@
                                 </div>                             
                             </div>
                             <div class="inventual-possale-tab-menu flex flex-wrap justify-between gap-5 mb-1">
-                                <button type="button" class="inventual-btn primary-btn flex-grow">Descargar QR</button>
+                                <a class="inventual-btn primary-btn flex-grow" [href]="qrCodeDownloadLink" download="qrcode">Descargar QR</a>
                                 <button type="button" class="inventual-btn primary-btn flex-grow">Descargar Codigo Barras</button>
                             </div>
                         </div>

@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ViewChild, ViewEncapsulation } from '@angular/core';
 import { IdentificadoresModel, IdentificadoresStringModel } from '../models/identificadores.model';
 import { AddIdentificador, DeleteIdentificador, GetIdentificador, UpdateIdentificador } from '../state-management/identificadores/identificadores.action';
 import { IdentificadorState } from '../state-management/identificadores/identificadores.state';
@@ -16,13 +16,17 @@ import { ActivoState } from '../state-management/activos/activos.state';
 import { CalcularDepreciacionService } from '../services/calcular-depreciacion.service';
 import { CsvreportService } from '../services/reportes/csvreport.service';
 import { PdfreportService } from '../services/reportes/pdfreport.service';
+import { SafeUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-gestion-identificadores',
   templateUrl: './gestion-identificadores.component.html',
-  styleUrls: ['./gestion-identificadores.component.scss']
+  styleUrls: ['./gestion-identificadores.component.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class GestionIdentificadoresComponent implements AfterViewInit {
+  public myAngularxQrCode: string = "";
+  public qrCodeDownloadLink: SafeUrl = "";
   displayedColumns: string[] = [
     'select',
     'idActivo',
@@ -45,8 +49,13 @@ export class GestionIdentificadoresComponent implements AfterViewInit {
 
   constructor(private store: Store, public pdfreportService: PdfreportService, public calcularDepreciacionService: CalcularDepreciacionService, public csvreportService: CsvreportService, public dialogsAccessService: DialogsAccessService) {
     // Assign your data array to the data source
+    this.myAngularxQrCode = 'Data QR Vacia';
     this.activos$ = this.store.select(ActivoState.getActivos);
     this.identificadores$ = this.store.select(IdentificadorState.getIdentificadores);
+  }
+
+  onChangeURL(url: SafeUrl) {
+    this.qrCodeDownloadLink = url;
   }
 
   ngAfterViewInit() {

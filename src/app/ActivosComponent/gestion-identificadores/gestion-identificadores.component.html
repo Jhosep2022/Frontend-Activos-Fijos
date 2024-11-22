@@ -87,9 +87,9 @@
                         </ng-container>
 
                         <ng-container matColumnDef="codigoQr">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Codigo QR </th>
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Codigo QR</th>
                             <td mat-cell *matCellDef="let row">
-                                <canvas #qrCanvas></canvas>
+                                <a [href]="qrCodeDownloadLink" download="qrcode"><qrcode (qrCodeURL)="onChangeURL($event)" [qrdata]="row.codigoQr" [width]="123" [errorCorrectionLevel]="'M'"></qrcode></a>
                                 {{row.codigoQr}}</td>
                         </ng-container>
 

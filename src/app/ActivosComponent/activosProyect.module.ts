@@ -111,6 +111,7 @@ import { ProyectoDialogComponent } from './comunes/addDialogs/proyecto-dialog/pr
 import { ModeloDialogComponent } from './comunes/addDialogs/modelo-dialog/modelo-dialog.component';
 import { CustodioDialogComponent } from './comunes/addDialogs/custodio-dialog/custodio-dialog.component';
 import { ConfirmacionDeleteComponent } from './comunes/addDialogs/confirmacion-delete/confirmacion-delete.component';
+import { QRCodeModule } from 'angularx-qrcode';
 
 @NgModule({
   imports: [
@@ -151,7 +152,8 @@ import { ConfirmacionDeleteComponent } from './comunes/addDialogs/confirmacion-d
     MatSnackBarModule,
     NgxsModule.forRoot([HistorialActivoState ,RolState, UserState, DivisaState, ActivoState, CustodiosState, EmpresasState, AreasState, ProyectoState, PaisState, DepartamentoState, ProvinciaState, MunicipioState, SucursalState, BloqueState, AulaState, DireccionState, CategoriaState, DepreciacionState, IdentificadorState, EstadoState, MarcaState, ModeloState]),  // Registra tu estado de usuarios
     NgxsLoggerPluginModule.forRoot(),
-    NgxsReduxDevtoolsPluginModule.forRoot() 
+    NgxsReduxDevtoolsPluginModule.forRoot(),
+    QRCodeModule
   ],
   declarations: [
     ActivosLoginComponent,
