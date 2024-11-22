@@ -60,6 +60,7 @@ import { GetCurrency } from '../state-management/divisa/divisa.action';
   encapsulation: ViewEncapsulation.None,
 })
 export class ListaActivosComponent implements AfterViewInit {
+  fechaActual: Date = new Date();
   activos$: Observable<ActivosModel[]>;
   aulas$: Observable<AulaModel[]>;
   aulas: AulaModel[] = [];
@@ -105,6 +106,7 @@ export class ListaActivosComponent implements AfterViewInit {
     'idModelo',
     'detalle',
     'fechaRegistro',
+    'meses',
     'valorActual',
     'valorInicial',
     'comprobanteCompra',
@@ -149,6 +151,11 @@ export class ListaActivosComponent implements AfterViewInit {
     }
     const marca = this.marcas.find((r) => r.idMarca === marcaId);
     return marca ? marca.nombre : 'Sin Marca';  // Devuelve el nombre del rol o "Sin Rol" si no se encuentra
+  }
+
+  obtenerFechaInicial(fechaInicial: Date): Date {
+    const fecha = new Date(fechaInicial);
+    return fecha;
   }
 
   generarPDF() {

@@ -121,6 +121,11 @@
                             <td mat-cell *matCellDef="let row"> {{row.fechaRegistro | date: 'YYYY-MM-dd'}} </td>
                         </ng-container>
 
+                        <ng-container matColumnDef="meses">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Meses Transcurridos </th>
+                            <td mat-cell *matCellDef="let row"> {{calcularDepreciacionService.calcularMesesEntreFechas(obtenerFechaInicial(row.fechaRegistro),fechaDepreciar)}}</td>
+                        </ng-container>
+
                         <ng-container matColumnDef="detalle">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> Detalle </th>
                             <td mat-cell *matCellDef="let row"> {{row.detalle}}</td>

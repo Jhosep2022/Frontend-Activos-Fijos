@@ -37,8 +37,7 @@ export class GestionIdentificadoresComponent implements AfterViewInit {
     'select',
     'idActivo',
     'codigoQr',
-    'codigoBarra',
-    'action',
+    'codigoBarra'
   ];
 
   identificador: IdentificadoresModel = {
@@ -101,7 +100,25 @@ export class GestionIdentificadoresComponent implements AfterViewInit {
     });
   }
 
+  // Función para generar código de barras y descargarlo
+  downloadBarcode(barcodeId: string): void {
+    // Obtenemos el canvas correspondiente por su ID
+    const canvas = document.getElementById(barcodeId) as HTMLCanvasElement;
+
+    if (canvas) {
+      // Convertir el canvas en una imagen base64
+      const imageUrl = canvas.toDataURL('image/png');
+
+      // Crear un enlace de descarga
+      const link = document.createElement('a');
+      link.href = imageUrl;
+      link.download = `${barcodeId}.png`; // Nombre del archivo
+      link.click(); // Hacer click en el enlace para iniciar la descarga
+    }
+  }
+
   ngAfterViewInit() {
+    this.store.dispatch([new GetIdentificador(), new GetActivo()]);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
 
@@ -189,13 +206,13 @@ export class GestionIdentificadoresComponent implements AfterViewInit {
   //sidebar menu activation end
 
   generarPDF() {
-    //const identificadoresSeleccionados = this.selection.selected;
-    //this.pdfreportService.identi(identificadoresSeleccionados);
+    const identificadoresSeleccionados = this.selection.selected;
+    this.pdfreportService.identificadorespdf(identificadoresSeleccionados,this.activos);
   }
 
   generarCSV() {
-    //const marcasSeleccionados = this.selection.selected;
-    //this.csvreportService.marcasCSV(marcasSeleccionados);
+    const marcasSeleccionados = this.selection.selected;
+    //this.csvreportService.identi(marcasSeleccionados);
   }
 
   ngOnInit(): void {

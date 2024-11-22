@@ -54,9 +54,6 @@
                                 <button matTooltip="Reporte PDF" type="button" class="pdf" (click)="generarPDF()">
                                     <app-pdf-icon></app-pdf-icon>
                                 </button>
-                                <button matTooltip="Reporte Csv" type="button" class="csv" (click)="generarCSV()">
-                                    <app-csv-icon></app-csv-icon>
-                                </button>
                             </div>
                         </div>
                     </div>
@@ -87,17 +84,18 @@
                         </ng-container>
 
                         <ng-container matColumnDef="codigoQr">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Codigo QR</th>
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Codigo QR (Click para descargar)</th>
                             <td mat-cell *matCellDef="let row">
                                 <a [href]="qrCodeDownloadLink" download="qrcode"><qrcode (qrCodeURL)="onChangeURL($event, row.codigoQr)" [qrdata]="row.codigoQr" [width]="123" [errorCorrectionLevel]="'M'"></qrcode></a>
                                 {{row.codigoQr}}</td>
                         </ng-container>
 
                         <ng-container matColumnDef="codigoBarra">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Codigo Barras </th>
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Codigo Barras (Click para descargar)</th>
                             <td mat-cell *matCellDef="let row"> 
-                                <canvas #barcode [attr.data-id]="row.idIdentificador" [id]="'barcode-' + row.idIdentificador"></canvas>  
-                                {{ row.codigoBarra }}
+                                <button mat-button (click)="downloadBarcode('barcode-' + row.idIdentificador)">
+                                    <canvas #barcode [attr.data-id]="row.idIdentificador" [id]="'barcode-' + row.idIdentificador"></canvas>  
+                                </button>
                         </ng-container>
 
                         <ng-container matColumnDef="action">
