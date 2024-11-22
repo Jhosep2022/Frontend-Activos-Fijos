@@ -1,4 +1,6 @@
-import { AfterViewInit, Component, ViewChild, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, ViewChild, ViewEncapsulation } from '@angular/core';
+import { ViewChildren, QueryList } from '@angular/core';
+
 import { IdentificadoresModel, IdentificadoresStringModel } from '../models/identificadores.model';
 import { AddIdentificador, DeleteIdentificador, GetIdentificador, UpdateIdentificador } from '../state-management/identificadores/identificadores.action';
 import { IdentificadorState } from '../state-management/identificadores/identificadores.state';
@@ -17,6 +19,7 @@ import { CalcularDepreciacionService } from '../services/calcular-depreciacion.s
 import { CsvreportService } from '../services/reportes/csvreport.service';
 import { PdfreportService } from '../services/reportes/pdfreport.service';
 import { SafeUrl } from '@angular/platform-browser';
+import * as JsBarcode from 'jsbarcode';
 
 @Component({
   selector: 'app-gestion-identificadores',
@@ -25,8 +28,11 @@ import { SafeUrl } from '@angular/platform-browser';
   encapsulation: ViewEncapsulation.None,
 })
 export class GestionIdentificadoresComponent implements AfterViewInit {
+  @ViewChildren('barcode') barcodeCanvases!: QueryList<ElementRef<HTMLCanvasElement>>;
+
   public myAngularxQrCode: string = "";
-  public qrCodeDownloadLink: SafeUrl = "";
+  public qrCodeDownloadLink: SafeUrl = "";  
+  barcodeValue: string = '1234567890'; // El valor del código de barras
   displayedColumns: string[] = [
     'select',
     'idActivo',
@@ -34,6 +40,13 @@ export class GestionIdentificadoresComponent implements AfterViewInit {
     'codigoBarra',
     'action',
   ];
+
+  identificador: IdentificadoresModel = {
+    idIdentificador: 0,
+    codigoQr: '',
+    codigoBarra: '',
+    idActivo: 0
+  }
   
   identificadores$: Observable<IdentificadoresModel[]>;  
   activos$: Observable<ActivosModel[]>;
@@ -54,13 +67,54 @@ export class GestionIdentificadoresComponent implements AfterViewInit {
     this.identificadores$ = this.store.select(IdentificadorState.getIdentificadores);
   }
 
-  onChangeURL(url: SafeUrl) {
+  onChangeURL(url: SafeUrl, codigoBarra: string) {
     this.qrCodeDownloadLink = url;
+    this.barcodeValue = codigoBarra;
+  }  
+  ngAfterViewChecked() {
+    // Verificar que haya canvas disponibles
+    if (this.barcodeCanvases && this.barcodeCanvases.length) {
+      this.barcodeCanvases.forEach((canvas, index) => {
+        JsBarcode(canvas.nativeElement, this.dataSource.data[index].codigoBarra, {
+          format: 'CODE128',
+          width: 2,
+          height: 100,
+          displayValue: true
+        });
+      });
+    }
+  }
+  extractBarcodeValue(url: SafeUrl): string {
+    // Aquí puedes hacer lo que necesites para obtener el valor correcto
+    // Ejemplo: Si tu URL contiene un parámetro que es el valor para el código de barras
+    const urlString = url.toString();
+    // Lógica para extraer el valor
+    return urlString.split('?')[1] || 'default';  // Ejemplo para extraer algo de la URL
+  }
+
+  generateBarcode(canvas: HTMLCanvasElement, barcodeValue: string): void {
+    JsBarcode(canvas, barcodeValue, {
+      format: 'CODE128',
+      width: 2,
+      height: 100,
+      displayValue: true
+    });
   }
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+
+    // Generar código de barras después de que la vista se haya inicializado
+    this.barcodeCanvases?.forEach((canvas, index) => {
+      const barcodeValue = this.dataSource.data[index].codigoBarra;
+      JsBarcode(canvas.nativeElement, barcodeValue, {
+        format: 'CODE128',
+        width: 2,
+        height: 100,
+        displayValue: true
+      });
+    });
   }
 
   applyFilter(event: Event) {
