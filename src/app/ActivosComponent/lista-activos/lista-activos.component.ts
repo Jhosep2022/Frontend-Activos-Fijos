@@ -7,7 +7,6 @@ import {
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { StockReportInterfaceData, stockReportData } from 'src/app/inventual/data/stockReportData';
 import { ActivosModel, ActivosStringModel } from '../models/activos.model';
 import { map, Observable } from 'rxjs';
 import { AulaModel, BloqueModel } from '../models/ubicacion.model';

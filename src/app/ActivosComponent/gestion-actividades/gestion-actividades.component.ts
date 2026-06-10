@@ -7,7 +7,7 @@ import {
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { userData, UserInterfaceData } from 'src/app/inventual/data/userData';
+import { userData, UserInterfaceData } from '../data/userData';
 
 @Component({
   selector: 'app-gestion-actividades',

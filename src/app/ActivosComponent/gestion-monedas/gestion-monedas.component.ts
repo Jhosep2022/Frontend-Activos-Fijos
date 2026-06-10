@@ -8,7 +8,6 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
-import { UserInterfaceData, userData } from 'src/app/inventual/data/userData';
 import { Store } from '@ngxs/store';
 import { DeleteCurrency, GetCurrency } from '../state-management/divisa/divisa.action';
 import { DivisaModel } from '../models/divisa.model';

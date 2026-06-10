@@ -8,12 +8,6 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
-import {
-  ProductInterfaceData,
-  productData,
-} from 'src/app/inventual/data/productData';
-import { PosCategoriesInterfaceData } from 'src/app/inventual/data/posCategoriesData';
-import { PosBrandsInterfaceData } from 'src/app/inventual/data/posBrandsData';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { catchError, map, Observable, of, startWith } from 'rxjs';
 import { ActivosModel } from '../models/activos.model';
